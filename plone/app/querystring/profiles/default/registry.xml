@@ -67,7 +67,7 @@
 
     <records interface="plone.app.querystring.interfaces.IQueryOperation"
              prefix="plone.app.querystring.operation.date.lessThanRelativeDate">
-        <value key="title">Within last</value>
+        <value key="title">Within next</value>
         <value key="description">Please enter the number in days.</value>
         <value key="operation">plone.app.querystring.queryparser._lessThanRelativeDate</value>
         <value key="widget">RelativeDateWidget</value>
@@ -75,7 +75,7 @@
 
     <records interface="plone.app.querystring.interfaces.IQueryOperation"
              prefix="plone.app.querystring.operation.date.largerThanRelativeDate">
-        <value key="title">Within next</value>
+        <value key="title">Within last</value>
         <value key="description">Please enter the number in days.</value>
         <value key="operation">plone.app.querystring.queryparser._moreThanRelativeDate</value>
         <value key="widget">RelativeDateWidget</value>
