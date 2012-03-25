@@ -4,8 +4,15 @@ Changelog
 1.0.3 (unreleased)
 ------------------
 
-*
+* Add a "today" date operator
+  [esteele]
 
+* Change relative date searching to be "N days" string based rather than
+  datetime based.
+  [esteele]
+
+* Handle empty values on relative date fields.
+  [esteele]
 
 1.0.2 (2012-02-10)
 ------------------
