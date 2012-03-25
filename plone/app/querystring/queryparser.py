@@ -156,6 +156,20 @@ def _today(context, row):
     return _between(context, row)
 
 
+def _afterToday(context, row):
+    row = Row(index=row.index,
+              operator=row.operator,
+              values=DateTime())
+    return _largerThan(context, row)
+
+
+def _beforeToday(context, row):
+    row = Row(index=row.index,
+              operator=row.operator,
+              values=DateTime())
+    return _lessThan(context, row)
+
+
 def _path(context, row):
     values = row.values
     if not '/' in values:
