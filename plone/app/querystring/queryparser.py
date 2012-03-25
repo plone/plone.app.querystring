@@ -146,6 +146,16 @@ def _moreThanRelativeDate(context, row):
     return _largerThan(context, row)
 
 
+def _today(context, row):
+    now = DateTime()
+    start_date = now.earliestTime()
+    end_date = now.latestTime()
+    row = Row(index=row.index,
+              operator=row.operator,
+              values=(start_date, end_date))
+    return _between(context, row)
+
+
 def _path(context, row):
     values = row.values
     if not '/' in values:
