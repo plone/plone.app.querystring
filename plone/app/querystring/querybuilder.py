@@ -2,6 +2,7 @@ import json
 
 from plone.app.contentlisting.interfaces import IContentListing
 from plone.registry.interfaces import IRegistry
+from plone.batching import Batch
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.browser.navtree import getNavigationRoot
 from zope.component import getMultiAdapter, getUtility
@@ -11,12 +12,6 @@ from zope.publisher.browser import BrowserView
 from plone.app.querystring import queryparser
 from plone.app.querystring.interfaces import IQuerystringRegistryReader
 
-try:
-    from plone.batching import Batch
-    PLONE_BATCHING = True
-except ImportError:
-    from Products.CMFPlone.PloneBatch import Batch
-    PLONE_BATCHING = False
 
 
 class ContentListingView(BrowserView):
@@ -78,10 +73,7 @@ class QueryBuilder(BrowserView):
         if not brains:
             results = IContentListing(results)
         if batch:
-            if PLONE_BATCHING:
-                results = Batch(results, b_size, start=b_start)
-            else:
-                results = Batch(results, b_size, b_start)
+            results = Batch(results, b_size, start=b_start)
         return results
 
     def number_of_results(self, query):
