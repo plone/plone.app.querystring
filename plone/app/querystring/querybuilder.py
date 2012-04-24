@@ -79,11 +79,7 @@ class QueryBuilder(BrowserView):
             results = IContentListing(results)
         if batch:
             if PLONE_BATCHING:
-                pagesize = b_size
-                pagenumber = int(b_start / b_size)
-                results = Batch.fromPagenumber(results,
-                                               pagesize=pagesize,
-                                               pagenumber=pagenumber)
+                results = Batch(results, b_size, start=b_start)
             else:
                 results = Batch(results, b_size, b_start)
         return results
