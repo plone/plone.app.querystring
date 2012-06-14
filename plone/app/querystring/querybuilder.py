@@ -4,7 +4,7 @@ from plone.app.contentlisting.interfaces import IContentListing
 from plone.registry.interfaces import IRegistry
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.browser.navtree import getNavigationRoot
-from Products.CMFPlone.PloneBatch import Batch
+from plone.batching import Batch
 from zope.component import getMultiAdapter, getUtility
 from zope.i18n import translate
 from zope.i18nmessageid import MessageFactory
@@ -80,7 +80,7 @@ class QueryBuilder(BrowserView):
         if not brains:
             results = IContentListing(results)
         if batch:
-            results = Batch(results, b_size, b_start)
+            results = Batch(results, b_size, start=b_start)
         return results
 
     def number_of_results(self, query):
