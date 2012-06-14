@@ -71,6 +71,11 @@ class QueryBuilder(BrowserView):
         if 'path' not in parsedquery:
             parsedquery['path'] = getNavigationRoot(self.context)
 
+        # The Subject field in Plone currently uses a utf-8 encoded string.
+        if 'Subject' in parsedquery:
+            parsedquery['Subject']['query'] = [
+                x.encode("utf-8") for x in parsedquery['Subject']['query']]
+
         results = catalog(parsedquery)
         if not brains:
             results = IContentListing(results)
