@@ -70,6 +70,20 @@ class TestQuerybuilder(QuerystringTestCase):
             results[0].getURL(),
             'http://nohost/plone/collectionstestpage')
 
+    def testMakeQueryWithMultipleSubject(self):
+        self.testpage.setSubject(['Lorem'])
+        self.testpage.reindexObject()
+        query = [{
+            'i': 'Subject',
+            'o': 'plone.app.querystring.operation.selection.is',
+            'v': ['Lorem', 'Ipsum'],
+        }]
+        results = self.querybuilder._makequery(query=query)
+        self.assertEqual(len(results), 1)
+        self.assertEqual(
+            results[0].getURL(),
+            'http://nohost/plone/collectionstestpage')
+
     def testMakeQueryWithSubjectWithSpecialCharacters(self):
         self.testpage.setSubject(['Äüö'])
         self.testpage.reindexObject()
@@ -94,6 +108,23 @@ class TestQuerybuilder(QuerystringTestCase):
             'i': 'Subject',
             'o': 'plone.app.querystring.operation.selection.is',
             'v': u'Äüö',
+        }]
+        results = self.querybuilder._makequery(query=query)
+        self.assertEqual(len(results), 1)
+        self.assertEqual(
+            results[0].getURL(),
+            'http://nohost/plone/collectionstestpage')
+        self.assertEqual(
+            results[0].getObject().Subject(),
+            ('Äüö',))
+
+    def testMakeQueryWithUnicodeSubjectWithMultipleSubjects(self):
+        self.testpage.setSubject(['Äüö'])
+        self.testpage.reindexObject()
+        query = [{
+            'i': 'Subject',
+            'o': 'plone.app.querystring.operation.selection.is',
+            'v': [u'Äüö', u'Üöß'],
         }]
         results = self.querybuilder._makequery(query=query)
         self.assertEqual(len(results), 1)

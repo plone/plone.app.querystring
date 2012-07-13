@@ -79,9 +79,20 @@ class QueryBuilder(BrowserView):
         # XXX: As soon as Plone uses unicode for all indexes, this code can
         # be removed.
         if 'Subject' in parsedquery:
-            if isinstance(parsedquery['Subject']['query'], unicode):
-                parsedquery['Subject']['query'] = \
-                    parsedquery['Subject']['query'].encode("utf-8")
+            query = parsedquery['Subject']['query']
+            if isinstance(query, unicode):
+                parsedquery['Subject']['query'] = query.encode("utf-8")
+            elif isinstance(query, list):
+                # Iterate over all query items and encode them if they are
+                # unicode strings
+                i = 0
+                for item in query:
+                    if isinstance(item, unicode):
+                        parsedquery['Subject']['query'][i] = \
+                            item.encode("utf-8")
+                    i += 1
+            else:
+                pass
 
         results = catalog(parsedquery)
         if not brains:
