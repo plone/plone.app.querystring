@@ -4,7 +4,7 @@ from plone.app.contentlisting.interfaces import IContentListing
 from plone.registry.interfaces import IRegistry
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.browser.navtree import getNavigationRoot
-from Products.CMFPlone.PloneBatch import Batch
+from plone.batching import Batch
 from zope.component import getMultiAdapter, getUtility
 from zope.i18n import translate
 from zope.i18nmessageid import MessageFactory
@@ -74,11 +74,38 @@ class QueryBuilder(BrowserView):
         parsedquery['path']['query'] = getNavigationRoot(self.context) + \
                 parsedquery['path']['query']
 
+        # The Subject field in Plone currently uses a utf-8 encoded string.
+        # When a catalog query tries to compare a unicode string from the
+        # parsedquery with existing utf-8 encoded string indexes unindexing
+        # will fail with a UnicodeDecodeError. To prevent this from happening
+        # we always encode the Subject query.
+        # XXX: As soon as Plone uses unicode for all indexes, this code can
+        # be removed.
+        if 'Subject' in parsedquery:
+            query = parsedquery['Subject']['query']
+            # query can be a unicode string or a list of unicode strings.
+            if isinstance(query, unicode):
+                parsedquery['Subject']['query'] = query.encode("utf-8")
+            elif isinstance(query, list):
+                # We do not want to change the collections' own query string,
+                # therefore we create a new copy of the list.
+                copy_of_query = list(query)
+                # Iterate over all query items and encode them if they are
+                # unicode strings
+                i = 0
+                for item in copy_of_query:
+                    if isinstance(item, unicode):
+                        copy_of_query[i] = item.encode("utf-8")
+                    i += 1
+                parsedquery['Subject']['query'] = copy_of_query
+            else:
+                pass
+
         results = catalog(parsedquery)
         if not brains:
             results = IContentListing(results)
         if batch:
-            results = Batch(results, b_size, b_start)
+            results = Batch(results, b_size, start=b_start)
         return results
 
     def number_of_results(self, query):
