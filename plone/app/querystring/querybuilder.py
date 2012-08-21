@@ -80,17 +80,21 @@ class QueryBuilder(BrowserView):
         # be removed.
         if 'Subject' in parsedquery:
             query = parsedquery['Subject']['query']
+            # query can be a unicode string or a list of unicode strings.
             if isinstance(query, unicode):
                 parsedquery['Subject']['query'] = query.encode("utf-8")
             elif isinstance(query, list):
+                # We do not want to change the collections' own query string,
+                # therefore we create a new copy of the list.
+                copy_of_query = list(query)
                 # Iterate over all query items and encode them if they are
                 # unicode strings
                 i = 0
-                for item in query:
+                for item in copy_of_query:
                     if isinstance(item, unicode):
-                        parsedquery['Subject']['query'][i] = \
-                            item.encode("utf-8")
+                        copy_of_query[i] = item.encode("utf-8")
                     i += 1
+                parsedquery['Subject']['query'] = copy_of_query
             else:
                 pass
 
