@@ -40,7 +40,8 @@ def parseFormquery(context, formquery, sort_on=None, sort_order=None):
         kwargs = parser(context, row)
 
         if 'path' in query.keys():
-            query['path']['query'] = list([query['path']['query']])+list(kwargs['path']['query'])
+            query['path']['query'] = list([query['path']['query']]) + \
+                list(kwargs['path']['query'])
             del kwargs['path']
 
         query.update(kwargs)
@@ -107,11 +108,12 @@ def _largerThan(context, row):
 
 
 def _lessThan(context, row):
-    tmp = {row.index: {
-              'query': row.values,
-              'range': 'max',
-              },
-          }
+    tmp = {
+        row.index: {
+            'query': row.values,
+            'range': 'max',
+        },
+    }
     return tmp
 
 
@@ -119,10 +121,11 @@ def _currentUser(context, row):
     """Current user lookup"""
     mt = getToolByName(context, 'portal_membership')
     user = mt.getAuthenticatedMember()
-    return {row.index: {
-              'query': user.getUserName(),
-              },
-          }
+    return {
+        row.index: {
+            'query': user.getUserName(),
+        },
+    }
 
 
 def _lessThanRelativeDate(context, row):
