@@ -142,6 +142,26 @@ class TestQueryParser(TestQueryParserBase):
         parsed = queryparser.parseFormquery(MockSite(), [data, ])
         self.assertEqual(parsed, {'path': {'query': '/%s/foo' % MOCK_SITE_ID}})
 
+    def test_multiple_paths_explicit(self):
+        data = {
+            'i': 'path',
+            'o': 'plone.app.querystring.operation.string.path',
+            'v': ['/foo', '/bar'],
+        }
+
+        parsed = queryparser.parseFormquery(MockSite(), [data, ])
+        self.assertEqual(
+            parsed,
+            {
+                'path': {
+                    'query': [
+                        '/%s/foo' % MOCK_SITE_ID,
+                        '/%s/bar' % MOCK_SITE_ID
+                    ]
+                }
+            }
+        )
+
     def test_path_computed(self):
         data = {
             'i': 'path',
@@ -156,27 +176,33 @@ class TestQueryParser(TestQueryParserBase):
 class TestQueryGenerators(TestQueryParserBase):
 
     def test__between(self):
-        data = Row(index='modified',
-                  operator='_between',
-                  values=['2009/08/12', '2009/08/14'])
+        data = Row(
+            index='modified',
+            operator='_between',
+            values=['2009/08/12', '2009/08/14']
+        )
         parsed = queryparser._between(MockSite(), data)
         expected = {'modified': {'query': ['2009/08/12', '2009/08/14'],
                     'range': 'minmax'}}
         self.assertEqual(parsed, expected)
 
     def test__between_reversed_dates(self):
-        data = Row(index='modified',
-                  operator='_between',
-                  values=['2009/08/14', '2009/08/12'])
+        data = Row(
+            index='modified',
+            operator='_between',
+            values=['2009/08/14', '2009/08/12']
+        )
         parsed = queryparser._between(MockSite(), data)
         expected = {'modified': {'query': ['2009/08/12', '2009/08/14'],
                     'range': 'minmax'}}
         self.assertEqual(parsed, expected)
 
     def test__largerThan(self):
-        data = Row(index='modified',
-                  operator='_largerThan',
-                  values='2010/03/18')
+        data = Row(
+            index='modified',
+            operator='_largerThan',
+            values='2010/03/18'
+        )
         parsed = queryparser._largerThan(MockSite(), data)
         expected = {'modified': {'query': '2010/03/18', 'range': 'min'}}
         self.assertEqual(parsed, expected)
@@ -247,20 +273,41 @@ class TestQueryGenerators(TestQueryParserBase):
         self.assertEqual(parsed, expected)
 
     def test__path(self):
-        # normal path
-        data = Row(index='path',
-                  operator='_path',
-                  values='/news/')
+        data = Row(
+            index='path',
+            operator='_path',
+            values='/news/'
+        )
         parsed = queryparser._path(MockSite(), data)
         expected = {'path': {'query': '/%s/news/' % MOCK_SITE_ID}}
         self.assertEqual(parsed, expected)
 
-        # by uid
-        data = Row(index='path',
-                  operator='_path',
-                  values='00000000000000001')
+    def test__path_with_uid(self):
+        data = Row(
+            index='path',
+            operator='_path',
+            values='00000000000000001'
+        )
         parsed = queryparser._path(MockSite(), data)
         expected = {'path': {'query': '/%s/foo' % MOCK_SITE_ID}}
+        self.assertEqual(parsed, expected)
+
+    def test__path_multiple(self):
+        # normal path
+        data = Row(
+            index='path',
+            operator='_path',
+            values=['/news/', '/events/'],
+        )
+        parsed = queryparser._path(MockSite(), data)
+        expected = {
+            'path': {
+                'query': [
+                    '/%s/news/' % MOCK_SITE_ID,
+                    '/%s/events/' % MOCK_SITE_ID
+                ]
+            }
+        }
         self.assertEqual(parsed, expected)
 
     def test__relativePath(self):

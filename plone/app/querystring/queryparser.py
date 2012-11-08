@@ -82,20 +82,22 @@ def _isFalse(context, row):
 
 
 def _between(context, row):
-    tmp = {row.index: {
-              'query': sorted(row.values),
-              'range': 'minmax',
-              },
-          }
+    tmp = {
+        row.index: {
+            'query': sorted(row.values),
+            'range': 'minmax',
+        },
+    }
     return tmp
 
 
 def _largerThan(context, row):
-    tmp = {row.index: {
-              'query': row.values,
-              'range': 'min',
-              },
-          }
+    tmp = {
+        row.index: {
+            'query': row.values,
+            'range': 'min',
+        },
+    }
     return tmp
 
 
@@ -190,19 +192,28 @@ def _afterToday(context, row):
 
 
 def _beforeToday(context, row):
-    row = Row(index=row.index,
-              operator=row.operator,
-              values=DateTime())
+    row = Row(
+        index=row.index,
+        operator=row.operator,
+        values=DateTime()
+    )
     return _lessThan(context, row)
 
 
 def _path(context, row):
-    values = row.values
-    if not '/' in values:
-        # It must be a UID
-        values = '/'.join(getPathByUID(context, values))
     # take care of absolute paths without nav_root
     nav_root = getNavigationRoot(context)
+    values = row.values
+    if isinstance(values, list):
+        values_out = []
+        for value in values:
+            if not value.startswith(nav_root):
+                value = nav_root + value
+                values_out.append(value)
+        return {row.index: {'query': values_out, }}
+    elif not '/' in values:
+        # It must be a UID
+        values = '/'.join(getPathByUID(context, values))
     if not values.startswith(nav_root):
         values = nav_root + values
     tmp = {row.index: {'query': values, }}
