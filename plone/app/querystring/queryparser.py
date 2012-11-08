@@ -41,7 +41,7 @@ def parseFormquery(context, formquery, sort_on=None, sort_order=None):
 
         if 'path' in query.keys():
             query['path']['query'] = list([query['path']['query']]) + \
-                list(kwargs['path']['query'])
+                [(kwargs['path']['query'])]
             del kwargs['path']
 
         query.update(kwargs)
