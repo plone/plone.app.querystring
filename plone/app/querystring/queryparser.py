@@ -245,14 +245,23 @@ def _relativePath(context, row):
                 if child and base_hasattr(child, "getPhysicalPath"):
                     obj = child
 
-    row = Row(index=row.index,
-              operator=row.operator,
-              values='/'.join(obj.getPhysicalPath()))
+    row = Row(
+        index=row.index,
+        operator=row.operator,
+        values='/'.join(obj.getPhysicalPath())
+    )
 
     return _path(context, row)
 
 
+def _relativePathWithoutSubfolders(context, row):
+    path = _relativePath(context, row)
+    path['depth'] = 1
+    return path
+
+
 # Helper functions
+
 
 def getPathByUID(context, uid):
     """Returns the path of an object specified by UID"""

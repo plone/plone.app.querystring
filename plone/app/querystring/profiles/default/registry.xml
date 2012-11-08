@@ -186,7 +186,15 @@
         <value key="widget">RelativePathWidget</value>
     </records>
 
-<!-- QueryField declarations  -->
+    <records interface="plone.app.querystring.interfaces.IQueryOperation"
+             prefix="plone.app.querystring.operation.string.relativePathWithoutSubfolders">
+        <value key="title" i18n:translate="">Relative path (without subfolders)</value>
+        <value key="description" i18n:translate="">Use '../' to navigate to parent objects.</value>
+        <value key="operation">plone.app.querystring.queryparser._relativePathWithoutSubfolders</value>
+        <value key="widget">RelativePathWidget</value>
+    </records>
+
+    <!-- QueryField declarations  -->
     <records interface="plone.app.querystring.interfaces.IQueryField"
              prefix="plone.app.querystring.field.path">
        <value key="title" i18n:translate="">Location</value>
@@ -195,6 +203,7 @@
        <value key="sortable">False</value>
        <value key="operations">
             <element>plone.app.querystring.operation.string.relativePath</element>
+            <element>plone.app.querystring.operation.string.relativePathWithoutSubfolders</element>
             <element>plone.app.querystring.operation.string.path</element>
        </value>
        <value key="group" i18n:translate="">Metadata</value>
