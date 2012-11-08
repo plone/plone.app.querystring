@@ -38,6 +38,11 @@ def parseFormquery(context, formquery, sort_on=None, sort_order=None):
         kwargs = {}
         parser = resolve(row.operator)
         kwargs = parser(context, row)
+
+        if 'path' in query.keys():
+            query['path']['query'] = list([query['path']['query']])+list(kwargs['path']['query'])
+            del kwargs['path']
+
         query.update(kwargs)
 
     if not query:
