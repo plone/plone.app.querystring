@@ -39,6 +39,7 @@ def parseFormquery(context, formquery, sort_on=None, sort_order=None):
         parser = resolve(row.operator)
         kwargs = parser(context, row)
 
+        # Concatenate multiple path criterions.
         if 'path' in query.keys():
             query['path']['query'] = list([query['path']['query']]) + \
                 [(kwargs['path']['query'])]
