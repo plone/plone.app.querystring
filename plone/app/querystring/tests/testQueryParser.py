@@ -409,43 +409,13 @@ class TestQueryGenerators(TestQueryParserBase):
                                             path="/%s/bar/egg" % MOCK_SITE_ID)
 
         # show my siblings
-        data = Row(index='path',
-                  operator='_relativePathWithoutSubfolders',
-                  values='..')
+        data = Row(
+            index='path',
+            operator='_relativePathWithoutSubfolders',
+            values='..'
+        )
         parsed = queryparser._relativePathWithoutSubfolders(context, data)
-        expected = {'path': {'query': '/%s/bar' % MOCK_SITE_ID}}
-        self.assertEqual(parsed, expected)
-
-        # walk upwards
-        data = Row(index='path',
-                  operator='_relativePathWithoutSubfolders',
-                  values='../../')
-        parsed = queryparser._relativePathWithoutSubfolders(context, data)
-        expected = {'path': {'query': '/%s' % MOCK_SITE_ID}}
-        self.assertEqual(parsed, expected)
-
-        # if you walk beyond INavigatinRoot it should stop and return
-        data = Row(index='path',
-                  operator='_relativePathWithoutSubfolders',
-                  values='../../../')
-        parsed = queryparser._relativePathWithoutSubfolders(context, data)
-        expected = {'path': {'query': '/%s' % MOCK_SITE_ID}}
-        self.assertEqual(parsed, expected)
-
-        # reach a subfolder on Plone root
-        data = Row(index='path',
-                   operator='_relativePathWithoutSubfolders',
-                   values='../../ham')
-        parsed = queryparser._relativePathWithoutSubfolders(context, data)
-        expected = {'path': {'query': '/%s/ham' % MOCK_SITE_ID}}
-        self.assertEqual(parsed, expected)
-
-        # reach a subfolder on parent of collection
-        data = Row(index='path',
-                   operator='_relativePathWithoutSubfolders',
-                   values='../egg')
-        parsed = queryparser._relativePathWithoutSubfolders(context, data)
-        expected = {'path': {'query': '/%s/bar/egg' % MOCK_SITE_ID}}
+        expected = {'path': {'query': '/%s/bar' % MOCK_SITE_ID}, 'depth': 1}
         self.assertEqual(parsed, expected)
 
     def test_getPathByUID(self):
