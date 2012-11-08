@@ -256,7 +256,7 @@ def _relativePath(context, row):
 
 def _relativePathWithoutSubfolders(context, row):
     path = _relativePath(context, row)
-    path['depth'] = 1
+    path['path']['depth'] = 1
     return path
 
 

@@ -415,7 +415,7 @@ class TestQueryGenerators(TestQueryParserBase):
             values='..'
         )
         parsed = queryparser._relativePathWithoutSubfolders(context, data)
-        expected = {'path': {'query': '/%s/bar' % MOCK_SITE_ID}, 'depth': 1}
+        expected = {'path': {'query': '/%s/bar' % MOCK_SITE_ID, 'depth': 1}}
         self.assertEqual(parsed, expected)
 
     def test_getPathByUID(self):
