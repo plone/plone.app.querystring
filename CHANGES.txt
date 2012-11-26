@@ -9,6 +9,10 @@ Changelog
   missing vocabulary utilities.
   [bosim]
 
+- Allow multiple path criterions. This fixes
+  http://dev.plone.org/ticket/13123
+  [cryu+timo]
+
 
 1.0.6 (2012-10-03)
 ------------------
