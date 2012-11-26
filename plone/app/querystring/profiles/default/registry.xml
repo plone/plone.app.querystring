@@ -187,6 +187,14 @@
     </records>
 
     <records interface="plone.app.querystring.interfaces.IQueryOperation"
+             prefix="plone.app.querystring.operation.string.pathWithoutSubfolders">
+        <value key="title" i18n:translate="">Absolute path (without subfolders)</value>
+        <value key="description" i18n:translate="">Location in the site structure</value>
+        <value key="operation">plone.app.querystring.queryparser._pathWithoutSubfolders</value>
+        <value key="widget">ReferenceWidget</value>
+    </records>
+
+    <records interface="plone.app.querystring.interfaces.IQueryOperation"
              prefix="plone.app.querystring.operation.string.relativePathWithoutSubfolders">
         <value key="title" i18n:translate="">Relative path (without subfolders)</value>
         <value key="description" i18n:translate="">Use '../' to navigate to parent objects.</value>
@@ -205,6 +213,7 @@
             <element>plone.app.querystring.operation.string.relativePath</element>
             <element>plone.app.querystring.operation.string.relativePathWithoutSubfolders</element>
             <element>plone.app.querystring.operation.string.path</element>
+            <element>plone.app.querystring.operation.string.pathWithoutSubfolders</element>
        </value>
        <value key="group" i18n:translate="">Metadata</value>
     </records>

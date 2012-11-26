@@ -304,6 +304,16 @@ class TestQueryGenerators(TestQueryParserBase):
         expected = {'path': {'query': '/%s/foo' % MOCK_SITE_ID}}
         self.assertEqual(parsed, expected)
 
+    def test__pathWithoutSubfolders(self):
+        data = Row(
+            index='path',
+            operator='_pathWithoutSubfolders',
+            values='/news/'
+        )
+        parsed = queryparser._path(MockSite(), data)
+        expected = {'path': {'query': '/%s/news/' % MOCK_SITE_ID, 'depth': 1}}
+        self.assertEqual(parsed, expected)
+
     def test__path_multiple(self):
         # normal path
         data = Row(
