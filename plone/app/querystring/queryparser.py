@@ -40,9 +40,11 @@ def parseFormquery(context, formquery, sort_on=None, sort_order=None):
         kwargs = parser(context, row)
 
         # Concatenate multiple path criterions.
-        if 'path' in query.keys():
-            query['path']['query'] = list([query['path']['query']]) + \
-                [(kwargs['path']['query'])]
+        if 'path' in query.keys() and 'path' in kwargs.keys():
+            if isinstance(query['path']['query'], str):
+                query['path']['query'] = [query['path']['query']]
+            query['path']['query'] = query['path']['query'] + \
+                [kwargs['path']['query']]
             del kwargs['path']
 
         query.update(kwargs)
@@ -252,6 +254,12 @@ def _relativePath(context, row):
     )
 
     return _path(context, row)
+
+
+def _pathWithoutSubfolders(context, row):
+    path = _path(context, row)
+    path['path']['depth'] = 1
+    return path
 
 
 def _relativePathWithoutSubfolders(context, row):
