@@ -310,7 +310,7 @@ class TestQueryGenerators(TestQueryParserBase):
             operator='_pathWithoutSubfolders',
             values='/news/'
         )
-        parsed = queryparser._path(MockSite(), data)
+        parsed = queryparser._pathWithoutSubfolders(MockSite(), data)
         expected = {'path': {'query': '/%s/news/' % MOCK_SITE_ID, 'depth': 1}}
         self.assertEqual(parsed, expected)
 
