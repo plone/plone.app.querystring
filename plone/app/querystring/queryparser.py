@@ -44,12 +44,12 @@ def update_with_parent_query(context, formquery, fieldname, in_factory):
     if not isinstance(values, list) and not isinstance(values, tuple):
         return
     for row in values:
-        if not isinstance(row, dict):
-            return
-        # A row must have keys i and o.  v is optional.
-        if not row.get('i'):
-            return
-        if not row.get('o'):
+        # A row must have keys i and o.  v is optional.  We do not
+        # expect a dictionary, but an instance.
+        try:
+            row.get('i')
+            row.get('o')
+        except AttributeError:
             return
     formquery.extend(values)
 
