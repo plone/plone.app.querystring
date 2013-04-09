@@ -16,29 +16,52 @@ logger = logging.getLogger('plone.app.querystring')
 Row = namedtuple('Row', ['index', 'operator', 'values'])
 
 
+def update_with_parent_query(context, formquery, fieldname, in_factory):
+    # Possibly update the formquery with criteria inherited from the
+    # parent of the context.
+    if not fieldname:
+        return
+    try:
+        field = context.getField(fieldname)
+    except AttributeError:
+        # When a Collection is being created in the
+        # portal_factory, the context may be the Plone Site, which
+        # has no getField method.
+        return
+    if field is None:
+        return
+    if in_factory:
+        parent = context
+    else:
+        parent = aq_parent(context)
+    # The following will return an empty list if the parent
+    # does not have this same field.
+    values = field.getRaw(parent, recursive=True)
+    if not values:
+        return
+    # Check that the values are what we expect, as it may be for
+    # example a BooleanField with the same name.
+    if not isinstance(values, list) and not isinstance(values, tuple):
+        return
+    for row in values:
+        if not isinstance(row, dict):
+            return
+        # A row must have keys i and o.  v is optional.
+        if not row.get('i'):
+            return
+        if not row.get('o'):
+            return
+    formquery.extend(values)
+
+
 def parseFormquery(context, formquery, sort_on=None, sort_order=None,
                    fieldname='', in_factory=''):
     if not formquery:
         return {}
     reg = getUtility(IRegistry)
-    if fieldname:
-        # The context may inherit criteria from its parent.
-        try:
-            field = context.getField(fieldname)
-        except AttributeError:
-            # When a Collection is being created in the
-            # portal_factory, the context may be the Plone Site, which
-            # has no getField method.
-            field = None
-        if field is not None:
-            # The following will return an empty list if the parent
-            # does not have this same field.
-            if in_factory:
-                parent = context
-            else:
-                parent = aq_parent(context)
-            values = field.getRaw(parent, recursive=True)
-            formquery.extend(values)
+    # Possibly update the formquery with criteria inherited from the
+    # parent of the context.
+    update_with_parent_query(context, formquery, fieldname, in_factory)
 
     # Make sure the things in formquery are dictionaries
     formquery = map(dict, formquery)
