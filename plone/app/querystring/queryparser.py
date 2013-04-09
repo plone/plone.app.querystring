@@ -16,10 +16,29 @@ logger = logging.getLogger('plone.app.querystring')
 Row = namedtuple('Row', ['index', 'operator', 'values'])
 
 
-def parseFormquery(context, formquery, sort_on=None, sort_order=None):
+def parseFormquery(context, formquery, sort_on=None, sort_order=None,
+                   fieldname='', in_factory=''):
     if not formquery:
         return {}
     reg = getUtility(IRegistry)
+    if fieldname:
+        # The context may inherit criteria from its parent.
+        try:
+            field = context.getField(fieldname)
+        except AttributeError:
+            # When a Collection is being created in the
+            # portal_factory, the context may be the Plone Site, which
+            # has no getField method.
+            field = None
+        if field is not None:
+            # The following will return an empty list if the parent
+            # does not have this same field.
+            if in_factory:
+                parent = context
+            else:
+                parent = aq_parent(context)
+            values = field.getRaw(parent, recursive=True)
+            formquery.extend(values)
 
     # Make sure the things in formquery are dictionaries
     formquery = map(dict, formquery)
