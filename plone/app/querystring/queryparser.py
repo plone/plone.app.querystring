@@ -16,9 +16,11 @@ logger = logging.getLogger('plone.app.querystring')
 Row = namedtuple('Row', ['index', 'operator', 'values'])
 
 
-def update_with_parent_query(context, formquery, fieldname, in_factory):
+def update_with_parent_query(context, formquery, fieldname, in_factory, acquire):
     # Possibly update the formquery with criteria inherited from the
     # parent of the context.
+    if not acquire:
+        return
     if not fieldname:
         return
     try:
@@ -36,7 +38,7 @@ def update_with_parent_query(context, formquery, fieldname, in_factory):
         parent = aq_parent(context)
     # The following will return an empty list if the parent
     # does not have this same field.
-    values = field.getRaw(parent, recursive=True)
+    values = field.getRaw(parent)
     if not values:
         return
     # Check that the values are what we expect, as it may be for
@@ -55,13 +57,13 @@ def update_with_parent_query(context, formquery, fieldname, in_factory):
 
 
 def parseFormquery(context, formquery, sort_on=None, sort_order=None,
-                   fieldname='', in_factory=''):
+                   fieldname='', in_factory='', acquire=''):
     if not formquery:
         return {}
     reg = getUtility(IRegistry)
     # Possibly update the formquery with criteria inherited from the
     # parent of the context.
-    update_with_parent_query(context, formquery, fieldname, in_factory)
+    update_with_parent_query(context, formquery, fieldname, in_factory, acquire)
 
     # Make sure the things in formquery are dictionaries
     formquery = map(dict, formquery)

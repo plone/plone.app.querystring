@@ -36,33 +36,33 @@ class QueryBuilder(BrowserView):
 
     def __call__(self, query, batch=False, b_start=0, b_size=30,
                  sort_on=None, sort_order=None, limit=0, brains=False,
-                 fieldname='', in_factory=False):
+                 fieldname='', in_factory=False, acquire=False):
         """If there are results, make the query and return the results"""
         if self._results is None:
             self._results = self._makequery(query=query, batch=batch,
                 b_start=b_start, b_size=b_size, sort_on=sort_on,
                 sort_order=sort_order, limit=limit, brains=brains,
-                fieldname=fieldname, in_factory=in_factory)
+                fieldname=fieldname, in_factory=in_factory, acquire=acquire)
         return self._results
 
-    def html_results(self, query, fieldname='', in_factory=False):
+    def html_results(self, query, fieldname='', in_factory=False, acquire=False):
         """html results, used for in the edit screen of a collection,
            used in the live update results"""
         options = dict(original_context=self.context)
         results = self(query, sort_on=self.request.get('sort_on', None),
                        sort_order=self.request.get('sort_order', None),
-                       limit=10, fieldname=fieldname, in_factory=in_factory)
+                       limit=10, fieldname=fieldname, in_factory=in_factory, acquire=acquire)
 
         return getMultiAdapter((results, self.request),
             name='display_query_results')(**options)
 
     def _makequery(self, query=None, batch=False, b_start=0, b_size=30,
                    sort_on=None, sort_order=None, limit=0, brains=False,
-                   fieldname='', in_factory=False):
+                   fieldname='', in_factory=False, acquire=False):
         """Parse the (form)query and return using multi-adapter"""
         parsedquery = queryparser.parseFormquery(
             self.context, query, sort_on, sort_order, fieldname=fieldname,
-            in_factory=in_factory)
+            in_factory=in_factory, acquire=acquire)
         if not parsedquery:
             if brains:
                 return []
@@ -113,10 +113,10 @@ class QueryBuilder(BrowserView):
             results = Batch(results, b_size, b_start)
         return results
 
-    def number_of_results(self, query, fieldname='', in_factory=False):
+    def number_of_results(self, query, fieldname='', in_factory=False, acquire=False):
         """Get the number of results"""
         results = self(query, sort_on=None, sort_order=None, limit=1,
-                       fieldname=fieldname, in_factory=in_factory)
+                       fieldname=fieldname, in_factory=in_factory, acquire=acquire)
         return translate(_(u"batch_x_items_matching_your_criteria",
                  default=u"${number} items matching your search terms.",
                  mapping={'number': results.actual_result_count}),
