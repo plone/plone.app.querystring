@@ -53,7 +53,12 @@ def update_with_parent_query(context, formquery, fieldname, in_factory, acquire)
             row.get('o')
         except AttributeError:
             return
-    formquery.extend(values)
+    # Now add the values, if our own formquery does not already have
+    # the same key.
+    formquery_keys = [x.get('i') for x in formquery]
+    for row in values:
+        if row.get('i') not in formquery_keys:
+            formquery.append(row)
 
 
 def parseFormquery(context, formquery, sort_on=None, sort_order=None,
