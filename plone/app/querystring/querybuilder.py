@@ -129,4 +129,5 @@ class RegistryConfiguration(BrowserView):
         reader = getMultiAdapter(
             (registry, self.request), IQuerystringRegistryReader)
         data = reader()
+        self.request.response.setHeader('Content-Type', 'application/json')
         return json.dumps(data)
