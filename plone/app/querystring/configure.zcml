@@ -2,8 +2,10 @@
     xmlns="http://namespaces.zope.org/zope"
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:cache="http://namespaces.zope.org/cache"
     i18n_domain="plone">
 
+  <include package="plone.app.caching" />
   <include package="plone.app.contentlisting" />
   <include package="plone.app.registry" />
 
@@ -33,12 +35,20 @@
     for="*"
     template="results.pt"
     />
+  <cache:ruleset
+    ruleset="plone.content.folderView"
+    for=".querybuilder.ContentListingView"
+    />
 
   <browser:page
     name="querybuilderresults"
     class=".querybuilder.QueryBuilder"
     permission="zope2.View"
     for="*"
+    />
+  <cache:ruleset
+    ruleset="plone.content.folderView"
+    for=".querybuilder.QueryBuilder"
     />
 
   <browser:page
@@ -62,6 +72,12 @@
     class=".querybuilder.RegistryConfiguration"
     permission="zope2.View"
     for="*"
+    />
+  <!-- The json config is several megabytes big and only changes when
+       the registry changes, so we cache a bit more agressively.  -->
+  <cache:ruleset
+    ruleset="plone.content.itemView"
+    for=".querybuilder.RegistryConfiguration"
     />
 
 </configure>
