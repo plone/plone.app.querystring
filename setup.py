@@ -4,7 +4,7 @@ version = '1.0.9dev'
 
 setup(name='plone.app.querystring',
       version=version,
-      description="",
+      description="Queryparser and builder for new-style Plone Collections",
       long_description=open("README.txt").read() + "\n" +
                        open("CHANGES.txt").read(),
       classifiers=[
