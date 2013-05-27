@@ -73,10 +73,11 @@
     permission="zope2.View"
     for="*"
     />
-  <!-- The json config is several megabytes big and only changes when
-       the registry changes, so we cache a bit more agressively.  -->
+  <!-- Note that the json config can be very big, at least if you have
+       a big selection index that should not really be used as a
+       selection index. -->
   <cache:ruleset
-    ruleset="plone.content.itemView"
+    ruleset="plone.content.folderView"
     for=".querybuilder.RegistryConfiguration"
     />
 
