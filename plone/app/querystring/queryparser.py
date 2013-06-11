@@ -38,6 +38,15 @@ def parseFormquery(context, formquery, sort_on=None, sort_order=None):
         kwargs = {}
         parser = resolve(row.operator)
         kwargs = parser(context, row)
+
+        # Concatenate multiple path criterions.
+        if 'path' in query.keys() and 'path' in kwargs.keys():
+            if isinstance(query['path']['query'], str):
+                query['path']['query'] = [query['path']['query']]
+            query['path']['query'] = query['path']['query'] + \
+                [kwargs['path']['query']]
+            del kwargs['path']
+
         query.update(kwargs)
 
     if not query:
@@ -82,29 +91,32 @@ def _isFalse(context, row):
 
 
 def _between(context, row):
-    tmp = {row.index: {
-              'query': sorted(row.values),
-              'range': 'minmax',
-              },
-          }
+    tmp = {
+        row.index: {
+            'query': sorted(row.values),
+            'range': 'minmax',
+        },
+    }
     return tmp
 
 
 def _largerThan(context, row):
-    tmp = {row.index: {
-              'query': row.values,
-              'range': 'min',
-              },
-          }
+    tmp = {
+        row.index: {
+            'query': row.values,
+            'range': 'min',
+        },
+    }
     return tmp
 
 
 def _lessThan(context, row):
-    tmp = {row.index: {
-              'query': row.values,
-              'range': 'max',
-              },
-          }
+    tmp = {
+        row.index: {
+            'query': row.values,
+            'range': 'max',
+        },
+    }
     return tmp
 
 
@@ -112,10 +124,11 @@ def _currentUser(context, row):
     """Current user lookup"""
     mt = getToolByName(context, 'portal_membership')
     user = mt.getAuthenticatedMember()
-    return {row.index: {
-              'query': user.getUserName(),
-              },
-          }
+    return {
+        row.index: {
+            'query': user.getUserName(),
+        },
+    }
 
 
 def _lessThanRelativeDate(context, row):
@@ -190,19 +203,28 @@ def _afterToday(context, row):
 
 
 def _beforeToday(context, row):
-    row = Row(index=row.index,
-              operator=row.operator,
-              values=DateTime())
+    row = Row(
+        index=row.index,
+        operator=row.operator,
+        values=DateTime()
+    )
     return _lessThan(context, row)
 
 
 def _path(context, row):
-    values = row.values
-    if not '/' in values:
-        # It must be a UID
-        values = '/'.join(getPathByUID(context, values))
     # take care of absolute paths without nav_root
     nav_root = getNavigationRoot(context)
+    values = row.values
+    if isinstance(values, list):
+        values_out = []
+        for value in values:
+            if not value.startswith(nav_root):
+                value = nav_root + value
+                values_out.append(value)
+        return {row.index: {'query': values_out, }}
+    elif not '/' in values:
+        # It must be a UID
+        values = '/'.join(getPathByUID(context, values))
     if not values.startswith(nav_root):
         values = nav_root + values
     tmp = {row.index: {'query': values, }}
@@ -225,14 +247,29 @@ def _relativePath(context, row):
                 if child and base_hasattr(child, "getPhysicalPath"):
                     obj = child
 
-    row = Row(index=row.index,
-              operator=row.operator,
-              values='/'.join(obj.getPhysicalPath()))
+    row = Row(
+        index=row.index,
+        operator=row.operator,
+        values='/'.join(obj.getPhysicalPath())
+    )
 
     return _path(context, row)
 
 
+def _pathWithoutSubfolders(context, row):
+    path = _path(context, row)
+    path['path']['depth'] = 1
+    return path
+
+
+def _relativePathWithoutSubfolders(context, row):
+    path = _relativePath(context, row)
+    path['path']['depth'] = 1
+    return path
+
+
 # Helper functions
+
 
 def getPathByUID(context, uid):
     """Returns the path of an object specified by UID"""
