@@ -25,3 +25,15 @@ class IQueryField(Interface):
                       value_type=DottedName(title=u"Operation ID"))
     vocabulary = TextLine(title=u"Vocabulary")
     group = TextLine(title=u"Group")
+
+
+class IParsedQueryIndexModifier(Interface):
+    """Transform a parsed query index in something different"""
+    
+    def __call__(value):
+        """
+        Return a tuple with a new index name and a new value.
+        if the index name returned is different from the native one, caller must
+        replace treated index with the new ones.
+        """
+

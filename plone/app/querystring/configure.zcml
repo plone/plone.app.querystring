@@ -6,6 +6,7 @@
 
   <include package="plone.app.contentlisting" />
   <include package="plone.app.registry" />
+  <include package=".indexmodifiers" />
 
   <genericsetup:registerProfile
     name="default"
