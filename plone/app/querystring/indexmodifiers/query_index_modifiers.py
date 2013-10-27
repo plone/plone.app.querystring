@@ -36,4 +36,5 @@ class Subject(object):
             query = copy_of_query
         else:
             pass
-        return ('Subject', query)
+        value['query'] = query
+        return ('Subject', value)
