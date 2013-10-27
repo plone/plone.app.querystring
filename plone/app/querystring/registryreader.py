@@ -1,9 +1,7 @@
 from operator import attrgetter
 import logging
 
-from plone.registry.interfaces import IRegistry
 from zope.component import queryUtility
-from zope.component import adapts
 from zope.interface import implements
 from zope.globalrequest import getRequest
 from zope.i18n import translate
