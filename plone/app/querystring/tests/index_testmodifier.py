@@ -10,7 +10,7 @@ class SimpleFooIndexModifier(object):
     implements(IParsedQueryIndexModifier)
     
     def __call__(self, value):
-        return ('Title', value)
+        raise Exception("SimpleFooIndexModifier has been called!")
 
 
 class TitleFooIndexModifier(object):
