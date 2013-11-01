@@ -31,6 +31,8 @@ Changelog
 - Use plone.batching.
   [khink]
 
+- querybuilder results can now be manipulated using
+  ``IParsedQueryIndexModifier`` named utilities.
 
 1.0.8 (2013-03-14)
 ------------------
