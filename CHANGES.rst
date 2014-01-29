@@ -10,7 +10,12 @@ Changelog
 1.1.1 (2014-01-27)
 ------------------
 
--
+- fixed broken handling of limit and batch size. 
+  [bosim]
+
+- pep8 fixes
+  [bosim]
+
 
 1.1.0 (2013-11-14)
 ------------------
