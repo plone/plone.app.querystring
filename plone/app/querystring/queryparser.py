@@ -17,6 +17,7 @@ Row = namedtuple('Row', ['index', 'operator', 'values'])
 
 
 def parseFormquery(context, formquery, sort_on=None, sort_order=None):
+
     if not formquery:
         return {}
     reg = getUtility(IRegistry)
@@ -116,6 +117,15 @@ def _currentUser(context, row):
               'query': user.getUserName(),
               },
           }
+
+def _showInactive(context, row):
+    """ Current user roles lookup in order to determine whether user should
+        be allowed to view inactive content
+    """
+    mt = getToolByName(context, 'portal_membership')
+    user = mt.getAuthenticatedMember()
+    value = True
+    return {row.index: value}
 
 
 def _lessThanRelativeDate(context, row):
