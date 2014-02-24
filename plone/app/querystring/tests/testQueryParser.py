@@ -84,13 +84,17 @@ class MockSite(object):
 
 class MockUser(object):
 
-    def __init__(self, username=None):
+    def __init__(self, username=None, roles=None):
         self.username = 'Anonymous User'
         if username:
             self.username = username
+        self.roles = roles or "Anonymous"
 
     def getUserName(self):
         return self.username
+
+    def getRoles(self):
+        return self.roles
 
 
 class MockPortal_membership(object):
@@ -225,6 +229,31 @@ class TestQueryGenerators(TestQueryParserBase):
                   values=None)
         parsed = queryparser._currentUser(context, data)
         expected = {'Creator': {'query': 'admin'}}
+        self.assertEqual(parsed, expected)
+
+    def test__showInactive(self):
+        # Anonymous user
+        u = MockUser()
+        pm = MockPortal_membership(user=u)
+        context = MockSite(portal_membership=pm)
+        data = Row(index='show_inactive',
+                   operator='_showInactive',
+                   values=["Manager"])
+        parsed = queryparser._showInactive(context, data)
+        # False is expected since Anonymous doesn't have Manager role
+        expected = {'show_inactive': False}
+        self.assertEqual(parsed, expected)
+
+        # Logged in user 'admin'
+        u = MockUser(username='admin', roles=("Manager",))
+        pm = MockPortal_membership(user=u)
+        context = MockSite(portal_membership=pm)
+        data = Row(index='show_inactive',
+                   operator='_showInactive',
+                   values=["Manager"])
+        parsed = queryparser._showInactive(context, data)
+        # True is expected since Admin should have Manager role
+        expected = {'show_inactive': True}
         self.assertEqual(parsed, expected)
 
     def test__lessThanRelativeDate(self):
