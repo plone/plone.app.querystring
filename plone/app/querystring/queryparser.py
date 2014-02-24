@@ -124,7 +124,14 @@ def _showInactive(context, row):
     """
     mt = getToolByName(context, 'portal_membership')
     user = mt.getAuthenticatedMember()
-    value = True
+    value = False
+    user_roles = user.getRoles()
+    row_values = row.values
+    if row_values:
+        for role in user_roles:
+            if role in row_values:
+                value = True
+                break
     return {row.index: value}
 
 
