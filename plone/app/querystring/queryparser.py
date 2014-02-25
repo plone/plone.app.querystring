@@ -226,7 +226,12 @@ def _path(context, row):
 def _relativePath(context, row):
     # Walk through the tree
     obj = context
-    for x in [r for r in row.values.split('/') if r]:
+    values = row.values
+    depthstr = ""
+    if '::' in values:
+        values, _depth = values.split('::', 1)
+        depthstr = "::%s"%_depth
+    for x in [r for r in values.split('/') if r]:
         if x == "..":
             if INavigationRoot.providedBy(obj):
                 break
@@ -241,7 +246,7 @@ def _relativePath(context, row):
 
     row = Row(index=row.index,
               operator=row.operator,
-              values='/'.join(obj.getPhysicalPath()))
+              values='/'.join(obj.getPhysicalPath()) + depthstr)
 
     return _path(context, row)
 
