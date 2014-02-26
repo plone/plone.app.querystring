@@ -4,7 +4,8 @@ Changelog
 1.1.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Added support for depth in relativePath operator
+  [djay]
 
 
 1.1.1 (2014-01-27)
