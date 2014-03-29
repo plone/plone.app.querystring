@@ -29,6 +29,24 @@ class TestOperationDefinitions(ptc.PloneTestCase):
         self.assertEqual(registry[prefix + ".operation"],
                          'plone.app.querystring.queryparser:_lessThan')
 
+    def test_getobjpositioninparent_largerthan(self):
+        """Bug reported as Issue #22
+
+        Names not matching for operations getObjPositionInParent
+        see also https://github.com/plone/plone.app.querystring/issues/22
+        """
+        key = 'plone.app.querystring.field.getObjPositionInParent.operations'
+        operation = 'plone.app.querystring.operation.int.largerThan'
+        registry = self.portal.portal_registry
+
+        # pre check if operation exists to be sure
+        op_info = registry.get(operation)
+        self.assertIsNot(op_info, None)
+
+        # check if operation is used for getObjPositionInParent
+        operations = registry.get(key)
+        self.assertTrue(operation in operations)
+
 
 class TestFieldDefinitions(QuerystringTestCase):
 
