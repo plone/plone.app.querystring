@@ -4,7 +4,9 @@ Changelog
 1.1.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- bugfix for #22: Names not matching for operations getObjPositionInParent
+  plus test
+  [jensens]
 
 
 1.1.1 (2014-01-27)
