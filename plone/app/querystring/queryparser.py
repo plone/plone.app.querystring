@@ -38,7 +38,12 @@ def parseFormquery(context, formquery, sort_on=None, sort_order=None):
         kwargs = {}
         parser = resolve(row.operator)
         kwargs = parser(context, row)
-        query.update(kwargs)
+
+        # Special path handling - since multipath queries are possible
+        if 'path' in query and 'path' in kwargs:
+            query['path']['query'].extend(kwargs['path']['query'])
+        else:
+            query.update(kwargs)
 
     if not query:
         # If the query is empty fall back onto the equality query
@@ -213,14 +218,16 @@ def _path(context, row):
     if not values.startswith(nav_root):
         values = nav_root + values
 
-    query = {'query': values}
+    query = {}
     if depth is not None:
         query['depth'] = depth
         # when a depth value is specified, a trailing slash matters on the
         # query
-        query['query'] = query['query'].rstrip('/')
-    tmp = {row.index: query}
-    return tmp
+        values = values.rstrip('/')
+
+    query['query'] = [values]
+
+    return {row.index: query}
 
 
 def _relativePath(context, row):

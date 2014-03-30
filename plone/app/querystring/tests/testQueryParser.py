@@ -140,7 +140,8 @@ class TestQueryParser(TestQueryParserBase):
             'v': '/foo',
         }
         parsed = queryparser.parseFormquery(MockSite(), [data, ])
-        self.assertEqual(parsed, {'path': {'query': '/%s/foo' % MOCK_SITE_ID}})
+        self.assertEqual(
+            parsed, {'path': {'query': ['/%s/foo' % MOCK_SITE_ID]}})
 
     def test_path_computed(self):
         data = {
@@ -150,7 +151,8 @@ class TestQueryParser(TestQueryParserBase):
         }
 
         parsed = queryparser.parseFormquery(MockSite(), [data, ])
-        self.assertEqual(parsed, {'path': {'query': '/%s/foo' % MOCK_SITE_ID}})
+        self.assertEqual(
+            parsed, {'path': {'query': ['/%s/foo' % MOCK_SITE_ID]}})
 
     def test_path_with_depth_computed(self):
         data = {
@@ -162,10 +164,46 @@ class TestQueryParser(TestQueryParserBase):
         parsed = queryparser.parseFormquery(MockSite(), [data, ])
         self.assertEqual(parsed, {
             'path': {
-                'query': '/%s/foo' % MOCK_SITE_ID,
+                'query': ['/%s/foo' % MOCK_SITE_ID],
                 'depth': 2
             }
         })
+
+    def test_multi_path(self):
+        data_1 = {
+            'i': 'path',
+            'o': 'plone.app.querystring.operation.string.path',
+            'v': '/foo',
+        }
+        data_2 = {
+            'i': 'path',
+            'o': 'plone.app.querystring.operation.string.path',
+            'v': '/bar',
+        }
+
+        parsed = queryparser.parseFormquery(MockSite(), [data_1, data_2])
+        self.assertEqual(
+            parsed, {'path': {'query': [
+                '/%s/foo' % MOCK_SITE_ID,
+                '/%s/bar' % MOCK_SITE_ID]}})
+
+    def test_multi_path_with_depth_computet(self):
+        data_1 = {
+            'i': 'path',
+            'o': 'plone.app.querystring.operation.string.path',
+            'v': '/foo::2',
+        }
+        data_2 = {
+            'i': 'path',
+            'o': 'plone.app.querystring.operation.string.path',
+            'v': '/bar::5',
+        }
+
+        parsed = queryparser.parseFormquery(MockSite(), [data_1, data_2])
+        self.assertEqual(
+            parsed, {'path': {'query': [
+                '/%s/foo' % MOCK_SITE_ID,
+                '/%s/bar' % MOCK_SITE_ID], 'depth': 2}})
 
 
 class TestQueryGenerators(TestQueryParserBase):
