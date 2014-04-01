@@ -140,7 +140,8 @@ class TestQueryParser(TestQueryParserBase):
             'v': '/foo',
         }
         parsed = queryparser.parseFormquery(MockSite(), [data, ])
-        self.assertEqual(parsed, {'path': {'query': '/%s/foo' % MOCK_SITE_ID}})
+        self.assertEqual(
+            parsed, {'path': {'query': ['/%s/foo' % MOCK_SITE_ID]}})
 
     def test_path_computed(self):
         data = {
@@ -150,7 +151,8 @@ class TestQueryParser(TestQueryParserBase):
         }
 
         parsed = queryparser.parseFormquery(MockSite(), [data, ])
-        self.assertEqual(parsed, {'path': {'query': '/%s/foo' % MOCK_SITE_ID}})
+        self.assertEqual(
+            parsed, {'path': {'query': ['/%s/foo' % MOCK_SITE_ID]}})
 
     def test_path_with_depth_computed(self):
         data = {
@@ -162,10 +164,46 @@ class TestQueryParser(TestQueryParserBase):
         parsed = queryparser.parseFormquery(MockSite(), [data, ])
         self.assertEqual(parsed, {
             'path': {
-                'query': '/%s/foo' % MOCK_SITE_ID,
+                'query': ['/%s/foo' % MOCK_SITE_ID],
                 'depth': 2
             }
         })
+
+    def test_multi_path(self):
+        data_1 = {
+            'i': 'path',
+            'o': 'plone.app.querystring.operation.string.path',
+            'v': '/foo',
+        }
+        data_2 = {
+            'i': 'path',
+            'o': 'plone.app.querystring.operation.string.path',
+            'v': '/bar',
+        }
+
+        parsed = queryparser.parseFormquery(MockSite(), [data_1, data_2])
+        self.assertEqual(
+            parsed, {'path': {'query': [
+                '/%s/foo' % MOCK_SITE_ID,
+                '/%s/bar' % MOCK_SITE_ID]}})
+
+    def test_multi_path_with_depth_computet(self):
+        data_1 = {
+            'i': 'path',
+            'o': 'plone.app.querystring.operation.string.path',
+            'v': '/foo::2',
+        }
+        data_2 = {
+            'i': 'path',
+            'o': 'plone.app.querystring.operation.string.path',
+            'v': '/bar::5',
+        }
+
+        parsed = queryparser.parseFormquery(MockSite(), [data_1, data_2])
+        self.assertEqual(
+            parsed, {'path': {'query': [
+                '/%s/foo' % MOCK_SITE_ID,
+                '/%s/bar' % MOCK_SITE_ID], 'depth': 2}})
 
 
 class TestQueryGenerators(TestQueryParserBase):
@@ -267,7 +305,7 @@ class TestQueryGenerators(TestQueryParserBase):
                   operator='_path',
                   values='/news/')
         parsed = queryparser._path(MockSite(), data)
-        expected = {'path': {'query': '/%s/news/' % MOCK_SITE_ID}}
+        expected = {'path': {'query': ['/%s/news/' % MOCK_SITE_ID]}}
         self.assertEqual(parsed, expected)
 
         # by uid
@@ -275,7 +313,7 @@ class TestQueryGenerators(TestQueryParserBase):
                   operator='_path',
                   values='00000000000000001')
         parsed = queryparser._path(MockSite(), data)
-        expected = {'path': {'query': '/%s/foo' % MOCK_SITE_ID}}
+        expected = {'path': {'query': ['/%s/foo' % MOCK_SITE_ID]}}
         self.assertEqual(parsed, expected)
 
     def test__relativePath(self):
@@ -302,7 +340,7 @@ class TestQueryGenerators(TestQueryParserBase):
                   operator='_relativePath',
                   values='..')
         parsed = queryparser._relativePath(context, data)
-        expected = {'path': {'query': '/%s/bar' % MOCK_SITE_ID}}
+        expected = {'path': {'query': ['/%s/bar' % MOCK_SITE_ID]}}
         self.assertEqual(parsed, expected)
 
         # walk upwards
@@ -310,7 +348,7 @@ class TestQueryGenerators(TestQueryParserBase):
                   operator='_relativePath',
                   values='../../')
         parsed = queryparser._relativePath(context, data)
-        expected = {'path': {'query': '/%s' % MOCK_SITE_ID}}
+        expected = {'path': {'query': ['/%s' % MOCK_SITE_ID]}}
         self.assertEqual(parsed, expected)
 
         # if you walk beyond INavigatinRoot it should stop and return
@@ -318,7 +356,7 @@ class TestQueryGenerators(TestQueryParserBase):
                   operator='_relativePath',
                   values='../../../')
         parsed = queryparser._relativePath(context, data)
-        expected = {'path': {'query': '/%s' % MOCK_SITE_ID}}
+        expected = {'path': {'query': ['/%s' % MOCK_SITE_ID]}}
         self.assertEqual(parsed, expected)
 
         # reach a subfolder on Plone root
@@ -326,7 +364,7 @@ class TestQueryGenerators(TestQueryParserBase):
                    operator='_relativePath',
                    values='../../ham')
         parsed = queryparser._relativePath(context, data)
-        expected = {'path': {'query': '/%s/ham' % MOCK_SITE_ID}}
+        expected = {'path': {'query': ['/%s/ham' % MOCK_SITE_ID]}}
         self.assertEqual(parsed, expected)
 
         # reach a subfolder on parent of collection
@@ -334,7 +372,7 @@ class TestQueryGenerators(TestQueryParserBase):
                    operator='_relativePath',
                    values='../egg')
         parsed = queryparser._relativePath(context, data)
-        expected = {'path': {'query': '/%s/bar/egg' % MOCK_SITE_ID}}
+        expected = {'path': {'query': ['/%s/bar/egg' % MOCK_SITE_ID]}}
         self.assertEqual(parsed, expected)
 
     def test_getPathByUID(self):

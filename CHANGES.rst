@@ -8,6 +8,13 @@ Changelog
   plus test
   [jensens]
 
+- Implement multipath queries:
+  - Parsing a path returns always a list.
+  - Special handling for paths in parseFormquery.
+
+  Fixes https://dev.plone.org/ticket/13251
+  [mathias.leimgruber]
+
 
 1.1.1 (2014-01-27)
 ------------------
