@@ -1,8 +1,16 @@
-from Products.CMFCore.utils import getToolByName
+from Products.CMFCore.utils import getUtility
+from plone.registry.interfaces import IRegistry
+
 
 def upgrade_1_to_2_typo_in_registry(context):
-    setup = getToolByName(context, 'portal_setup')
-    setup.runImportStepFromProfile(
-        'profile-plone.app.querystring:upgrade_1_to_2',
-        'registry'
-    )
+    registry = getUtility(IRegistry)
+    name = 'plone.app.querystring.field.getObjPositionInParent.operations'
+    wrong_value = 'plone.app.querystring.operation.int.greaterThan'
+    right_value = 'plone.app.querystring.operation.int.largerThan'
+    values = registry[name]
+    import pdb;pdb.set_trace()
+    if wrong_value in values:
+        del values[values.index(wrong_value)]
+    if right_value not in values:
+        values.append(right_value)
+    registry[name] = values

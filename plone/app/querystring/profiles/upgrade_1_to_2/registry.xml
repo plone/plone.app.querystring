@@ -1,9 +1,0 @@
-<registry>
-    <records interface="plone.app.querystring.interfaces.IQueryField"
-             prefix="plone.app.querystring.field.getObjPositionInParent">
-        <value purge="false" key="operations">
-            <element remove="true">plone.app.querystring.operation.int.greaterThan</element>
-            <element>plone.app.querystring.operation.int.largerThan</element>
-        </value>
-    </records>
-</registry>
