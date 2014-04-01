@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from Products.CMFCore.utils import getUtility
 from plone.registry.interfaces import IRegistry
 
@@ -8,7 +9,6 @@ def upgrade_1_to_2_typo_in_registry(context):
     wrong_value = 'plone.app.querystring.operation.int.greaterThan'
     right_value = 'plone.app.querystring.operation.int.largerThan'
     values = registry[name]
-    import pdb;pdb.set_trace()
     if wrong_value in values:
         del values[values.index(wrong_value)]
     if right_value not in values:
