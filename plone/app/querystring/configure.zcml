@@ -15,6 +15,23 @@
     provides="Products.GenericSetup.interfaces.EXTENSION"
     />
 
+  <genericsetup:registerProfile
+      name="upgrade_1_to_2"
+      title="Upgrade profile v1 to v2"
+      description=""
+      directory="profiles/upgrade_1_to_2"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+  <genericsetup:upgradeStep
+      source="1"
+      destination="2"
+      title="Fix Typo in Registry"
+      description="Migrate registry to fix a typo."
+      profile="plone.app.querystring:default"
+      handler=".upgrades.upgrade_1_to_2_typo_in_registry"
+      />
+
   <adapter
     for="plone.registry.interfaces.IRegistry"
     factory=".registryreader.QuerystringRegistryReader"
