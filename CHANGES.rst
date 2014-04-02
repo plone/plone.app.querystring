@@ -5,11 +5,16 @@ Changelog
 ------------------
 
 - Implement multipath queries:
+
   - Parsing a path returns always a list.
   - Special handling for paths in parseFormquery.
 
-  Fixes https://dev.plone.org/ticket/13251
+- Fixes https://dev.plone.org/ticket/13251
   [mathias.leimgruber]
+
+- querybuilder results can now be manipulated using
+  ``IParsedQueryIndexModifier`` named utilities.
+  [keul]
 
 
 1.1.1 (2014-01-27)
@@ -30,9 +35,6 @@ Changelog
 
 - Use plone.batching.
   [khink]
-
-- querybuilder results can now be manipulated using
-  ``IParsedQueryIndexModifier`` named utilities.
 
 1.0.8 (2013-03-14)
 ------------------
