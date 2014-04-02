@@ -1,5 +1,4 @@
 from collections import namedtuple
-import logging
 
 from Acquisition import aq_parent
 from DateTime import DateTime
@@ -10,8 +9,6 @@ from Products.CMFPlone.browser.navtree import getNavigationRoot
 from Products.CMFPlone.utils import base_hasattr
 from zope.component import getUtility
 from zope.dottedname.resolve import resolve
-
-logger = logging.getLogger('plone.app.querystring')
 
 Row = namedtuple('Row', ['index', 'operator', 'values'])
 
@@ -48,17 +45,6 @@ def parseFormquery(context, formquery, sort_on=None, sort_order=None):
     if not query:
         # If the query is empty fall back onto the equality query
         query = _equal(context, row)
-
-    # Check for valid indexes
-    catalog = getToolByName(context, 'portal_catalog')
-    valid_indexes = [index for index in query if index in catalog.indexes()]
-
-    # We'll ignore any invalid index, but will return an empty set if none of
-    # the indexes are valid.
-    if not valid_indexes:
-        logger.warning(
-            "Using empty query because there are no valid indexes used.")
-        return {}
 
     # Add sorting (sort_on and sort_order) to the query
     if sort_on:
