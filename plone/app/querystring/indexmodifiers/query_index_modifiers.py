@@ -1,7 +1,7 @@
 # -*- coding: utf8 -*-
-
-from zope.interface import implements
 from plone.app.querystring.interfaces import IParsedQueryIndexModifier
+from zope.interface import implements
+
 
 class Subject(object):
     """
@@ -10,13 +10,13 @@ class Subject(object):
     parsedquery with existing utf-8 encoded string indexes unindexing
     will fail with a UnicodeDecodeError. To prevent this from happening
     we always encode the Subject query.
-    
+
     XXX: As soon as Plone uses unicode for all indexes, this code can
     be removed.
     """
 
     implements(IParsedQueryIndexModifier)
-    
+
     def __call__(self, value):
         query = value['query']
         # query can be a unicode string or a list of unicode strings.

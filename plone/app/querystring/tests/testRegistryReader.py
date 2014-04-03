@@ -98,10 +98,14 @@ class TestRegistryReader(unittest.TestCase):
         result = reader.mapOperations(result)
         operators = result.get(
             'plone.app.querystring.field.created.operators').keys()
-        self.assertTrue('plone.app.querystring.operation.date.lessThan'
-            in operators)
-        self.assertFalse('plone.app.querystring.operation.date.largerThan'
-            in operators)
+        self.assertTrue(
+            'plone.app.querystring.operation.date.lessThan'
+            in operators
+        )
+        self.assertFalse(
+            'plone.app.querystring.operation.date.largerThan'
+            in operators
+        )
 
     def test_sortable_indexes(self):
         """tests if sortable indexes from the registry will be available in

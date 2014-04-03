@@ -66,4 +66,3 @@ class TestFieldDefinitions(QuerystringTestCase):
         # check if operation is used for getObjPositionInParent
         operations = registry.get(key)
         self.assertTrue(operation in operations)
-

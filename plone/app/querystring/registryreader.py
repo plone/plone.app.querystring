@@ -1,16 +1,15 @@
+from .interfaces import IQuerystringRegistryReader
 from operator import attrgetter
-import logging
-
 from zope.component import queryUtility
-from zope.interface import implements
 from zope.globalrequest import getRequest
 from zope.i18n import translate
 from zope.i18nmessageid import Message
+from zope.interface import implements
 from zope.schema.interfaces import IVocabularyFactory
-
-from .interfaces import IQuerystringRegistryReader
+import logging
 
 logger = logging.getLogger("plone.app.querystring")
+
 
 class DottedDict(dict):
     """A dictionary where you can access nested dicts with dotted names"""

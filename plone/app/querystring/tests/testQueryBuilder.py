@@ -17,8 +17,10 @@ class TestQuerybuilder(QuerystringTestCase):
         self.testpage = testpage
         self.portal.portal_workflow.doActionFor(testpage, 'publish')
         self.request = TestRequest()
-        self.querybuilder = getMultiAdapter((self.portal, self.request),
-                                             name='querybuilderresults')
+        self.querybuilder = getMultiAdapter(
+            (self.portal, self.request),
+            name='querybuilderresults'
+        )
         self.query = [{
             'i': 'Title',
             'o': 'plone.app.querystring.operation.string.is',

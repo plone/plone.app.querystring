@@ -75,22 +75,24 @@ class QueryBuilder(BrowserView):
             if name in parsedquery:
                 new_name, query = modifier(parsedquery[name])
                 parsedquery[name] = query
-                # if a new index name has been returned, we need to replace the native ones
+                # if a new index name has been returned, we need to replace
+                # the native ones
                 if name != new_name:
                     del parsedquery[name]
                     parsedquery[new_name] = query
 
        # Check for valid indexes
         catalog = getToolByName(self.context, 'portal_catalog')
-        valid_indexes = [index for index in parsedquery if index in catalog.indexes()]
+        valid_indexes = [index for index in parsedquery
+                         if index in catalog.indexes()]
 
-        # We'll ignore any invalid index, but will return an empty set if none of
-        # the indexes are valid.
+        # We'll ignore any invalid index, but will return an empty set if none
+        # of the indexes are valid.
         if not valid_indexes:
             logger.warning(
                 "Using empty query because there are no valid indexes used.")
             parsedquery = {}
-        
+
         if not parsedquery:
             if brains:
                 return []

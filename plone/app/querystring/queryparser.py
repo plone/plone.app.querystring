@@ -1,12 +1,11 @@
-from collections import namedtuple
-
 from Acquisition import aq_parent
 from DateTime import DateTime
-from plone.app.layout.navigation.interfaces import INavigationRoot
-from plone.registry.interfaces import IRegistry
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.browser.navtree import getNavigationRoot
 from Products.CMFPlone.utils import base_hasattr
+from collections import namedtuple
+from plone.app.layout.navigation.interfaces import INavigationRoot
+from plone.registry.interfaces import IRegistry
 from zope.component import getUtility
 from zope.dottedname.resolve import resolve
 
@@ -73,29 +72,32 @@ def _isFalse(context, row):
 
 
 def _between(context, row):
-    tmp = {row.index: {
-              'query': sorted(row.values),
-              'range': 'minmax',
-              },
-          }
+    tmp = {row.index:
+           {
+               'query': sorted(row.values),
+               'range': 'minmax',
+           },
+           }
     return tmp
 
 
 def _largerThan(context, row):
-    tmp = {row.index: {
-              'query': row.values,
-              'range': 'min',
-              },
-          }
+    tmp = {row.index:
+           {
+               'query': row.values,
+               'range': 'min',
+           },
+           }
     return tmp
 
 
 def _lessThan(context, row):
-    tmp = {row.index: {
-              'query': row.values,
-              'range': 'max',
-              },
-          }
+    tmp = {row.index:
+           {
+               'query': row.values,
+               'range': 'max',
+           },
+           }
     return tmp
 
 
@@ -103,10 +105,7 @@ def _currentUser(context, row):
     """Current user lookup"""
     mt = getToolByName(context, 'portal_membership')
     user = mt.getAuthenticatedMember()
-    return {row.index: {
-              'query': user.getUserName(),
-              },
-          }
+    return {row.index: {'query': user.getUserName()}}
 
 
 def _lessThanRelativeDate(context, row):

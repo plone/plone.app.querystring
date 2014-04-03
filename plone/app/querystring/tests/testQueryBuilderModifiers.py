@@ -32,12 +32,17 @@ class TestQuerybuilderExtended(QuerystringTestCase):
         testpage3 = self.portal['collectionstestpage3']
         self.portal.portal_workflow.doActionFor(testpage3, 'publish')
         self.request = TestRequest()
-        self.querybuilder = getMultiAdapter((self.portal, self.request),
-                                             name='querybuilderresults')
+        self.querybuilder = getMultiAdapter(
+            (self.portal, self.request),
+            name='querybuilderresults'
+        )
 
     def testModifierNotCalled(self):
         gsm = getGlobalSiteManager()
-        gsm.registerUtility(index_testmodifier.SimpleFooIndexModifier(), name=u'Foo')
+        gsm.registerUtility(
+            index_testmodifier.SimpleFooIndexModifier(),
+            name=u'Foo'
+        )
         query = [{
             'i': 'Title',
             'o': 'plone.app.querystring.operation.string.is',
@@ -54,7 +59,10 @@ class TestQuerybuilderExtended(QuerystringTestCase):
 
     def testModifierChangeQuery(self):
         gsm = getGlobalSiteManager()
-        gsm.registerUtility(index_testmodifier.TitleFooIndexModifier(), name=u'Title')
+        gsm.registerUtility(
+            index_testmodifier.TitleFooIndexModifier(),
+            name=u'Title'
+        )
         query = [{
             'i': 'Title',
             'o': 'plone.app.querystring.operation.string.is',
@@ -64,11 +72,17 @@ class TestQuerybuilderExtended(QuerystringTestCase):
         results = self.querybuilder(query=query)
         self.assertEqual(len(results), 1)
         self.assertEqual(results[0].Title(), "Foo")
-        gsm.unregisterUtility(provided=IParsedQueryIndexModifier, name=u'Title')
+        gsm.unregisterUtility(
+            provided=IParsedQueryIndexModifier,
+            name=u'Title'
+        )
 
     def testModifierChangeQueryAndIndex(self):
         gsm = getGlobalSiteManager()
-        gsm.registerUtility(index_testmodifier.AbstractToDescriptionIndexModifier(), name=u'Abstract')
+        gsm.registerUtility(
+            index_testmodifier.AbstractToDescriptionIndexModifier(),
+            name=u'Abstract'
+        )
         query = [{
             'i': 'Abstract',
             'o': 'plone.app.querystring.operation.string.is',
@@ -78,4 +92,7 @@ class TestQuerybuilderExtended(QuerystringTestCase):
         results = self.querybuilder(query=query)
         self.assertEqual(len(results), 1)
         self.assertEqual(results[0].Title(), "Bar")
-        gsm.unregisterUtility(provided=IParsedQueryIndexModifier, name=u'Abstract')
+        gsm.unregisterUtility(
+            provided=IParsedQueryIndexModifier,
+            name=u'Abstract'
+        )
