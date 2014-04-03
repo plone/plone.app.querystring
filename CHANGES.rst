@@ -4,6 +4,10 @@ Changelog
 1.2.0 (unreleased)
 ------------------
 
+- bugfix for #22: Names not matching for operations getObjPositionInParent
+  plus test
+  [jensens]
+
 - Implement multipath queries:
 
   - Parsing a path returns always a list.
