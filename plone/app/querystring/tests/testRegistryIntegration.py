@@ -52,3 +52,18 @@ class TestFieldDefinitions(QuerystringTestCase):
         self.assertEqual(registry[prefix + ".enabled"], True)
         self.assertEqual(registry[prefix + ".sortable"], True)
         self.assertEqual(registry[prefix + ".group"], "Metadata")
+
+    def test_getobjpositioninparent_largerthan(self):
+        """Bug reported as Issue #22
+
+        Names not matching for operations getObjPositionInParent
+        see also https://github.com/plone/plone.app.querystring/issues/22
+        """
+        key = 'plone.app.querystring.field.getObjPositionInParent.operations'
+        operation = 'plone.app.querystring.operation.int.largerThan'
+        registry = self.portal.portal_registry
+
+        # check if operation is used for getObjPositionInParent
+        operations = registry.get(key)
+        self.assertTrue(operation in operations)
+
