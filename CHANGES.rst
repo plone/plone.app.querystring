@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.0 (unreleased)
+1.2.0 (2014-04-05)
 ------------------
 
 - bugfix for #22: Names not matching for operations getObjPositionInParent
