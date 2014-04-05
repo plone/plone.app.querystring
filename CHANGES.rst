@@ -9,9 +9,9 @@ Changelog
   [jensens]
 
 - Implement multipath queries:
-
   - Parsing a path returns always a list.
   - Special handling for paths in parseFormquery.
+  [maethu]
 
 - Fixes https://dev.plone.org/ticket/13251
   [mathias.leimgruber]
@@ -24,7 +24,7 @@ Changelog
 1.1.1 (2014-01-27)
 ------------------
 
-- fixed broken handling of limit and batch size. 
+- fixed broken handling of limit and batch size.
   [bosim]
 
 - pep8 fixes
