@@ -74,10 +74,4 @@
     for="*"
     />
 
-  <utility
-    component=".vocabularies.RolesVocabularyFactory"
-    name="plone.app.querystring.Roles"
-    />
-
-
 </configure>
