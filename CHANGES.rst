@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.1.2 (unreleased)
+1.2.1 (unreleased)
 ------------------
 
 - Added show inactive operation which uses the roles vocabulary in order
@@ -9,10 +9,30 @@ Changelog
   [ichim-david]
 
 
+1.2.0 (2014-04-05)
+------------------
+
+- bugfix for #22: Names not matching for operations getObjPositionInParent
+  plus test
+  [jensens]
+
+- Implement multipath queries:
+  - Parsing a path returns always a list.
+  - Special handling for paths in parseFormquery.
+  [maethu]
+
+- Fixes https://dev.plone.org/ticket/13251
+  [mathias.leimgruber]
+
+- querybuilder results can now be manipulated using
+  ``IParsedQueryIndexModifier`` named utilities.
+  [keul]
+
+
 1.1.1 (2014-01-27)
 ------------------
 
-- fixed broken handling of limit and batch size. 
+- fixed broken handling of limit and batch size.
   [bosim]
 
 - pep8 fixes
@@ -27,7 +47,6 @@ Changelog
 
 - Use plone.batching.
   [khink]
-
 
 1.0.8 (2013-03-14)
 ------------------

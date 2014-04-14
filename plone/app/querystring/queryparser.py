@@ -1,17 +1,13 @@
-from collections import namedtuple
-import logging
-
 from Acquisition import aq_parent
 from DateTime import DateTime
-from plone.app.layout.navigation.interfaces import INavigationRoot
-from plone.registry.interfaces import IRegistry
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.browser.navtree import getNavigationRoot
 from Products.CMFPlone.utils import base_hasattr
+from collections import namedtuple
+from plone.app.layout.navigation.interfaces import INavigationRoot
+from plone.registry.interfaces import IRegistry
 from zope.component import getUtility
 from zope.dottedname.resolve import resolve
-
-logger = logging.getLogger('plone.app.querystring')
 
 Row = namedtuple('Row', ['index', 'operator', 'values'])
 
@@ -39,22 +35,16 @@ def parseFormquery(context, formquery, sort_on=None, sort_order=None):
         kwargs = {}
         parser = resolve(row.operator)
         kwargs = parser(context, row)
-        query.update(kwargs)
+
+        # Special path handling - since multipath queries are possible
+        if 'path' in query and 'path' in kwargs:
+            query['path']['query'].extend(kwargs['path']['query'])
+        else:
+            query.update(kwargs)
 
     if not query:
         # If the query is empty fall back onto the equality query
         query = _equal(context, row)
-
-    # Check for valid indexes
-    catalog = getToolByName(context, 'portal_catalog')
-    valid_indexes = [index for index in query if index in catalog.indexes()]
-
-    # We'll ignore any invalid index, but will return an empty set if none of
-    # the indexes are valid.
-    if not valid_indexes:
-        logger.warning(
-            "Using empty query because there are no valid indexes used.")
-        return {}
 
     # Add sorting (sort_on and sort_order) to the query
     if sort_on:
@@ -83,29 +73,32 @@ def _isFalse(context, row):
 
 
 def _between(context, row):
-    tmp = {row.index: {
-              'query': sorted(row.values),
-              'range': 'minmax',
-              },
-          }
+    tmp = {row.index:
+           {
+               'query': sorted(row.values),
+               'range': 'minmax',
+           },
+           }
     return tmp
 
 
 def _largerThan(context, row):
-    tmp = {row.index: {
-              'query': row.values,
-              'range': 'min',
-              },
-          }
+    tmp = {row.index:
+           {
+               'query': row.values,
+               'range': 'min',
+           },
+           }
     return tmp
 
 
 def _lessThan(context, row):
-    tmp = {row.index: {
-              'query': row.values,
-              'range': 'max',
-              },
-          }
+    tmp = {row.index:
+           {
+               'query': row.values,
+               'range': 'max',
+           },
+           }
     return tmp
 
 
@@ -113,10 +106,7 @@ def _currentUser(context, row):
     """Current user lookup"""
     mt = getToolByName(context, 'portal_membership')
     user = mt.getAuthenticatedMember()
-    return {row.index: {
-              'query': user.getUserName(),
-              },
-          }
+    return {row.index: {'query': user.getUserName()}}
 
 def _showInactive(context, row):
     """ Current user roles lookup in order to determine whether user should
@@ -230,14 +220,16 @@ def _path(context, row):
     if not values.startswith(nav_root):
         values = nav_root + values
 
-    query = {'query': values}
+    query = {}
     if depth is not None:
         query['depth'] = depth
         # when a depth value is specified, a trailing slash matters on the
         # query
-        query['query'] = query['query'].rstrip('/')
-    tmp = {row.index: query}
-    return tmp
+        values = values.rstrip('/')
+
+    query['query'] = [values]
+
+    return {row.index: query}
 
 
 def _relativePath(context, row):
