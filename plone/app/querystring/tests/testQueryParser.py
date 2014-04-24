@@ -1,14 +1,18 @@
-import unittest
-
 from DateTime import DateTime
 from plone.app.layout.navigation.interfaces import INavigationRoot
 from plone.app.querystring import queryparser
 from plone.registry import field
 from plone.registry import Record
+from plone.registry import Registry
+from plone.registry.interfaces import IRegistry
 
-from .base import UnittestWithRegistryLayer
 from plone.app.querystring.queryparser import Row
+from plone.app.querystring.testing import NOT_INSTALLED_PLONEAPPQUERYSTRING_INTEGRATION_TESTING
+
+from zope.component import getGlobalSiteManager
 from zope.interface.declarations import implements
+
+import unittest2 as unittest
 
 MOCK_SITE_ID = "site"
 
@@ -104,10 +108,12 @@ class MockPortal_membership(object):
 
 class TestQueryParserBase(unittest.TestCase):
 
-    layer = UnittestWithRegistryLayer
+    layer = NOT_INSTALLED_PLONEAPPQUERYSTRING_INTEGRATION_TESTING
 
     def setUp(self):
-        super(TestQueryParserBase, self).setUp()
+        gsm = getGlobalSiteManager()
+        self.registry = Registry()
+        gsm.registerUtility(self.registry, IRegistry)
         self.setFunctionForOperation(
             'plone.app.querystring.operation.string.is.operation',
             'plone.app.querystring.queryparser._equal')
@@ -119,7 +125,7 @@ class TestQueryParserBase(unittest.TestCase):
         function_field = field.ASCIILine(title=u"Operator")
         function_record = Record(function_field)
         function_record.value = function
-        self.layer.registry.records[operation] = function_record
+        self.registry.records[operation] = function_record
 
 
 class TestQueryParser(TestQueryParserBase):

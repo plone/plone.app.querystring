@@ -1,15 +1,20 @@
  # -*- coding: utf-8 -*-
 
+from plone.app.querystring.testing import TEST_PROFILE_PLONEAPPQUERYSTRING_INTEGRATION_TESTING
+
 from zope.component import getMultiAdapter
 from zope.publisher.browser import TestRequest
 
-from .base import QuerystringTestCase
+import unittest2 as unittest
 
 
-class TestQuerybuilder(QuerystringTestCase):
+class TestQuerybuilder(unittest.TestCase):
 
-    def afterSetUp(self):
-        self.loginAsPortalOwner()
+    layer = TEST_PROFILE_PLONEAPPQUERYSTRING_INTEGRATION_TESTING
+
+    def setUp(self):
+        self.portal = self.layer['portal']
+
         self.portal.invokeFactory("Document",
                                   "collectionstestpage",
                                   title="Collectionstestpage")
@@ -26,6 +31,10 @@ class TestQuerybuilder(QuerystringTestCase):
             'o': 'plone.app.querystring.operation.string.is',
             'v': 'Collectionstestpage',
         }]
+        self.portal.invokeFactory("Folder",
+                                  "testfolder",
+                                  title="Test Folder")
+        self.folder = self.portal.testfolder
 
     def testQueryBuilderQuery(self):
         results = self.querybuilder(query=self.query)
@@ -139,7 +148,16 @@ class TestQuerybuilder(QuerystringTestCase):
             ('Äüö',))
 
 
-class TestConfigurationFetcher(QuerystringTestCase):
+class TestConfigurationFetcher(unittest.TestCase):
+
+    layer = TEST_PROFILE_PLONEAPPQUERYSTRING_INTEGRATION_TESTING
+
+    def setUp(self):
+        self.portal = self.layer['portal']
+        self.portal.invokeFactory("Folder",
+                                  "testfolder",
+                                  title="Test Folder")
+        self.folder = self.portal.testfolder
 
     def testGettingJSONConfiguration(self):
         self.folder.restrictedTraverse('@@querybuilderjsonconfig')()

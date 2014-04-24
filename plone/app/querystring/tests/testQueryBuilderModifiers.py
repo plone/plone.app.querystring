@@ -1,19 +1,25 @@
 # -*- coding: utf8 -*-
 
-from .base import QuerystringTestCase
+from plone.app.querystring.interfaces import IParsedQueryIndexModifier
+from plone.app.querystring.testing import PLONEAPPQUERYSTRING_INTEGRATION_TESTING
+
+from zope.publisher.browser import TestRequest
+from zope.component import getGlobalSiteManager
+from zope.component import getMultiAdapter
+
 import index_testmodifier
 
-from zope.component import getMultiAdapter
-from zope.publisher.browser import TestRequest
-from plone.app.querystring.interfaces import IParsedQueryIndexModifier
-from zope.component import getGlobalSiteManager
+import unittest2 as unittest
 
 
-class TestQuerybuilderExtended(QuerystringTestCase):
+class TestQuerybuilderExtended(unittest.TestCase):
     """Testing the IParsedQueryIndexModifier registration feature"""
 
-    def afterSetUp(self):
-        self.loginAsPortalOwner()
+    layer = PLONEAPPQUERYSTRING_INTEGRATION_TESTING
+
+    def setUp(self):
+        self.portal = self.layer['portal']
+
         self.portal.invokeFactory("Document",
                                   "collectionstestpage1",
                                   title="Collectionstestpage")

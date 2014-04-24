@@ -3,7 +3,7 @@
              prefix="plone.app.querystring.operation.string.is">
         <value key="title">Is</value>
         <value key="description">Tip: you can use * to autocomplete.</value>
-        <value key="operation">plone.app.querystring.queryparser:_equal</value>
+        <value key="operation">plone.app.querystring.queryparser._equal</value>
         <value key="widget"></value>
     </records>
   
@@ -11,7 +11,7 @@
              prefix="plone.app.querystring.operation.date.lessThan">
         <value key="title">Before date</value>
         <value key="description">Please use YYYY/MM/DD.</value>
-        <value key="operation">plone.app.querystring.queryparser:_lessThan</value>
+        <value key="operation">plone.app.querystring.queryparser._lessThan</value>
         <value key="widget"></value>
     </records>
 
