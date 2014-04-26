@@ -36,13 +36,13 @@ parsed_correct = {
                         'largerThan': {
                             'widget': None,
                             'operation': u'plone.app.querystring.queryparser'
-                                         u':_largerThan',
+                                         u'._largerThan',
                             'description': u'Please use YYYY/MM/DD.',
                             'title': u'after'
                         },
                         'lessThan': {
                             'widget': None,
-                            'operation': u'plone.app.querystring.queryparser:'
+                            'operation': u'plone.app.querystring.queryparser.'
                                          u'_lessThan',
                             'description': u'Please use YYYY/MM/DD.',
                             'title': u'before'
@@ -51,7 +51,7 @@ parsed_correct = {
                     'string': {
                         'is': {
                             'widget': None,
-                            'operation': u'plone.app.querystring.queryparser:'
+                            'operation': u'plone.app.querystring.queryparser.'
                                          u'_equal',
                             'description': u'Tip: you can use * to '
                                            u'autocomplete.',

@@ -3,7 +3,7 @@
              prefix="plone.app.querystring.operation.string.is">
         <value key="title">equals</value>
         <value key="description">Tip: you can use * to autocomplete.</value>
-        <value key="operation">plone.app.querystring.queryparser:_equal</value>
+        <value key="operation">plone.app.querystring.queryparser._equal</value>
         <value key="widget"></value>
     </records>
 
