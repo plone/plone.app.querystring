@@ -12,6 +12,12 @@ from plone.app.testing import login
 from plone.app.testing import setRoles
 from plone.app.testing.layers import IntegrationTesting
 
+try:
+    from Products.CMFPlone.factory import _IMREALLYPLONE5  # noqa
+    PLONE50 = True
+except ImportError:
+    PLONE50 = False
+
 
 class PloneAppQuerystringTestProfileLayer(PloneSandboxLayer):
 
@@ -24,7 +30,8 @@ class PloneAppQuerystringTestProfileLayer(PloneSandboxLayer):
         self.loadZCML('configure.zcml', package=plone.app.querystring.tests)
 
     def setUpPloneSite(self, portal):
-        applyProfile(portal, 'Products.ATContentTypes:default')
+        if PLONE50:
+            applyProfile(portal, 'Products.ATContentTypes:default')
         applyProfile(portal, 'plone.app.querystring.tests:registry')
         setRoles(portal, TEST_USER_ID, ['Manager'])
         login(portal, TEST_USER_NAME)
@@ -32,7 +39,9 @@ class PloneAppQuerystringTestProfileLayer(PloneSandboxLayer):
                                            'secret',
                                            ['Manager'],
                                            [])
-        portal.portal_workflow.setChainForPortalTypes(('Document',), 'plone_workflow')
+        portal.portal_workflow.setChainForPortalTypes(
+            ('Document',), 'plone_workflow'
+        )
 
     def tearDownZope(self, app):
         z2.uninstallProduct(app, 'plone.app.querystring')
