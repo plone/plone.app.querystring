@@ -4,6 +4,10 @@ Changelog
 1.2.1 (unreleased)
 ------------------
 
+- Fixed upgrade_1_to_2 upgrade step in case the registry doesn't contain the
+  named value
+  [ichim-david]
+
 - Added show inactive operation which uses the roles vocabulary in order
   to assign permission to show or hide the inactive objects of the given query
   [ichim-david]
