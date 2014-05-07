@@ -4,7 +4,9 @@ Changelog
 1.2.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Added show inactive operation which uses the roles vocabulary in order
+  to assign permission to show or hide the inactive objects of the given query
+  [ichim-david]
 
 
 1.2.0 (2014-04-05)

@@ -108,7 +108,7 @@ class QueryBuilder(BrowserView):
         if 'path' not in parsedquery:
             parsedquery['path'] = {'query': ''}
 
-        results = catalog(parsedquery)
+        results = catalog(**parsedquery)
 
         if results and limit and results.actual_result_count > limit:
             results.actual_result_count = limit
