@@ -12,6 +12,9 @@ Changelog
   to assign permission to show or hide the inactive objects of the given query
   [ichim-david]
 
+- Migrate tests to plone.app.testing.
+  [sdelcourt]
+
 - Fix querybuilder code if results object does not provide an
   actual_results_count attribute. This regression has been introduced in
   release 1.1.1 (fixed broken handling of limit and batch size).
