@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.1 (unreleased)
+1.2.1 (2014-05-14)
 ------------------
 
 - Fixed upgrade_1_to_2 upgrade step in case the registry doesn't contain the
