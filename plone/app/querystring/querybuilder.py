@@ -109,8 +109,7 @@ class QueryBuilder(BrowserView):
             parsedquery['path'] = {'query': ''}
 
         results = catalog(**parsedquery)
-
-        if results and limit and results.actual_result_count > limit:
+        if getattr(results, 'actual_result_count', False) and limit and results.actual_result_count > limit:
             results.actual_result_count = limit
 
         if not brains:
