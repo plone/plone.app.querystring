@@ -47,8 +47,7 @@ setup(
     ],
     extras_require={
         'test': [
-            'collective.testcaselayer',
-            'Products.PloneTestCase',
+            'plone.app.testing',
         ]
     },
     entry_points="""
