@@ -4,6 +4,11 @@ Changelog
 1.2.2 (unreleased)
 ------------------
 
+- Add a ``custom_query`` parameter to the ``QueryBuilder._makequery`` method,
+  which allows for run time customization of the stored query, e.g. by request
+  parameters.
+  [thet]
+
 - Added support for depth in relativePath operator.
   [djay]
 

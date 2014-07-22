@@ -37,7 +37,8 @@ class QueryBuilder(BrowserView):
         self._results = None
 
     def __call__(self, query, batch=False, b_start=0, b_size=30,
-                 sort_on=None, sort_order=None, limit=0, brains=False):
+                 sort_on=None, sort_order=None, limit=0, brains=False,
+                 custom_query={}):
         """If there are results, make the query and return the results"""
         if self._results is None:
             self._results = self._makequery(
@@ -48,7 +49,8 @@ class QueryBuilder(BrowserView):
                 sort_on=sort_on,
                 sort_order=sort_order,
                 limit=limit,
-                brains=brains)
+                brains=brains,
+                custom_query=custom_query)
         return self._results
 
     def html_results(self, query):
@@ -65,7 +67,8 @@ class QueryBuilder(BrowserView):
         )(**options)
 
     def _makequery(self, query=None, batch=False, b_start=0, b_size=30,
-                   sort_on=None, sort_order=None, limit=0, brains=False):
+                   sort_on=None, sort_order=None, limit=0, brains=False,
+                   custom_query={}):
         """Parse the (form)query and return using multi-adapter"""
         parsedquery = queryparser.parseFormquery(
             self.context, query, sort_on, sort_order)
@@ -81,7 +84,7 @@ class QueryBuilder(BrowserView):
                     del parsedquery[name]
                     parsedquery[new_name] = query
 
-       # Check for valid indexes
+        # Check for valid indexes
         catalog = getToolByName(self.context, 'portal_catalog')
         valid_indexes = [index for index in parsedquery
                          if index in catalog.indexes()]
@@ -108,8 +111,14 @@ class QueryBuilder(BrowserView):
         if 'path' not in parsedquery:
             parsedquery['path'] = {'query': ''}
 
+        if isinstance(custom_query, dict):
+            # Update the parsed query with extra query dictionary. This may
+            # override parsed query options.
+            parsedquery.update(custom_query)
+
         results = catalog(**parsedquery)
-        if getattr(results, 'actual_result_count', False) and limit and results.actual_result_count > limit:
+        if getattr(results, 'actual_result_count', False) and limit\
+                and results.actual_result_count > limit:
             results.actual_result_count = limit
 
         if not brains:
