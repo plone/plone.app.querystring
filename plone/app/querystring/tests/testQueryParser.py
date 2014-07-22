@@ -436,6 +436,16 @@ class TestQueryGenerators(TestQueryParserBase):
         expected = {'path': {'query': ['/%s/bar/egg' % MOCK_SITE_ID]}}
         self.assertEqual(parsed, expected)
 
+        # relative path with depth
+        data = Row(
+            index='path',
+            operator='_relativePath',
+            values='..::2'
+        )
+        parsed = queryparser._relativePath(context, data)
+        expected = {'path': {'query': ['/%s/bar' % MOCK_SITE_ID], 'depth': 2}}
+        self.assertEqual(parsed, expected)
+
     def test_getPathByUID(self):
         actual = queryparser.getPathByUID(MockSite(), '00000000000000001')
         self.assertEqual(actual, ['', 'site', 'foo'])

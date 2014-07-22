@@ -4,7 +4,7 @@ Changelog
 1.2.2 (unreleased)
 ------------------
 
-- Added support for depth in relativePath operator
+- Added support for depth in relativePath operator.
   [djay]
 
 
