@@ -161,25 +161,25 @@ class TestQuerybuilder(unittest.TestCase):
             'v': 'Collectionstestpage',
         }]
 
-        # Test normal, without custom_query
+        # Test normal, without custom_query.
         results = self.querybuilder._makequery(query=query)
         self.assertEqual(len(results), 1)
         self.assertEqual(results[0].Title(), 'Collectionstestpage')
 
-        # Test with changed Title value
+        # Test with changed ``Title`` query, overwriting original query.
         results = self.querybuilder._makequery(
             query=query,
             custom_query={'Title': {'query': 'Test Folder'}})
         self.assertEqual(len(results), 1)
         self.assertEqual(results[0].Title(), 'Test Folder')
 
-        # Test with changed portal_type, but other Title
+        # Test with changed ``portal_type``, but other ``Title`` query.
         results = self.querybuilder._makequery(
             query=query,
             custom_query={'portal_type': {'query': 'Folder'}})
         self.assertEqual(len(results), 0)
 
-        # Test with changed portal_type and changed Title
+        # Test with changed ``portal_type`` and changed ``Title``.
         results = self.querybuilder._makequery(
             query=query,
             custom_query={'Title': {'query': 'Test Folder'},
