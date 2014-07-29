@@ -11,16 +11,14 @@
       handler=".upgrades.upgrade_1_to_2_typo_in_registry"
       />
 
-    <genericsetup:upgradeSteps
-            source="2"
-            destination="3"
-            profile="plone.app.querystring:default">
-
-        <genericsetup:upgradeDepends
-                title="Add show inactive operation and field"
-                import_profile="plone.app.querystring:upgrade_to_3"
-                />
-
-    </genericsetup:upgradeSteps>
+  <genericsetup:upgradeSteps
+      source="2"
+      destination="3"
+      profile="plone.app.querystring:default">
+    <genericsetup:upgradeDepends
+        title="Add show inactive operation and field"
+        import_profile="plone.app.querystring:upgrade_to_3"
+        />
+  </genericsetup:upgradeSteps>
 
 </configure>
