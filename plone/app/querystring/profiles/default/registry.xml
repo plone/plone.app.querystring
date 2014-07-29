@@ -425,7 +425,7 @@
         <value key="operations">
             <element>plone.app.querystring.operation.string.showInactive</element>
         </value>
-        <value key="vocabulary">plone.app.vocabularies.AllRoles</value>
+        <value key="vocabulary">plone.app.vocabularies.Roles</value>
         <value key="group" i18n:translate="">Metadata</value>
     </records>
 

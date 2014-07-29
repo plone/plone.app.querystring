@@ -21,4 +21,14 @@
         />
   </genericsetup:upgradeSteps>
 
+  <genericsetup:upgradeSteps
+      source="3"
+      destination="4"
+      profile="plone.app.querystring:default">
+    <genericsetup:upgradeDepends
+        title="Fix wrong vocabulary declaration of the show_inactive field"
+        import_profile="plone.app.querystring:upgrade_to_3"
+        />
+  </genericsetup:upgradeSteps>
+
 </configure>

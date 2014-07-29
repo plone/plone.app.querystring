@@ -4,6 +4,10 @@ Changelog
 1.2.2 (unreleased)
 ------------------
 
+- Fix wrong query field vocabulary declaration of the show_inactive field from
+  ``AllRoles`` to ``Roles``.
+  [thet]
+
 - Add a ``custom_query`` parameter to the ``QueryBuilder._makequery`` method,
   which allows for run time customization of the stored query, e.g. by request
   parameters.
