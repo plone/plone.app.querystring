@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.2 (unreleased)
+1.2.2 (2014-08-05)
 ------------------
 
 - Fix wrong query field vocabulary declaration of the show_inactive field from
