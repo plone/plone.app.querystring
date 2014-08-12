@@ -4,6 +4,7 @@ from zope.interface import implements
 
 
 class Subject(object):
+
     """
     The Subject field in Plone currently uses a utf-8 encoded string.
     When a catalog query tries to compare a unicode string from the
@@ -38,3 +39,55 @@ class Subject(object):
             pass
         value['query'] = query
         return ('Subject', value)
+
+
+class base(object):
+
+    """
+    DateIndex query modifier
+    see Products.PluginIndexes.DateIndex.DateIndex.DateIndex._convert function
+    """
+
+    implements(IParsedQueryIndexModifier)
+
+    def __call__(self, value):
+        query = value['query']
+        if isinstance(query, unicode):
+            query = query.encode("utf-8")
+        elif isinstance(query, list):
+            query = [
+                item.encode("utf-8") if isinstance(item, unicode) else item
+                for item in query
+            ]
+        else:
+            pass
+        value['query'] = query
+        return (self.__class__.__name__, value)
+
+
+class Date(base):
+    pass
+
+
+class created(base):
+    pass
+
+
+class effective(base):
+    pass
+
+
+class end(base):
+    pass
+
+
+class expires(base):
+    pass
+
+
+class modified(base):
+    pass
+
+
+class start(base):
+    pass

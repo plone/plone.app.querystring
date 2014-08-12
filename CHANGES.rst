@@ -4,7 +4,8 @@ Changelog
 1.2.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fixed build DateIndex query.
+  [kroman0]
 
 
 1.2.2 (2014-08-05)
