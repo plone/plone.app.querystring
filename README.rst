@@ -16,4 +16,4 @@ plone.batching, which ships with Plone 4.3 but may cause problems_ with Plone
 For use with Plone 4.2.x, use versions < 1.1.0.
 
 
-.. _problems: https://dev.plone.org/ticket/12875 
+.. _problems: https://dev.plone.org/ticket/12875
