@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.3 (unreleased)
+1.2.3 (2014-10-20)
 ------------------
 
 - Fixed build DateIndex query.
