@@ -1,10 +1,16 @@
 Changelog
 =========
 
-1.2.4 (unreleased)
-------------------
+1.3 (unreleased)
+----------------
 
-- Nothing changed yet.
+- Path criteria can be defined either absolute to ``IPloneSiteRoot``, absolute
+  to ``INavigationRoot`` or relative to current context.
+  [rnixx]
+
+- Relative path parent breaks on ``IPloneSiteRoot`` rather than
+  ``INavigationRoot``.
+  [rnixx]
 
 
 1.2.3 (2014-10-20)

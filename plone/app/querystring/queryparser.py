@@ -3,6 +3,7 @@ from DateTime import DateTime
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.browser.navtree import getNavigationRoot
 from Products.CMFPlone.utils import base_hasattr
+from Products.CMFPlone.interfaces import IPloneSiteRoot
 from collections import namedtuple
 from plone.app.layout.navigation.interfaces import INavigationRoot
 from plone.registry.interfaces import IRegistry
@@ -108,6 +109,7 @@ def _currentUser(context, row):
     user = mt.getAuthenticatedMember()
     return {row.index: {'query': user.getUserName()}}
 
+
 def _showInactive(context, row):
     """ Current user roles lookup in order to determine whether user should
         be allowed to view inactive content
@@ -203,7 +205,7 @@ def _beforeToday(context, row):
     return _lessThan(context, row)
 
 
-def _path(context, row):
+def _path_operation(root, context, row):
     values = row.values
     depth = None
     if '::' in values:
@@ -215,21 +217,25 @@ def _path(context, row):
     if not '/' in values:
         # It must be a UID
         values = '/'.join(getPathByUID(context, values))
-    # take care of absolute paths without nav_root
-    nav_root = getNavigationRoot(context)
-    if not values.startswith(nav_root):
-        values = nav_root + values
-
+    # take care of absolute paths without root
+    if not values.startswith(root):
+        values = root + values
     query = {}
     if depth is not None:
         query['depth'] = depth
         # when a depth value is specified, a trailing slash matters on the
         # query
         values = values.rstrip('/')
-
     query['query'] = [values]
-
     return {row.index: query}
+
+
+def _path(context, row):
+    return _path_operation(IPloneSiteRoot(context), context, row)
+
+
+def _navigationPath(context, row):
+    return _path_operation(getNavigationRoot(context), context, row)
 
 
 def _relativePath(context, row):
@@ -242,7 +248,7 @@ def _relativePath(context, row):
         depthstr = "::%s"%_depth
     for x in [r for r in values.split('/') if r]:
         if x == "..":
-            if INavigationRoot.providedBy(obj):
+            if IPloneSiteRoot.providedBy(obj):
                 break
             parent = aq_parent(obj)
             if parent:
