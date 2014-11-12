@@ -1,11 +1,11 @@
 from Acquisition import aq_parent
 from DateTime import DateTime
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.browser.navtree import getNavigationRoot
 from Products.CMFPlone.utils import base_hasattr
 from Products.CMFPlone.interfaces import IPloneSiteRoot
 from collections import namedtuple
 from plone.app.layout.navigation.interfaces import INavigationRoot
+from plone.app.layout.navigation.root import getNavigationRoot
 from plone.registry.interfaces import IRegistry
 from zope.component import getUtility
 from zope.dottedname.resolve import resolve
@@ -205,7 +205,7 @@ def _beforeToday(context, row):
     return _lessThan(context, row)
 
 
-def _path_operation(root, context, row):
+def _pathByRoot(root, context, row):
     values = row.values
     depth = None
     if '::' in values:
@@ -231,11 +231,14 @@ def _path_operation(root, context, row):
 
 
 def _path(context, row):
-    return _path_operation(IPloneSiteRoot(context), context, row)
+    portal_url = getToolByName(context, 'portal_url')
+    portal = portal_url.getPortalObject()
+    root = '/'.join(portal.getPhysicalPath())
+    return _pathByRoot(root, context, row)
 
 
 def _navigationPath(context, row):
-    return _path_operation(getNavigationRoot(context), context, row)
+    return _pathByRoot(getNavigationRoot(context), context, row)
 
 
 def _relativePath(context, row):

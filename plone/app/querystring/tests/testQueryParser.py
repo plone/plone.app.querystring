@@ -1,4 +1,5 @@
 from DateTime import DateTime
+from Products.CMFPlone.interfaces import IPloneSiteRoot
 from plone.app.layout.navigation.interfaces import INavigationRoot
 from plone.app.querystring import queryparser
 from plone.registry import field
@@ -73,7 +74,7 @@ class MockSiteProperties(object):
 
 
 class MockSite(object):
-    implements(INavigationRoot)
+    implements(INavigationRoot, IPloneSiteRoot)
 
     def __init__(self, portal_membership=None):
         self.reference_catalog = MockCatalog()
@@ -84,6 +85,10 @@ class MockSite(object):
 
     def getPhysicalPath(self):
         return ["", MOCK_SITE_ID]
+
+
+class MockNavRoot(MockObject):
+    implements(INavigationRoot)
 
 
 class MockUser(object):
@@ -353,7 +358,7 @@ class TestQueryGenerators(TestQueryParserBase):
         self.assertEqual(parsed, expected)
 
     def test__path(self):
-        # normal path
+        # absoute path from plone site root
         data = Row(
             index='path',
             operator='_path',
@@ -371,6 +376,29 @@ class TestQueryGenerators(TestQueryParserBase):
         )
         parsed = queryparser._path(MockSite(), data)
         expected = {'path': {'query': ['/%s/foo' % MOCK_SITE_ID]}}
+        self.assertEqual(parsed, expected)
+
+    def test__navigationPath(self):
+        # absoute path from plone site root
+        # Search base
+        context = MockObject(uid='00000000000000001',
+                             path="/%s/foo/bar" % MOCK_SITE_ID)
+        # Nav root
+        context.__parent__ = MockNavRoot(uid='00000000000000002',
+                                         path="/%s/foo" % MOCK_SITE_ID)
+        # Plone root
+        context.__parent__.__parent__ = MockSite()
+        # Zope root
+        context.__parent__.__parent__.__parent__ = \
+            MockObject(uid='00000000000000004', path="/")
+
+        data = Row(
+            index='path',
+            operator='_navigationPath',
+            values='/bar/'
+        )
+        parsed = queryparser._navigationPath(context, data)
+        expected = {'path': {'query': ['/%s/foo/bar/' % MOCK_SITE_ID]}}
         self.assertEqual(parsed, expected)
 
     def test__relativePath(self):
