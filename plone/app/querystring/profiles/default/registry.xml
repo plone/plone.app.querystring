@@ -210,8 +210,8 @@
        <value key="enabled">True</value>
        <value key="sortable">False</value>
        <value key="operations">
+            <element>plone.app.querystring.operation.string.absolutePath</element>
             <element>plone.app.querystring.operation.string.path</element>
-            <element>plone.app.querystring.operation.string.navigationPath</element>
             <element>plone.app.querystring.operation.string.relativePath</element>
        </value>
        <value key="group" i18n:translate="">Metadata</value>
