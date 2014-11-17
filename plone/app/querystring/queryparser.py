@@ -230,7 +230,7 @@ def _pathByRoot(root, context, row):
     return {row.index: query}
 
 
-def _path(context, row):
+def _absolutePath(context, row):
     portal_url = getToolByName(context, 'portal_url')
     portal = portal_url.getPortalObject()
     root = '/'.join(portal.getPhysicalPath())
@@ -266,7 +266,7 @@ def _relativePath(context, row):
               operator=row.operator,
               values='/'.join(obj.getPhysicalPath()) + depthstr)
 
-    return _path(context, row)
+    return _absolutePath(context, row)
 
 
 # Helper functions

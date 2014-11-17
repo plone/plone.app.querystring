@@ -128,7 +128,7 @@ class TestQueryParserBase(unittest.TestCase):
             'plone.app.querystring.queryparser._equal')
         self.setFunctionForOperation(
             'plone.app.querystring.operation.string.path.operation',
-            'plone.app.querystring.queryparser._path')
+            'plone.app.querystring.queryparser._absolutePath')
 
     def setFunctionForOperation(self, operation, function):
         function_field = field.ASCIILine(title=u"Operator")
@@ -364,7 +364,7 @@ class TestQueryGenerators(TestQueryParserBase):
             operator='_path',
             values='/news/'
         )
-        parsed = queryparser._path(MockSite(), data)
+        parsed = queryparser._absolutePath(MockSite(), data)
         expected = {'path': {'query': ['/%s/news/' % MOCK_SITE_ID]}}
         self.assertEqual(parsed, expected)
 
@@ -374,7 +374,7 @@ class TestQueryGenerators(TestQueryParserBase):
             operator='_path',
             values='00000000000000001'
         )
-        parsed = queryparser._path(MockSite(), data)
+        parsed = queryparser._absolutePath(MockSite(), data)
         expected = {'path': {'query': ['/%s/foo' % MOCK_SITE_ID]}}
         self.assertEqual(parsed, expected)
 
