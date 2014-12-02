@@ -4,22 +4,12 @@
     xmlns:browser="http://namespaces.zope.org/browser"
     i18n_domain="plone">
 
-    <include file="profiles.zcml" />
-    <include file="upgrades.zcml" />
+  <include file="profiles.zcml" />
+  <include file="upgrades.zcml" />
 
   <include package="plone.app.contentlisting" />
   <include package="plone.app.registry" />
   <include package=".indexmodifiers" />
-
-
-  <genericsetup:upgradeStep
-      source="1"
-      destination="2"
-      title="Fix Typo in Registry"
-      description="Migrate registry to fix a typo."
-      profile="plone.app.querystring:default"
-      handler=".upgrades.upgrade_1_to_2_typo_in_registry"
-      />
 
   <adapter
     for="plone.registry.interfaces.IRegistry"

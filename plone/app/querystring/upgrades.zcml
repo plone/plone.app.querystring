@@ -31,4 +31,14 @@
         />
   </genericsetup:upgradeSteps>
 
+  <genericsetup:upgradeSteps
+      source="4"
+      destination="5"
+      profile="plone.app.querystring:default">
+    <genericsetup:upgradeDepends
+        title="Add navigation path query operation and modify referring field"
+        import_profile="plone.app.querystring:upgrade_to_5"
+        />
+  </genericsetup:upgradeSteps>
+
 </configure>
