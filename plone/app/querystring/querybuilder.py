@@ -39,7 +39,41 @@ class QueryBuilder(BrowserView):
     def __call__(self, query, batch=False, b_start=0, b_size=30,
                  sort_on=None, sort_order=None, limit=0, brains=False,
                  custom_query={}):
-        """If there are results, make the query and return the results"""
+        """Create a zope catalog query and return results.
+
+        :param query: The querystring to be parsed into a zope catalog query.
+        :type query: dictionary
+
+        :param batch: Return a plone.batching ``Batch`` instead of a zope
+                      catalog result.
+        :type batch: boolean
+
+        :param b_start: Start item of the batch.
+        :type b_start: integer
+
+        :param b_size: Size of the batch.
+        :type b_size: integer
+
+        :param sort_on: Name of the sort index for sorting the results.
+        :type sort_on: string
+
+        :param sort_order: The order of the result sorting. Either 'ascending'
+                           or 'descending'. 'reverse' is an alias equivalent
+                           to 'descending'.
+        :type sort_order: string
+
+        :param limit: Limit the results.
+        :type limit: integer
+
+        :param brains: Return brains or IContentListing objects.
+        :type brains: boolean
+
+        :param custom_query: A dictionary of index names and their associated
+                             query values. The custom_query updates the parsed
+                             query, thus overriding the query string.
+        :type custom_query: dictionary
+
+        """
         if self._results is None:
             self._results = self._makequery(
                 query=query,
@@ -112,8 +146,9 @@ class QueryBuilder(BrowserView):
             parsedquery['path'] = {'query': ''}
 
         if isinstance(custom_query, dict):
-            # Update the parsed query with extra query dictionary. This may
-            # override parsed query options.
+            # Update the parsed query with an extra query dictionary. This may
+            # override the parsed query. The custom_query is a dictonary of
+            # index names and their associated query values.
             parsedquery.update(custom_query)
 
         results = catalog(**parsedquery)
