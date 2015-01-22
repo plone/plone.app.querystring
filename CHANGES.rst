@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.3 (unreleased)
+1.3 (2015-01-22)
 ----------------
 
 - Path criteria can be defined either absolute to ``IPloneSiteRoot``, absolute
