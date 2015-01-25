@@ -216,7 +216,7 @@ def _pathByRoot(root, context, row):
             pass
     if not '/' in values:
         # It must be a UID
-        values = '/'.join(getPathByUID(context, values))
+        values = getPathByUID(context, values)
     # take care of absolute paths without root
     if not values.startswith(root):
         values = root + values

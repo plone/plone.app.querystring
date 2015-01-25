@@ -22,13 +22,13 @@ class MockObject(object):
 
     def __init__(self, uid, path):
         self.uid = uid
-        self.path = path.split("/")
+        self.path = path
 
     def getPath(self):
         return self.path
 
     def getPhysicalPath(self):
-        return self.path
+        return self.path.split("/")
 
     def absolute_url(self):
         return self.path
@@ -164,7 +164,6 @@ class TestQueryParser(TestQueryParserBase):
             'o': 'plone.app.querystring.operation.string.path',
             'v': '00000000000000001',
         }
-
         parsed = queryparser.parseFormquery(MockSite(), [data, ])
         self.assertEqual(
             parsed, {'path': {'query': ['/%s/foo' % MOCK_SITE_ID]}})
@@ -476,4 +475,4 @@ class TestQueryGenerators(TestQueryParserBase):
 
     def test_getPathByUID(self):
         actual = queryparser.getPathByUID(MockSite(), '00000000000000001')
-        self.assertEqual(actual, ['', 'site', 'foo'])
+        self.assertEqual(actual, '/site/foo')
