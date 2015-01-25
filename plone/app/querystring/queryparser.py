@@ -247,14 +247,13 @@ def _path(context, row):
             depth = int(_depth)
         except ValueError:
             pass
-    if not '/' in values:
+    if '/' not in values:
         # It must be a UID
-        values = '/'.join(getPathByUID(context, values))
+        values = getPathByUID(context, values)
     # take care of absolute paths without nav_root
     nav_root = getNavigationRoot(context)
     if not values.startswith(nav_root):
         values = nav_root + values
-
     query = {}
     if depth is not None:
         query['depth'] = depth
