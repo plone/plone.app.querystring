@@ -4,7 +4,8 @@ Changelog
 1.3.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix path-queries using UID.
+  [pbauer]
 
 
 1.3 (2015-01-22)
