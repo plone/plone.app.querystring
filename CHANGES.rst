@@ -4,6 +4,9 @@ Changelog
 1.3.1 (unreleased)
 ------------------
 
+- No need to install plone.app.querystring as z2 products in tests.
+  [timo]
+
 - Fix path-queries using UID.
   [pbauer]
 
