@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.3.1 (unreleased)
+1.3.1 (2015-03-12)
 ------------------
 
 - No need to install plone.app.querystring as z2 products in tests.
