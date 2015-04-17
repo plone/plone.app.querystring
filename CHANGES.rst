@@ -4,7 +4,9 @@ Changelog
 1.3.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Add operators selection.oneOf and selection.all and change Subject
+  QueryField operators to use them
+  [mrtango]
 
 
 1.3.1 (2015-03-12)
