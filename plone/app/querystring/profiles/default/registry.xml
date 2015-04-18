@@ -202,6 +202,22 @@
         <value key="widget">RelativePathWidget</value>
     </records>
 
+    <records interface="plone.app.querystring.interfaces.IQueryOperation"
+             prefix="plone.app.querystring.operation.selection.oneOf">
+        <value key="title" i18n:translate="">Contains one of</value>
+        <value key="description" i18n:translate="">Tip: you can use * to autocomplete.</value>
+        <value key="operation">plone.app.querystring.queryparser._contains</value>
+        <value key="widget">MultipleSelectionWidget</value>
+    </records>
+
+    <records interface="plone.app.querystring.interfaces.IQueryOperation"
+             prefix="plone.app.querystring.operation.selection.all">
+        <value key="title" i18n:translate="">Contains all</value>
+        <value key="description" i18n:translate="">Tip: you can use * to autocomplete.</value>
+        <value key="operation">plone.app.querystring.queryparser._all</value>
+        <value key="widget">MultipleSelectionWidget</value>
+    </records>
+
 <!-- QueryField declarations  -->
     <records interface="plone.app.querystring.interfaces.IQueryField"
              prefix="plone.app.querystring.field.path">
@@ -502,7 +518,8 @@
         <value key="enabled">True</value>
         <value key="sortable">True</value>
         <value key="operations">
-            <element>plone.app.querystring.operation.selection.is</element>
+            <element>plone.app.querystring.operation.selection.oneOf</element>
+            <element>plone.app.querystring.operation.selection.all</element>
         </value>
        <value key="vocabulary">plone.app.vocabularies.Keywords</value>
        <value key="group" i18n:translate="">Text</value>

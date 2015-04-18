@@ -65,6 +65,10 @@ def _equal(context, row):
     return {row.index: {'query': row.values, }}
 
 
+def _all(context, row):
+    return {row.index: {'query': row.values, 'operator': 'and'}}
+
+
 def _isTrue(context, row):
     return {row.index: {'query': True, }}
 

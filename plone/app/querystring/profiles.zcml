@@ -27,4 +27,12 @@
         provides="Products.GenericSetup.interfaces.EXTENSION"
         />
 
+    <genericsetup:registerProfile
+        name="upgrade_to_6"
+        title="Querystring Upgrade profile to v6"
+        description=""
+        directory="profiles/upgrades/to_6"
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
+
  </configure>
