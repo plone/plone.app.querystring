@@ -66,10 +66,11 @@ def _equal(context, row):
 
 
 def _intEqual(context, row):
+    values = None
     if type(row.values) is list:
         values = [int(v) for v in row.values]
-    else:
-        values = int(values)
+    elif type(row.values) is str:
+        values = int(row.values)
     return {row.index: {'query': values, }}
 
 
@@ -102,9 +103,12 @@ def _largerThan(context, row):
 
 
 def _intLargerThan(context, row):
+    value = None
+    if type(row.values) is str:
+        value = int(row.values)
     tmp = {row.index:
            {
-               'query': int(row.values),
+               'query': value,
                'range': 'min',
            },
            }
@@ -122,9 +126,12 @@ def _lessThan(context, row):
 
 
 def _intLessThan(context, row):
+    value = None
+    if type(row.values) is str:
+        value = int(row.values)
     tmp = {row.index:
            {
-               'query': int(row.values),
+               'query': value,
                'range': 'max',
            },
            }
