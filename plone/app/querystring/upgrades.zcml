@@ -41,4 +41,14 @@
         />
   </genericsetup:upgradeSteps>
 
+  <genericsetup:upgradeSteps
+      source="5"
+      destination="6"
+      profile="plone.app.querystring:default">
+    <genericsetup:upgradeDepends
+        title="Fix int operators"
+        import_profile="plone.app.querystring:upgrade_to_6"
+        />
+  </genericsetup:upgradeSteps>
+
 </configure>
