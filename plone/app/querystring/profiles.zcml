@@ -19,4 +19,12 @@
             provides="Products.GenericSetup.interfaces.EXTENSION"
             />
 
+    <genericsetup:registerProfile
+        name="upgrade_to_5"
+        title="Querystring Upgrade profile to v5"
+        description=""
+        directory="profiles/upgrades/to_5"
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
+
  </configure>

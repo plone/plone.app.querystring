@@ -1,0 +1,36 @@
+<registry xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+          i18n:domain="plone">
+
+    <records interface="plone.app.querystring.interfaces.IQueryOperation"
+             prefix="plone.app.querystring.operation.int.is">
+        <value key="title" i18n:translate="">Equals</value>
+        <value key="description"></value>
+        <value key="operation">plone.app.querystring.queryparser._intEqual</value>
+        <value key="widget">StringWidget</value>
+    </records>
+
+    <records interface="plone.app.querystring.interfaces.IQueryOperation"
+             prefix="plone.app.querystring.operation.int.lessThan">
+        <value key="title" i18n:translate="">Less than</value>
+        <value key="description"></value>
+        <value key="operation">plone.app.querystring.queryparser._intLessThan</value>
+        <value key="widget">StringWidget</value>
+    </records>
+
+    <records interface="plone.app.querystring.interfaces.IQueryOperation"
+             prefix="plone.app.querystring.operation.int.largerThan">
+        <value key="title" i18n:translate="">Larger than</value>
+        <value key="description"></value>
+        <value key="operation">plone.app.querystring.queryparser._intLargerThan</value>
+        <value key="widget">StringWidget</value>
+    </records>
+
+    <records interface="plone.app.querystring.interfaces.IQueryOperation"
+             prefix="plone.app.querystring.operation.intselection.is">
+        <value key="title" i18n:translate="">Is</value>
+        <value key="description" i18n:translate="">Tip: you can use * to autocomplete.</value>
+        <value key="operation">plone.app.querystring.queryparser._intEqual</value>
+        <value key="widget">MultipleSelectionWidget</value>
+    </records>
+
+</registry>
