@@ -240,14 +240,42 @@ class TestQueryGenerators(TestQueryParserBase):
                     'range': 'minmax'}}
         self.assertEqual(parsed, expected)
 
-    def test__largerThan(self):
+    def test__equal(self):
         data = Row(
             index='modified',
-            operator='_largerThan',
+            operator='_equal',
             values='2010/03/18'
         )
-        parsed = queryparser._largerThan(MockSite(), data)
-        expected = {'modified': {'query': '2010/03/18', 'range': 'min'}}
+        parsed = queryparser._equal(MockSite(), data)
+        expected = {'modified': {'query': '2010/03/18'}}
+        self.assertEqual(parsed, expected)
+
+        data = Row(
+            index='modified',
+            operator='_equal',
+            values=['2010/03/18', '2010/03/19']
+        )
+        parsed = queryparser._equal(MockSite(), data)
+        expected = {'modified': {'query': ['2010/03/18', '2010/03/19']}}
+        self.assertEqual(parsed, expected)
+
+    def test__intEqual(self):
+        data = Row(
+            index='modified',
+            operator='_intEqual',
+            values='20'
+        )
+        parsed = queryparser._intEqual(MockSite(), data)
+        expected = {'modified': {'query': 20}}
+        self.assertEqual(parsed, expected)
+
+        data = Row(
+            index='modified',
+            operator='_intEqual',
+            values=['20', '21']
+        )
+        parsed = queryparser._intEqual(MockSite(), data)
+        expected = {'modified': {'query': [20, 21]}}
         self.assertEqual(parsed, expected)
 
     def test__lessThan(self):
@@ -258,6 +286,36 @@ class TestQueryGenerators(TestQueryParserBase):
         )
         parsed = queryparser._lessThan(MockSite(), data)
         expected = {'modified': {'query': '2010/03/18', 'range': 'max'}}
+        self.assertEqual(parsed, expected)
+
+    def test__intLessThan(self):
+        data = Row(
+            index='modified',
+            operator='_intLessThan',
+            values='20'
+        )
+        parsed = queryparser._intLessThan(MockSite(), data)
+        expected = {'modified': {'query': 20, 'range': 'max'}}
+        self.assertEqual(parsed, expected)
+
+    def test__largerThan(self):
+        data = Row(
+            index='modified',
+            operator='_largerThan',
+            values='2010/03/18'
+        )
+        parsed = queryparser._largerThan(MockSite(), data)
+        expected = {'modified': {'query': '2010/03/18', 'range': 'min'}}
+        self.assertEqual(parsed, expected)
+
+    def test__intLargerThan(self):
+        data = Row(
+            index='modified',
+            operator='_intLargerThan',
+            values='20'
+        )
+        parsed = queryparser._intLargerThan(MockSite(), data)
+        expected = {'modified': {'query': 20, 'range': 'min'}}
         self.assertEqual(parsed, expected)
 
     def test__currentUser(self):

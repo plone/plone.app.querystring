@@ -4,7 +4,8 @@ Changelog
 1.2.4 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix collection not filtering integer field (closes `#32`_).
+  [rodfersou]
 
 
 1.2.3 (2014-10-20)
@@ -183,3 +184,5 @@ Changelog
 ----------------
 
 * Initial release
+
+.. _`#32`: https://github.com/plone/plone.app.querystring/issues/32
