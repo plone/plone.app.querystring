@@ -4,7 +4,7 @@ Changelog
 1.3.2 (unreleased)
 ------------------
 
-- Fix collection not filtering integer field (closes `#32`_).
+- Implement ``is``, ``lessThan`` and ``largerThan`` operators for integer fields (fixes `#32`_).
   [rodfersou]
 
 
