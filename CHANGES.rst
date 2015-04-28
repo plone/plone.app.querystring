@@ -4,10 +4,11 @@ Changelog
 1.2.5 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- 1.2.4 was a brown-bag release.
+  [timo]
 
 
-1.2.4 (unreleased)
+1.2.4 (2015-04-28)
 ------------------
 
 - Implement ``is``, ``lessThan`` and ``largerThan`` operators for integer fields (fixes `#32`_).
