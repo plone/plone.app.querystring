@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.5 (unreleased)
+1.2.5 (2015-04-28)
 ------------------
 
 - 1.2.4 was a brown-bag release.
