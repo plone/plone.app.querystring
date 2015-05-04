@@ -1,0 +1,9 @@
+<registry xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+          i18n:domain="plone">
+
+    <records interface="plone.app.querystring.interfaces.IQueryField"
+             prefix="plone.app.querystring.field.getObjPositionInParent">
+        <value key="sortable">True</value>
+    </records>
+
+</registry>

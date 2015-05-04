@@ -4,6 +4,9 @@ Changelog
 1.3.2 (unreleased)
 ------------------
 
+- Fix getObjPositionInParent be sortable by default
+  [datakurre]
+
 - Implement ``is``, ``lessThan`` and ``largerThan`` operators for integer fields (fixes `#32`_).
   [rodfersou]
 
