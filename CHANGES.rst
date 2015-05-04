@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.3.2 (unreleased)
+1.3.2 (2015-05-04)
 ------------------
 
 - Implement ``is``, ``lessThan`` and ``largerThan`` operators for integer fields (fixes `#32`_).
