@@ -335,7 +335,7 @@
         <value key="title" i18n:translate="">Order in folder</value>
         <value key="description" i18n:translate="">The order of an item in its parent folder</value>
         <value key="enabled">False</value>
-        <value key="sortable">False</value>
+        <value key="sortable">True</value>
         <value key="operations">
             <element>plone.app.querystring.operation.int.is</element>
             <element>plone.app.querystring.operation.int.lessThan</element>
