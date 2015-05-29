@@ -4,7 +4,8 @@ Changelog
 1.2.6 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix path-queries using UID (backported from master).
+  [pbauer]
 
 
 1.2.5 (2015-04-28)
