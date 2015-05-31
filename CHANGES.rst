@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.6 (unreleased)
+1.2.6 (2015-05-31)
 ------------------
 
 - Fix path-queries using UID (backported from master).
