@@ -1,10 +1,18 @@
 Changelog
 =========
 
-1.3.2 (unreleased)
+1.3.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix getObjPositionInParent be sortable by default
+  [datakurre]
+
+
+1.3.2 (2015-05-04)
+------------------
+
+- Implement ``is``, ``lessThan`` and ``largerThan`` operators for integer fields (fixes `#32`_).
+  [rodfersou]
 
 
 1.3.1 (2015-03-12)
@@ -205,3 +213,5 @@ Changelog
 ----------------
 
 * Initial release
+
+.. _`#32`: https://github.com/plone/plone.app.querystring/issues/32

@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-version = '1.3.2.dev0'
+version = '1.3.3.dev0'
 
 long_description = open("README.rst").read() + "\n"
 long_description += open("CHANGES.rst").read()
@@ -8,7 +8,8 @@ long_description += open("CHANGES.rst").read()
 setup(
     name='plone.app.querystring',
     version=version,
-    description="",
+    description=("A queryparser, querybuilder and extra helper tools, to "
+                 "parse stored queries to actual results, used in new style Plone collections"),
     long_description=long_description,
     classifiers=[
         "Framework :: Plone",

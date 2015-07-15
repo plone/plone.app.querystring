@@ -46,8 +46,29 @@
       destination="6"
       profile="plone.app.querystring:default">
     <genericsetup:upgradeDepends
-        title="Change subject operations to selection.oneOf and selection.all"
+        title="Fix int operators"
         import_profile="plone.app.querystring:upgrade_to_6"
         />
   </genericsetup:upgradeSteps>
+
+  <genericsetup:upgradeSteps
+      source="6"
+      destination="7"
+      profile="plone.app.querystring:default">
+    <genericsetup:upgradeDepends
+        title="Fix getObjPositionInParent be sortable by default"
+        import_profile="plone.app.querystring:upgrade_to_7"
+        />
+  </genericsetup:upgradeSteps>
+
+  <genericsetup:upgradeSteps
+      source="7"
+      destination="8"
+      profile="plone.app.querystring:default">
+    <genericsetup:upgradeDepends
+        title="Change subject operations to selection.any and selection.all"
+        import_profile="plone.app.querystring:upgrade_to_8"
+        />
+  </genericsetup:upgradeSteps>
+
 </configure>

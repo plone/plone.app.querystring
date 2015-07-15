@@ -4,7 +4,6 @@ from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.interfaces import IPloneSiteRoot
 from Products.CMFPlone.utils import base_hasattr
 from collections import namedtuple
-from plone.app.layout.navigation.interfaces import INavigationRoot
 from plone.app.layout.navigation.root import getNavigationRoot
 from plone.registry.interfaces import IRegistry
 from zope.component import getUtility
@@ -69,6 +68,15 @@ def _all(context, row):
     return {row.index: {'query': row.values, 'operator': 'and'}}
 
 
+def _intEqual(context, row):
+    values = None
+    if type(row.values) is list:
+        values = [int(v) for v in row.values]
+    elif type(row.values) is str:
+        values = int(row.values)
+    return {row.index: {'query': values, }}
+
+
 def _isTrue(context, row):
     return {row.index: {'query': True, }}
 
@@ -97,10 +105,36 @@ def _largerThan(context, row):
     return tmp
 
 
+def _intLargerThan(context, row):
+    value = None
+    if type(row.values) is str:
+        value = int(row.values)
+    tmp = {row.index:
+           {
+               'query': value,
+               'range': 'min',
+           },
+           }
+    return tmp
+
+
 def _lessThan(context, row):
     tmp = {row.index:
            {
                'query': row.values,
+               'range': 'max',
+           },
+           }
+    return tmp
+
+
+def _intLessThan(context, row):
+    value = None
+    if type(row.values) is str:
+        value = int(row.values)
+    tmp = {row.index:
+           {
+               'query': value,
                'range': 'max',
            },
            }
@@ -218,7 +252,7 @@ def _pathByRoot(root, context, row):
             depth = int(_depth)
         except ValueError:
             pass
-    if not '/' in values:
+    if '/' not in values:
         # It must be a UID
         values = getPathByUID(context, values)
     # take care of absolute paths without root
@@ -252,7 +286,7 @@ def _relativePath(context, row):
     depthstr = ""
     if '::' in values:
         values, _depth = values.split('::', 1)
-        depthstr = "::%s"%_depth
+        depthstr = "::%s" % _depth
     for x in [r for r in values.split('/') if r]:
         if x == "..":
             if IPloneSiteRoot.providedBy(obj):
