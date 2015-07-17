@@ -61,4 +61,14 @@
         />
   </genericsetup:upgradeSteps>
 
+  <genericsetup:upgradeSteps
+      source="7"
+      destination="8"
+      profile="plone.app.querystring:default">
+    <genericsetup:upgradeDepends
+        title="Change subject operations to selection.any and selection.all"
+        import_profile="plone.app.querystring:upgrade_to_8"
+        />
+  </genericsetup:upgradeSteps>
+
 </configure>

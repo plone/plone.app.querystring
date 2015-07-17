@@ -43,4 +43,12 @@
         provides="Products.GenericSetup.interfaces.EXTENSION"
         />
 
+    <genericsetup:registerProfile
+        name="upgrade_to_8"
+        title="Querystring Upgrade profile to v8"
+        description=""
+        directory="profiles/upgrades/to_8"
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
+
  </configure>

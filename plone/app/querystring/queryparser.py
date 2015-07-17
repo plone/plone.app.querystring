@@ -4,7 +4,6 @@ from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.interfaces import IPloneSiteRoot
 from Products.CMFPlone.utils import base_hasattr
 from collections import namedtuple
-from plone.app.layout.navigation.interfaces import INavigationRoot
 from plone.app.layout.navigation.root import getNavigationRoot
 from plone.registry.interfaces import IRegistry
 from zope.component import getUtility
@@ -63,6 +62,10 @@ def _contains(context, row):
 
 def _equal(context, row):
     return {row.index: {'query': row.values, }}
+
+
+def _all(context, row):
+    return {row.index: {'query': row.values, 'operator': 'and'}}
 
 
 def _intEqual(context, row):
@@ -249,7 +252,7 @@ def _pathByRoot(root, context, row):
             depth = int(_depth)
         except ValueError:
             pass
-    if not '/' in values:
+    if '/' not in values:
         # It must be a UID
         values = getPathByUID(context, values)
     # take care of absolute paths without root
@@ -283,7 +286,7 @@ def _relativePath(context, row):
     depthstr = ""
     if '::' in values:
         values, _depth = values.split('::', 1)
-        depthstr = "::%s"%_depth
+        depthstr = "::%s" % _depth
     for x in [r for r in values.split('/') if r]:
         if x == "..":
             if IPloneSiteRoot.providedBy(obj):
