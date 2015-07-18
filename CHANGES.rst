@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.3.3 (unreleased)
+1.3.3 (2015-07-18)
 ------------------
 
 - Fix getObjPositionInParent be sortable by default
