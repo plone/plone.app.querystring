@@ -7,6 +7,9 @@ Changelog
 - Fix getObjPositionInParent be sortable by default
   [datakurre]
 
+- Add operators selection.any and selection.all to Subject.
+  [MrTango]
+
 
 1.3.2 (2015-05-04)
 ------------------
