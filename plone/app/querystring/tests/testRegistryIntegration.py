@@ -1,9 +1,14 @@
-from .base import QuerystringTestCase, TestProfileLayer, ptc
+from plone.app.querystring.testing import PLONEAPPQUERYSTRING_INTEGRATION_TESTING
+
+import unittest2 as unittest
 
 
-class TestOperationDefinitions(ptc.PloneTestCase):
+class TestOperationDefinitions(unittest.TestCase):
 
-    layer = TestProfileLayer
+    layer = PLONEAPPQUERYSTRING_INTEGRATION_TESTING
+
+    def setUp(self):
+        self.portal = self.layer['portal']
 
     def test_string_equality(self):
         registry = self.portal.portal_registry
@@ -15,7 +20,7 @@ class TestOperationDefinitions(ptc.PloneTestCase):
         self.assertEqual(registry[prefix + ".description"],
                          'Tip: you can use * to autocomplete.')
         self.assertEqual(registry[prefix + ".operation"],
-                         'plone.app.querystring.queryparser:_equal')
+                         u'plone.app.querystring.queryparser._equal')
 
     def test_date_lessthan(self):
         registry = self.portal.portal_registry
@@ -27,12 +32,15 @@ class TestOperationDefinitions(ptc.PloneTestCase):
         self.assertEqual(registry[prefix + ".description"],
                          'Please use YYYY/MM/DD.')
         self.assertEqual(registry[prefix + ".operation"],
-                         'plone.app.querystring.queryparser:_lessThan')
+                         u'plone.app.querystring.queryparser._lessThan')
 
 
-class TestFieldDefinitions(QuerystringTestCase):
+class TestFieldDefinitions(unittest.TestCase):
 
-    layer = TestProfileLayer
+    layer = PLONEAPPQUERYSTRING_INTEGRATION_TESTING
+
+    def setUp(self):
+        self.portal = self.layer['portal']
 
     def test_getId(self):
         registry = self.portal.portal_registry
@@ -52,3 +60,17 @@ class TestFieldDefinitions(QuerystringTestCase):
         self.assertEqual(registry[prefix + ".enabled"], True)
         self.assertEqual(registry[prefix + ".sortable"], True)
         self.assertEqual(registry[prefix + ".group"], "Metadata")
+
+    def test_getobjpositioninparent_largerthan(self):
+        """Bug reported as Issue #22
+
+        Names not matching for operations getObjPositionInParent
+        see also https://github.com/plone/plone.app.querystring/issues/22
+        """
+        key = 'plone.app.querystring.field.getObjPositionInParent.operations'
+        operation = 'plone.app.querystring.operation.int.largerThan'
+        registry = self.portal.portal_registry
+
+        # check if operation is used for getObjPositionInParent
+        operations = registry.get(key)
+        self.assertTrue(operation in operations)

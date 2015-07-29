@@ -1,12 +1,115 @@
 Changelog
 =========
 
-1.0.9 (unreleased)
+1.2.7 (unreleased)
 ------------------
 
 - Possibly check the parent for inherited query values.
   [maurits]
 
+
+1.2.6 (2015-05-31)
+------------------
+
+- Fix path-queries using UID (backported from master).
+  [pbauer]
+
+
+1.2.5 (2015-04-28)
+------------------
+
+- 1.2.4 was a brown-bag release.
+  [timo]
+
+
+1.2.4 (2015-04-28)
+------------------
+
+- Implement ``is``, ``lessThan`` and ``largerThan`` operators for integer fields (fixes `#32`_).
+  [rodfersou]
+
+
+1.2.3 (2014-10-20)
+------------------
+
+- Fixed build DateIndex query.
+  [kroman0]
+
+
+1.2.2 (2014-08-05)
+------------------
+
+- Fix wrong query field vocabulary declaration of the show_inactive field from
+  ``AllRoles`` to ``Roles``.
+  [thet]
+
+- Add a ``custom_query`` parameter to the ``QueryBuilder._makequery`` method,
+  which allows for run time customization of the stored query, e.g. by request
+  parameters.
+  [thet]
+
+- Added support for depth in relativePath operator.
+  [djay]
+
+
+1.2.1 (2014-05-14)
+------------------
+
+- Fixed upgrade_1_to_2 upgrade step in case the registry doesn't contain the
+  named value
+  [ichim-david]
+
+- Added show inactive operation which uses the roles vocabulary in order
+  to assign permission to show or hide the inactive objects of the given query
+  [ichim-david]
+
+- Migrate tests to plone.app.testing.
+  [sdelcourt]
+
+- Fix querybuilder code if results object does not provide an
+  actual_results_count attribute. This regression has been introduced in
+  release 1.1.1 (fixed broken handling of limit and batch size).
+  [timo]
+
+
+1.2.0 (2014-04-05)
+------------------
+
+- bugfix for #22: Names not matching for operations getObjPositionInParent
+  plus test
+  [jensens]
+
+- Implement multipath queries:
+  - Parsing a path returns always a list.
+  - Special handling for paths in parseFormquery.
+  [maethu]
+
+- Fixes https://dev.plone.org/ticket/13251
+  [mathias.leimgruber]
+
+- querybuilder results can now be manipulated using
+  ``IParsedQueryIndexModifier`` named utilities.
+  [keul]
+
+
+1.1.1 (2014-01-27)
+------------------
+
+- fixed broken handling of limit and batch size.
+  [bosim]
+
+- pep8 fixes
+  [bosim]
+
+
+1.1.0 (2013-11-14)
+------------------
+
+- be able to include a depth value onto path query string
+  [vangheem]
+
+- Use plone.batching.
+  [khink]
 
 1.0.8 (2013-03-14)
 ------------------
@@ -102,3 +205,5 @@ Changelog
 ----------------
 
 * Initial release
+
+.. _`#32`: https://github.com/plone/plone.app.querystring/issues/32

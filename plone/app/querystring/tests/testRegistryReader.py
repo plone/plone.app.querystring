@@ -1,5 +1,3 @@
-import unittest
-
 from plone.registry.interfaces import IRegistry
 from plone.registry import Registry
 from zope.component import getGlobalSiteManager
@@ -9,8 +7,10 @@ from zope.schema.vocabulary import SimpleVocabulary
 
 from plone.app.querystring.interfaces import IQuerystringRegistryReader
 from plone.app.querystring.registryreader import DottedDict
+from plone.app.querystring.testing import PLONEAPPQUERYSTRING_INTEGRATION_TESTING
 from plone.app.querystring.tests import registry_testdata as td
-from plone.app.querystring.tests.base import InstalledLayer
+
+import unittest2 as unittest
 
 
 class TestVocabulary(object):
@@ -22,7 +22,7 @@ class TestVocabulary(object):
 
 
 class TestRegistryReader(unittest.TestCase):
-    layer = InstalledLayer
+    layer = PLONEAPPQUERYSTRING_INTEGRATION_TESTING
 
     def setUp(self):
         gsm = getGlobalSiteManager()
@@ -98,10 +98,14 @@ class TestRegistryReader(unittest.TestCase):
         result = reader.mapOperations(result)
         operators = result.get(
             'plone.app.querystring.field.created.operators').keys()
-        self.assertTrue('plone.app.querystring.operation.date.lessThan'
-            in operators)
-        self.assertFalse('plone.app.querystring.operation.date.largerThan'
-            in operators)
+        self.assertTrue(
+            'plone.app.querystring.operation.date.lessThan'
+            in operators
+        )
+        self.assertFalse(
+            'plone.app.querystring.operation.date.largerThan'
+            in operators
+        )
 
     def test_sortable_indexes(self):
         """tests if sortable indexes from the registry will be available in

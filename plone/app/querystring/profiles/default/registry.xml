@@ -22,7 +22,7 @@
              prefix="plone.app.querystring.operation.int.is">
         <value key="title" i18n:translate="">Equals</value>
         <value key="description"></value>
-        <value key="operation">plone.app.querystring.queryparser._equal</value>
+        <value key="operation">plone.app.querystring.queryparser._intEqual</value>
         <value key="widget">StringWidget</value>
     </records>
 
@@ -30,7 +30,7 @@
              prefix="plone.app.querystring.operation.int.lessThan">
         <value key="title" i18n:translate="">Less than</value>
         <value key="description"></value>
-        <value key="operation">plone.app.querystring.queryparser._lessThan</value>
+        <value key="operation">plone.app.querystring.queryparser._intLessThan</value>
         <value key="widget">StringWidget</value>
     </records>
 
@@ -38,7 +38,7 @@
              prefix="plone.app.querystring.operation.int.largerThan">
         <value key="title" i18n:translate="">Larger than</value>
         <value key="description"></value>
-        <value key="operation">plone.app.querystring.queryparser._largerThan</value>
+        <value key="operation">plone.app.querystring.queryparser._intLargerThan</value>
         <value key="widget">StringWidget</value>
     </records>
 
@@ -155,6 +155,14 @@
     </records>
 
     <records interface="plone.app.querystring.interfaces.IQueryOperation"
+             prefix="plone.app.querystring.operation.string.showInactive">
+        <value key="title" i18n:translate="">Show Inactive</value>
+        <value key="description" i18n:translate="">The user roles which are allowed to see inactive content</value>
+        <value key="operation">plone.app.querystring.queryparser._showInactive</value>
+        <value key="widget">MultipleSelectionWidget</value>
+    </records>
+
+    <records interface="plone.app.querystring.interfaces.IQueryOperation"
              prefix="plone.app.querystring.operation.string.is">
         <value key="title" i18n:translate="">Is</value>
         <value key="description" i18n:translate="">Tip: you can use * to autocomplete.</value>
@@ -167,6 +175,14 @@
         <value key="title" i18n:translate="">Is</value>
         <value key="description" i18n:translate="">Tip: you can use * to autocomplete.</value>
         <value key="operation">plone.app.querystring.queryparser._equal</value>
+        <value key="widget">MultipleSelectionWidget</value>
+    </records>
+
+    <records interface="plone.app.querystring.interfaces.IQueryOperation"
+             prefix="plone.app.querystring.operation.intselection.is">
+        <value key="title" i18n:translate="">Is</value>
+        <value key="description" i18n:translate="">Tip: you can use * to autocomplete.</value>
+        <value key="operation">plone.app.querystring.queryparser._intEqual</value>
         <value key="widget">MultipleSelectionWidget</value>
     </records>
 
@@ -406,6 +422,19 @@
         </value>
         <value key="vocabulary">plone.app.vocabularies.ReallyUserFriendlyTypes</value>
        <value key="group" i18n:translate="">Metadata</value>
+    </records>
+
+    <records interface="plone.app.querystring.interfaces.IQueryField"
+             prefix="plone.app.querystring.field.show_inactive">
+        <value key="title" i18n:translate="">Show Inactive</value>
+        <value key="description" i18n:translate="">Select which roles have the permission to view inactive objects</value>
+        <value key="enabled">True</value>
+        <value key="sortable">False</value>
+        <value key="operations">
+            <element>plone.app.querystring.operation.string.showInactive</element>
+        </value>
+        <value key="vocabulary">plone.app.vocabularies.Roles</value>
+        <value key="group" i18n:translate="">Metadata</value>
     </records>
 
     <records interface="plone.app.querystring.interfaces.IQueryField"

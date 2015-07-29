@@ -1,17 +1,13 @@
-from collections import namedtuple
-import logging
-
 from Acquisition import aq_parent
 from DateTime import DateTime
-from plone.app.layout.navigation.interfaces import INavigationRoot
-from plone.registry.interfaces import IRegistry
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.browser.navtree import getNavigationRoot
 from Products.CMFPlone.utils import base_hasattr
+from collections import namedtuple
+from plone.app.layout.navigation.interfaces import INavigationRoot
+from plone.registry.interfaces import IRegistry
 from zope.component import getUtility
 from zope.dottedname.resolve import resolve
-
-logger = logging.getLogger('plone.app.querystring')
 
 Row = namedtuple('Row', ['index', 'operator', 'values'])
 
@@ -87,22 +83,16 @@ def parseFormquery(context, formquery, sort_on=None, sort_order=None,
         kwargs = {}
         parser = resolve(row.operator)
         kwargs = parser(context, row)
-        query.update(kwargs)
+
+        # Special path handling - since multipath queries are possible
+        if 'path' in query and 'path' in kwargs:
+            query['path']['query'].extend(kwargs['path']['query'])
+        else:
+            query.update(kwargs)
 
     if not query:
         # If the query is empty fall back onto the equality query
         query = _equal(context, row)
-
-    # Check for valid indexes
-    catalog = getToolByName(context, 'portal_catalog')
-    valid_indexes = [index for index in query if index in catalog.indexes()]
-
-    # We'll ignore any invalid index, but will return an empty set if none of
-    # the indexes are valid.
-    if not valid_indexes:
-        logger.warning(
-            "Using empty query because there are no valid indexes used.")
-        return {}
 
     # Add sorting (sort_on and sort_order) to the query
     if sort_on:
@@ -122,6 +112,15 @@ def _equal(context, row):
     return {row.index: {'query': row.values, }}
 
 
+def _intEqual(context, row):
+    values = None
+    if type(row.values) is list:
+        values = [int(v) for v in row.values]
+    elif type(row.values) is str:
+        values = int(row.values)
+    return {row.index: {'query': values, }}
+
+
 def _isTrue(context, row):
     return {row.index: {'query': True, }}
 
@@ -131,29 +130,58 @@ def _isFalse(context, row):
 
 
 def _between(context, row):
-    tmp = {row.index: {
-              'query': sorted(row.values),
-              'range': 'minmax',
-              },
-          }
+    tmp = {row.index:
+           {
+               'query': sorted(row.values),
+               'range': 'minmax',
+           },
+           }
     return tmp
 
 
 def _largerThan(context, row):
-    tmp = {row.index: {
-              'query': row.values,
-              'range': 'min',
-              },
-          }
+    tmp = {row.index:
+           {
+               'query': row.values,
+               'range': 'min',
+           },
+           }
+    return tmp
+
+
+def _intLargerThan(context, row):
+    value = None
+    if type(row.values) is str:
+        value = int(row.values)
+    tmp = {row.index:
+           {
+               'query': value,
+               'range': 'min',
+           },
+           }
     return tmp
 
 
 def _lessThan(context, row):
-    tmp = {row.index: {
-              'query': row.values,
-              'range': 'max',
-              },
-          }
+    tmp = {row.index:
+           {
+               'query': row.values,
+               'range': 'max',
+           },
+           }
+    return tmp
+
+
+def _intLessThan(context, row):
+    value = None
+    if type(row.values) is str:
+        value = int(row.values)
+    tmp = {row.index:
+           {
+               'query': value,
+               'range': 'max',
+           },
+           }
     return tmp
 
 
@@ -161,10 +189,23 @@ def _currentUser(context, row):
     """Current user lookup"""
     mt = getToolByName(context, 'portal_membership')
     user = mt.getAuthenticatedMember()
-    return {row.index: {
-              'query': user.getUserName(),
-              },
-          }
+    return {row.index: {'query': user.getUserName()}}
+
+def _showInactive(context, row):
+    """ Current user roles lookup in order to determine whether user should
+        be allowed to view inactive content
+    """
+    mt = getToolByName(context, 'portal_membership')
+    user = mt.getAuthenticatedMember()
+    value = False
+    user_roles = user.getRoles()
+    row_values = row.values
+    if row_values:
+        for role in user_roles:
+            if role in row_values:
+                value = True
+                break
+    return {row.index: value}
 
 
 def _lessThanRelativeDate(context, row):
@@ -247,21 +288,41 @@ def _beforeToday(context, row):
 
 def _path(context, row):
     values = row.values
-    if not '/' in values:
+    depth = None
+    if '::' in values:
+        values, _depth = values.split('::', 1)
+        try:
+            depth = int(_depth)
+        except ValueError:
+            pass
+    if '/' not in values:
         # It must be a UID
-        values = '/'.join(getPathByUID(context, values))
+        values = getPathByUID(context, values)
     # take care of absolute paths without nav_root
     nav_root = getNavigationRoot(context)
     if not values.startswith(nav_root):
         values = nav_root + values
-    tmp = {row.index: {'query': values, }}
-    return tmp
+    query = {}
+    if depth is not None:
+        query['depth'] = depth
+        # when a depth value is specified, a trailing slash matters on the
+        # query
+        values = values.rstrip('/')
+
+    query['query'] = [values]
+
+    return {row.index: query}
 
 
 def _relativePath(context, row):
     # Walk through the tree
     obj = context
-    for x in [r for r in row.values.split('/') if r]:
+    values = row.values
+    depthstr = ""
+    if '::' in values:
+        values, _depth = values.split('::', 1)
+        depthstr = "::%s"%_depth
+    for x in [r for r in values.split('/') if r]:
         if x == "..":
             if INavigationRoot.providedBy(obj):
                 break
@@ -276,7 +337,7 @@ def _relativePath(context, row):
 
     row = Row(index=row.index,
               operator=row.operator,
-              values='/'.join(obj.getPhysicalPath()))
+              values='/'.join(obj.getPhysicalPath()) + depthstr)
 
     return _path(context, row)
 
