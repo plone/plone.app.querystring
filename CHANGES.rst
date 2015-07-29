@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Note: this maurits-recursive branch of plone.app.querystring is for an
+old PLIP for folderish new-style Collections.  It only makes sense
+with plone.app.collection branch maurits-upgradepath and
+archetypes.querywidget branch maurits-recursive.
+
+Do *not* expect official releases of these.
+
+
 1.2.7 (unreleased)
 ------------------
 
