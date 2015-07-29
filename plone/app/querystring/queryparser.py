@@ -143,6 +143,7 @@ def _currentUser(context, row):
     user = mt.getAuthenticatedMember()
     return {row.index: {'query': user.getUserName()}}
 
+
 def _showInactive(context, row):
     """ Current user roles lookup in order to determine whether user should
         be allowed to view inactive content
@@ -273,7 +274,7 @@ def _relativePath(context, row):
     depthstr = ""
     if '::' in values:
         values, _depth = values.split('::', 1)
-        depthstr = "::%s"%_depth
+        depthstr = "::%s" % _depth
     for x in [r for r in values.split('/') if r]:
         if x == "..":
             if INavigationRoot.providedBy(obj):
