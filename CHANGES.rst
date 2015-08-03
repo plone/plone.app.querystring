@@ -15,6 +15,11 @@ Do *not* expect official releases of these.
 - Possibly check the parent for inherited query values.
   [maurits]
 
+- Fixed possible problem with ``custom_query`` parameter where
+  theoretically a second invocation could inadvertently be using the
+  value from the first invocation.
+  [maurits]
+
 
 1.2.6 (2015-05-31)
 ------------------
