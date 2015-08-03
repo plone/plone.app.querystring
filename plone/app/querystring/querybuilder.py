@@ -38,7 +38,7 @@ class QueryBuilder(BrowserView):
 
     def __call__(self, query, batch=False, b_start=0, b_size=30,
                  sort_on=None, sort_order=None, limit=0, brains=False,
-                 custom_query={}):
+                 custom_query=None):
         """Create a zope catalog query and return results.
 
         :param query: The querystring to be parsed into a zope catalog query.
@@ -71,7 +71,8 @@ class QueryBuilder(BrowserView):
         :param custom_query: A dictionary of index names and their associated
                              query values. The custom_query updates the parsed
                              query, thus overriding the query string.
-        :type custom_query: dictionary
+                             May be None.
+        :type custom_query: dictionary or None
 
         """
         if self._results is None:
@@ -102,7 +103,7 @@ class QueryBuilder(BrowserView):
 
     def _makequery(self, query=None, batch=False, b_start=0, b_size=30,
                    sort_on=None, sort_order=None, limit=0, brains=False,
-                   custom_query={}):
+                   custom_query=None):
         """Parse the (form)query and return using multi-adapter"""
         parsedquery = queryparser.parseFormquery(
             self.context, query, sort_on, sort_order)
