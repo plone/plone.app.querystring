@@ -38,7 +38,7 @@ class QueryBuilder(BrowserView):
 
     def __call__(self, query, batch=False, b_start=0, b_size=30,
                  sort_on=None, sort_order=None, limit=0, brains=False,
-                 custom_query={}):
+                 custom_query=None):
         """If there are results, make the query and return the results"""
         if self._results is None:
             self._results = self._makequery(
@@ -68,7 +68,7 @@ class QueryBuilder(BrowserView):
 
     def _makequery(self, query=None, batch=False, b_start=0, b_size=30,
                    sort_on=None, sort_order=None, limit=0, brains=False,
-                   custom_query={}):
+                   custom_query=None):
         """Parse the (form)query and return using multi-adapter"""
         parsedquery = queryparser.parseFormquery(
             self.context, query, sort_on, sort_order)
