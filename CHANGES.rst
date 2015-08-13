@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.7 (unreleased)
+1.2.7 (2015-08-13)
 ------------------
 
 - Fixed possible problem with ``custom_query`` parameter where
