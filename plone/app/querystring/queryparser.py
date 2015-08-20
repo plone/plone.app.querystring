@@ -86,9 +86,14 @@ def _isFalse(context, row):
 
 
 def _between(context, row):
+    if not row.values:
+        val = ['', '']
+    else:
+        val = row.values
+
     tmp = {row.index:
            {
-               'query': sorted(row.values),
+               'query': sorted(val),
                'range': 'minmax',
            },
            }

@@ -244,6 +244,17 @@ class TestQueryGenerators(TestQueryParserBase):
                     'range': 'minmax'}}
         self.assertEqual(parsed, expected)
 
+    def test__between_empty_input(self):
+        data = Row(
+            index='modified',
+            operator='_between',
+            values=''
+        )
+        parsed = queryparser._between(MockSite(), data)
+        expected = {'modified': {'query': ['', ''],
+                    'range': 'minmax'}}
+        self.assertEqual(parsed, expected)
+
     def test__equal(self):
         data = Row(
             index='modified',

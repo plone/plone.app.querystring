@@ -4,6 +4,16 @@ Changelog
 1.3.4 (unreleased)
 ------------------
 
+- Use selection.all for portal_types, review_state and Creator operations.
+  [frapell]
+
+- Actually convert the value to a datetime for the DateIndex query modifier.
+  [frapell]
+
+- Do not fail if the 'Between' operation is called with an empty value, and
+  instead return a list with 2 empty values.
+  [frapell]
+
 - Fixed possible problem with ``custom_query`` parameter where
   theoretically a second invocation could inadvertently be using the
   value from the first invocation.
