@@ -3,6 +3,12 @@
         xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
         i18n_domain="plone">
 
+    <utility
+        factory=".hiddenprofiles.HiddenProfiles"
+        name="plone.app.querystring"
+        provides="Products.CMFPlone.interfaces.INonInstallable"
+        />
+
     <genericsetup:registerProfile
         name="default"
         title="Querystring parser/builder"

@@ -4,6 +4,9 @@ Changelog
 1.3.4 (unreleased)
 ------------------
 
+- Hide upgrade-profiles when creating a new site.
+  [pbauer]
+
 - Use selection.all for portal_types, review_state and Creator operations.
   [frapell]
 
