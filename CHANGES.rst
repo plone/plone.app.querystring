@@ -7,7 +7,8 @@ Changelog
 - Hide upgrade-profiles when creating a new site.
   [pbauer]
 
-- Use selection.all for portal_types, review_state and Creator operations.
+- Replace selection.is with selection.all for portal_types and review_state
+  operations, and add selection.all for Creator operation.
   [frapell]
 
 - Actually convert the value to a datetime for the DateIndex query modifier.

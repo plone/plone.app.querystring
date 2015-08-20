@@ -76,9 +76,15 @@
       destination="9"
       profile="plone.app.querystring:default">
     <genericsetup:upgradeDepends
-        title="Change portal_types, review_state and Creator operations to use selection.all"
+        title="Use selection.all operation"
+        description="Replace selection.is with selection.all for portal_types and review_state operations, and add selection.all for Creator operations."
         import_profile="plone.app.querystring:upgrade_to_9"
         />
+    <upgradeStep
+        title="Fix existing collections"
+        handler=".upgrades.fix_select_all_existing_collections"
+        />
+
   </genericsetup:upgradeSteps>
 
 </configure>
