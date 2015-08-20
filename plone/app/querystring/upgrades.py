@@ -33,12 +33,15 @@ def fix_select_all_existing_collections(context):
     )
 
     for elem in results:
+        changed = False
         obj = elem.getObject()
         aux = list()
         for op in obj.query:
             if op['i'] in ops_to_fix and op['o'] == old_val:
                 op['o'] = new_val
+                changed = True
             aux.append(op)
 
-        obj.query = aux
-        obj.reindexObject()
+        if changed:
+            obj.query = aux
+            obj.reindexObject()
