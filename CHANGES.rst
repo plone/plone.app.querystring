@@ -4,6 +4,10 @@ Changelog
 1.3.4 (unreleased)
 ------------------
 
+- Do not fail if the 'Between' operation is called with an empty value, and
+  instead return a list with 2 empty values.
+  [frapell]
+
 - Fixed possible problem with ``custom_query`` parameter where
   theoretically a second invocation could inadvertently be using the
   value from the first invocation.
