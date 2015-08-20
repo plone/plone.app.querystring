@@ -280,6 +280,7 @@
         <value key="sortable">True</value>
         <value key="operations">
             <element>plone.app.querystring.operation.string.is</element>
+            <element>plone.app.querystring.operation.selection.any</element>
             <element>plone.app.querystring.operation.string.currentUser</element>
         </value>
        <value key="group" i18n:translate="">Metadata</value>
@@ -443,7 +444,7 @@
         <value key="enabled">True</value>
         <value key="sortable">False</value>
         <value key="operations">
-            <element>plone.app.querystring.operation.selection.is</element>
+            <element>plone.app.querystring.operation.selection.any</element>
         </value>
         <value key="vocabulary">plone.app.vocabularies.ReallyUserFriendlyTypes</value>
        <value key="group" i18n:translate="">Metadata</value>
@@ -469,7 +470,7 @@
         <value key="enabled">True</value>
         <value key="sortable">True</value>
         <value key="operations">
-            <element>plone.app.querystring.operation.selection.is</element>
+            <element>plone.app.querystring.operation.selection.any</element>
         </value>
         <value key="vocabulary">plone.app.vocabularies.WorkflowStates</value>
        <value key="group" i18n:translate="">Metadata</value>
