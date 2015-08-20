@@ -20,28 +20,29 @@ def upgrade_1_to_2_typo_in_registry(context):
 
 def fix_select_all_existing_collections(context):
 
-    ops_to_fix = [
+    indexes_to_fix = [
         u'portal_type',
         u'review_state'
     ]
-    old_val = u"plone.app.querystring.operation.selection.is"
-    new_val = u"plone.app.querystring.operation.selection.any"
+    old_operator = u"plone.app.querystring.operation.selection.is"
+    new_operator = u"plone.app.querystring.operation.selection.any"
 
     catalog = context.portal_catalog
-    results = catalog.unrestrictedSearchResults(
+    brains = catalog.unrestrictedSearchResults(
         portal_type="Collection"
     )
 
-    for elem in results:
+    for brain in brains:
         changed = False
-        obj = elem.getObject()
-        aux = list()
-        for op in obj.query:
-            if op['i'] in ops_to_fix and op['o'] == old_val:
-                op['o'] = new_val
+        obj = brain.getObject()
+        fixed_querystring = list()
+        for querystring in obj.query:
+            if querystring['i'] in indexes_to_fix \
+                    and querystring['o'] == old_operator:
+                querystring['o'] = new_operator
                 changed = True
-            aux.append(op)
+            fixed_querystring.append(querystring)
 
         if changed:
-            obj.query = aux
+            obj.query = fixed_querystring
             obj.reindexObject()
