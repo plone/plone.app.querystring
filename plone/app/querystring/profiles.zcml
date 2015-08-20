@@ -57,12 +57,4 @@
         provides="Products.GenericSetup.interfaces.EXTENSION"
         />
 
-    <genericsetup:registerProfile
-        name="upgrade_to_9"
-        title="Querystring Upgrade profile to v9"
-        description=""
-        directory="profiles/upgrades/to_9"
-        provides="Products.GenericSetup.interfaces.EXTENSION"
-        />
-
  </configure>

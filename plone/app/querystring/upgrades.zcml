@@ -71,14 +71,4 @@
         />
   </genericsetup:upgradeSteps>
 
-  <genericsetup:upgradeSteps
-      source="8"
-      destination="9"
-      profile="plone.app.querystring:default">
-    <genericsetup:upgradeDepends
-        title="Change portal_types, review_state and Creator operations to use selection.all"
-        import_profile="plone.app.querystring:upgrade_to_9"
-        />
-  </genericsetup:upgradeSteps>
-
 </configure>
