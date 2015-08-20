@@ -1,4 +1,5 @@
 # -*- coding: utf8 -*-
+from datetime import datetime
 from plone.app.querystring.interfaces import IParsedQueryIndexModifier
 from zope.interface import implements
 
@@ -54,11 +55,24 @@ class base(object):
         query = value['query']
         if isinstance(query, unicode):
             query = query.encode("utf-8")
+
+        if isinstance(query, basestring):
+            try:
+                query = datetime.strptime(query, "%Y-%m-%d")
+            except:
+                query = query.encode("utf-8")
         elif isinstance(query, list):
-            query = [
-                item.encode("utf-8") if isinstance(item, unicode) else item
-                for item in query
-            ]
+            aux = list()
+            for item in query:
+                if isinstance(item, unicode):
+                    item = item.encode("utf-8")
+                try:
+                    val = datetime.strptime(item, "%Y-%m-%d")
+                except:
+                    val = item
+                aux.append(val)
+
+            query = aux
         else:
             pass
         value['query'] = query

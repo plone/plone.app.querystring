@@ -4,6 +4,9 @@ Changelog
 1.3.4 (unreleased)
 ------------------
 
+- Actually convert the value to a datetime for the DateIndex query modifier.
+  [frapell]
+
 - Do not fail if the 'Between' operation is called with an empty value, and
   instead return a list with 2 empty values.
   [frapell]
