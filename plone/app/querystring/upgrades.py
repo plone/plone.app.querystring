@@ -22,7 +22,8 @@ def fix_select_all_existing_collections(context):
 
     indexes_to_fix = [
         u'portal_type',
-        u'review_state'
+        u'review_state',
+        u'Creator'
     ]
     old_operator = u"plone.app.querystring.operation.selection.is"
     new_operator = u"plone.app.querystring.operation.selection.any"

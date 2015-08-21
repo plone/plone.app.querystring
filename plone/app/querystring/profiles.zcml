@@ -65,4 +65,12 @@
         provides="Products.GenericSetup.interfaces.EXTENSION"
         />
 
+    <genericsetup:registerProfile
+        name="upgrade_to_10"
+        title="Querystring Upgrade profile to v10"
+        description=""
+        directory="profiles/upgrades/to_10"
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
+
  </configure>

@@ -87,4 +87,19 @@
 
   </genericsetup:upgradeSteps>
 
+  <genericsetup:upgradeSteps
+      source="9"
+      destination="10"
+      profile="plone.app.querystring:default">
+    <genericsetup:upgradeDepends
+        title="Update Creator"
+        description="Add users vocabulary and remove 'is' operator from plone.app.querystring.field.Creator"
+        import_profile="plone.app.querystring:upgrade_to_10"
+        />
+    <upgradeStep
+        title="Fix existing collections"
+        handler=".upgrades.fix_select_all_existing_collections"
+        />
+  </genericsetup:upgradeSteps>
+
 </configure>
