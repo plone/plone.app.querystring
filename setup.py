@@ -13,10 +13,12 @@ setup(
     long_description=long_description,
     classifiers=[
         "Framework :: Plone",
+        "Framework :: Plone :: 5.0",
         "License :: OSI Approved :: GNU General Public License (GPL)",
         "Programming Language :: Python",
+        "Programming Language :: Python :: 2.7",
     ],
-    keywords='',
+    keywords='collection queries',
     author='Plone Foundation',
     author_email='plone-developers@lists.sourceforge.net',
     url='http://pypi.python.org/pypi/plone.app.querystring',
