@@ -279,8 +279,8 @@
         <value key="enabled">True</value>
         <value key="sortable">True</value>
         <value key="operations">
-            <element>plone.app.querystring.operation.selection.any</element>
             <element>plone.app.querystring.operation.string.currentUser</element>
+            <element>plone.app.querystring.operation.selection.any</element>
         </value>
         <value key="vocabulary">plone.app.vocabularies.Users</value>
        <value key="group" i18n:translate="">Metadata</value>
