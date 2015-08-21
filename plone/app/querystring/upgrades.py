@@ -22,11 +22,16 @@ def fix_select_all_existing_collections(context):
 
     indexes_to_fix = [
         u'portal_type',
-        u'review_state'
+        u'review_state',
+        u'Creator'
     ]
-    old_operator = u"plone.app.querystring.operation.selection.is"
-    new_operator = u"plone.app.querystring.operation.selection.any"
-
+    operator_mapping = {
+        # old -> new
+        u"plone.app.querystring.operation.selection.is":
+            u"plone.app.querystring.operation.selection.any",
+        u"plone.app.querystring.operation.string.is":
+            u"plone.app.querystring.operation.selection.any",
+    }
     catalog = context.portal_catalog
     brains = catalog.unrestrictedSearchResults(
         portal_type="Collection"
@@ -37,10 +42,11 @@ def fix_select_all_existing_collections(context):
         obj = brain.getObject()
         fixed_querystring = list()
         for querystring in obj.query:
-            if querystring['i'] in indexes_to_fix \
-                    and querystring['o'] == old_operator:
-                querystring['o'] = new_operator
-                changed = True
+            if querystring['i'] in indexes_to_fix:
+                for old_operator, new_operator in operator_mapping.items():
+                    if querystring['o'] == old_operator:
+                        querystring['o'] = new_operator
+                        changed = True
             fixed_querystring.append(querystring)
 
         if changed:
