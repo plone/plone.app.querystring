@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.3.5 (unreleased)
+1.3.5 (2015-08-22)
 ------------------
 
 - Creator criteria: pur currentUser on top.
