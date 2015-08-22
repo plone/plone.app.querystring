@@ -4,7 +4,17 @@ Changelog
 1.3.5 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Creator criteria: pur currentUser on top.
+  [mvanrees]
+
+- Migrate Creator string.is to selection.any.
+  [mvanrees]
+
+- add user vocabulary to plone.app.querystring.field.Creator.
+  [vangheem]
+
+- do not need "is" when there is an "any" operator.
+  [vangheem]
 
 
 1.3.4 (2015-08-21)
