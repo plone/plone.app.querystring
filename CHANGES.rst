@@ -1,10 +1,11 @@
 Changelog
 =========
 
-1.3.6 (unreleased)
+1.3.6 (2015-08-24)
 ------------------
 
-- Nothing changed yet.
+- Fix migration from Plone 4 to Plone 5.
+  [pbauer]
 
 
 1.3.5 (2015-08-22)
