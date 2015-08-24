@@ -42,6 +42,9 @@ def fix_select_all_existing_collections(context):
         obj = brain.getObject()
         fixed_querystring = list()
         for querystring in obj.query:
+            # transform querystring to dict
+            if not isinstance(querystring, dict):
+                querystring = dict(querystring)
             if querystring['i'] in indexes_to_fix:
                 for old_operator, new_operator in operator_mapping.items():
                     if querystring['o'] == old_operator:
