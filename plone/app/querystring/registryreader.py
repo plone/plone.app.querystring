@@ -8,6 +8,10 @@ from zope.interface import implements
 from zope.schema.interfaces import IVocabularyFactory
 import logging
 
+from Products.ZCTextIndex.interfaces import IZCTextIndex
+from Products.CMFCore.utils import getToolByName
+
+
 logger = logging.getLogger("plone.app.querystring")
 
 
@@ -102,9 +106,11 @@ class QuerystringRegistryReader(object):
 
     def mapSortableIndexes(self, values):
         """Map sortable indexes"""
+        catalog = getToolByName(self.context, 'portal_catalog')._catalog
         sortables = {}
         for key, field in values.get('%s.field' % self.prefix).iteritems():
-            if field['sortable']:
+            if field['sortable'] and \
+               not IZCTextIndex.providedBy(catalog.getIndex(key)):
                 sortables[key] = values.get('%s.field.%s' % (self.prefix, key))
         values['sortable'] = sortables
         return values
