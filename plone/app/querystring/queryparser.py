@@ -248,6 +248,28 @@ def _beforeToday(context, row):
     return _lessThan(context, row)
 
 
+def _beforeRelativeDate(context, row):
+    try:
+        values = int(row.values)
+    except ValueError:
+        values = 0
+    row = Row(index=row.index,
+              operator=row.operator,
+              values=DateTime().earliestTime() - values)
+    return _lessThan(context, row)
+
+
+def _afterRelativeDate(context, row):
+    try:
+        values = int(row.values)
+    except ValueError:
+        values = 0
+    row = Row(index=row.index,
+              operator=row.operator,
+              values=DateTime().earliestTime() + values)
+    return _largerThan(context, row)
+
+
 def _pathByRoot(root, context, row):
     values = row.values
     depth = None

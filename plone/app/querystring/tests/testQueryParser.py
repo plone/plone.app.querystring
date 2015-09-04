@@ -413,6 +413,32 @@ class TestQueryGenerators(TestQueryParserBase):
         parsed = queryparser._moreThanRelativeDate(MockSite(), data)
         self.assertEqual(parsed, expected)
 
+    def test__beforeRelativeDate(self):
+        days = 365
+        now = DateTime()
+        mydate = now.earliestTime() - days
+        expected = {'modified': {'query': mydate, 'range': 'max'}}
+        data = Row(
+            index='modified',
+            operator='_beforeRelativeDate',
+            values=days
+        )
+        parsed = queryparser._beforeRelativeDate(MockSite(), data)
+        self.assertEqual(parsed, expected)
+
+    def test__afterRelativeDate(self):
+        days = 2
+        now = DateTime()
+        mydate = now.earliestTime() + days
+        expected = {'effective': {'query': mydate, 'range': 'min'}}
+        data = Row(
+            index='effective',
+            operator='_afterRelativeDate',
+            values=days
+        )
+        parsed = queryparser._afterRelativeDate(MockSite(), data)
+        self.assertEqual(parsed, expected)
+
     def test__today(self):
         now = DateTime()
         expected_dates = [now.earliestTime(), now.latestTime()]

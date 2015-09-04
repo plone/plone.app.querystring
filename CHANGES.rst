@@ -4,7 +4,8 @@ Changelog
 1.3.7 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Add "before/after N days" functionality
+  [petschki]
 
 
 1.3.6 (2015-08-24)

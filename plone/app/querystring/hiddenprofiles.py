@@ -21,4 +21,6 @@ class HiddenProfiles(object):
             'plone.app.querystring:upgrade_to_7',
             'plone.app.querystring:upgrade_to_8',
             'plone.app.querystring:upgrade_to_9',
+            'plone.app.querystring:upgrade_to_10',
+            'plone.app.querystring:upgrade_to_11',
         ]
