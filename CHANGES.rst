@@ -4,7 +4,8 @@ Changelog
 1.1.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fixed Sortable Indexes to not return ZCTextIndex type indexes.
+  [winstonf88]
 
 
 1.1.1 (2014-01-27)
