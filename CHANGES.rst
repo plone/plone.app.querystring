@@ -4,7 +4,8 @@ Changelog
 1.3.7 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fixed Sortable Indexes to not return ZCTextIndex type indexes.
+  [winstonf88]
 
 
 1.3.6 (2015-08-24)
