@@ -1,5 +1,6 @@
 from .interfaces import IQuerystringRegistryReader
-from operator import attrgetter
+from collections import OrderedDict
+from Products.CMFPlone.utils import normalizeString, safe_unicode
 from zope.component import queryUtility
 from zope.globalrequest import getRequest
 from zope.i18n import translate
@@ -67,19 +68,24 @@ class QuerystringRegistryReader(object):
         """Get all vocabulary values if a vocabulary is defined"""
 
         for field in values.get(self.prefix + '.field').values():
-            field['values'] = {}
+            field['values'] = OrderedDict()
             vocabulary = field.get('vocabulary', [])
             if vocabulary:
                 utility = queryUtility(IVocabularyFactory, vocabulary)
                 if utility is not None:
-                    for item in sorted(utility(self.context),
-                                       key=attrgetter('title')):
+                    translated = []
+                    for item in utility(self.context):
                         if isinstance(item.title, Message):
                             title = translate(item.title, context=self.request)
                         else:
                             title = item.title
-
-                        field['values'][item.value] = {'title': title}
+                        translated.append((title, item.value))
+                    translated = sorted(
+                        translated,
+                        key=lambda x: normalizeString(safe_unicode(x[0]))
+                    )
+                    for (title, value) in translated:
+                        field['values'][value] = {'title': title}
                 else:
                     logger.info("%s is missing, ignored." % vocabulary)
         return values
