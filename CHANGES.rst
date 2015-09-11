@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.3.7 (unreleased)
+1.3.7 (2015-09-11)
 ------------------
 
 - Fix vocabularies sorting
