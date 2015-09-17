@@ -6,6 +6,7 @@ from zope.i18n import translate
 from zope.i18nmessageid import Message
 from zope.interface import implements
 from zope.schema.interfaces import IVocabularyFactory
+from zope.component.hooks import getSite
 import logging
 
 from Products.ZCTextIndex.interfaces import IZCTextIndex
@@ -106,7 +107,7 @@ class QuerystringRegistryReader(object):
 
     def mapSortableIndexes(self, values):
         """Map sortable indexes"""
-        catalog = getToolByName(self.context, 'portal_catalog')._catalog
+        catalog = getToolByName(getSite(), 'portal_catalog')._catalog
         sortables = {}
         for key, field in values.get('%s.field' % self.prefix).iteritems():
             if field['sortable'] and \
