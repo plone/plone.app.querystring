@@ -3,14 +3,13 @@ from operator import attrgetter
 from Products.CMFCore.utils import getToolByName
 from Products.ZCTextIndex.interfaces import IZCTextIndex
 from zope.component import queryUtility
+from zope.component.hooks import getSite
 from zope.globalrequest import getRequest
 from zope.i18n import translate
 from zope.i18nmessageid import Message
 from zope.interface import implements
 from zope.schema.interfaces import IVocabularyFactory
-from zope.component.hooks import getSite
 import logging
-
 
 logger = logging.getLogger("plone.app.querystring")
 
