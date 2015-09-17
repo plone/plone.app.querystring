@@ -1,5 +1,7 @@
 from .interfaces import IQuerystringRegistryReader
 from operator import attrgetter
+from Products.CMFCore.utils import getToolByName
+from Products.ZCTextIndex.interfaces import IZCTextIndex
 from zope.component import queryUtility
 from zope.globalrequest import getRequest
 from zope.i18n import translate
@@ -8,9 +10,6 @@ from zope.interface import implements
 from zope.schema.interfaces import IVocabularyFactory
 from zope.component.hooks import getSite
 import logging
-
-from Products.ZCTextIndex.interfaces import IZCTextIndex
-from Products.CMFCore.utils import getToolByName
 
 
 logger = logging.getLogger("plone.app.querystring")
