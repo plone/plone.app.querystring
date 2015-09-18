@@ -1,6 +1,9 @@
 from .interfaces import IQuerystringRegistryReader
 from operator import attrgetter
+from Products.CMFCore.utils import getToolByName
+from Products.ZCTextIndex.interfaces import IZCTextIndex
 from zope.component import queryUtility
+from zope.component.hooks import getSite
 from zope.globalrequest import getRequest
 from zope.i18n import translate
 from zope.i18nmessageid import Message
@@ -102,9 +105,11 @@ class QuerystringRegistryReader(object):
 
     def mapSortableIndexes(self, values):
         """Map sortable indexes"""
+        catalog = getToolByName(getSite(), 'portal_catalog')._catalog
         sortables = {}
         for key, field in values.get('%s.field' % self.prefix).iteritems():
-            if field['sortable']:
+            if field['sortable'] and \
+               not IZCTextIndex.providedBy(catalog.getIndex(key)):
                 sortables[key] = values.get('%s.field.%s' % (self.prefix, key))
         values['sortable'] = sortables
         return values

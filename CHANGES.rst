@@ -1,11 +1,21 @@
 Changelog
 =========
 
-1.3.7 (unreleased)
+1.3.8 (unreleased)
 ------------------
 
 - Add "before/after N days" functionality
   [petschki]
+
+- Fixed Sortable Indexes to not return ZCTextIndex type indexes.
+  [winstonf88]
+
+
+1.3.7 (2015-09-11)
+------------------
+
+- Fix vocabularies sorting
+  [ebrehault]
 
 
 1.3.6 (2015-08-24)
