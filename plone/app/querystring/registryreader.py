@@ -1,7 +1,9 @@
 from .interfaces import IQuerystringRegistryReader
-from collections import OrderedDict
-from Products.CMFPlone.utils import normalizeString, safe_unicode
+from operator import attrgetter
+from Products.CMFCore.utils import getToolByName
+from Products.ZCTextIndex.interfaces import IZCTextIndex
 from zope.component import queryUtility
+from zope.component.hooks import getSite
 from zope.globalrequest import getRequest
 from zope.i18n import translate
 from zope.i18nmessageid import Message
@@ -68,24 +70,19 @@ class QuerystringRegistryReader(object):
         """Get all vocabulary values if a vocabulary is defined"""
 
         for field in values.get(self.prefix + '.field').values():
-            field['values'] = OrderedDict()
+            field['values'] = {}
             vocabulary = field.get('vocabulary', [])
             if vocabulary:
                 utility = queryUtility(IVocabularyFactory, vocabulary)
                 if utility is not None:
-                    translated = []
-                    for item in utility(self.context):
+                    for item in sorted(utility(self.context),
+                                       key=attrgetter('title')):
                         if isinstance(item.title, Message):
                             title = translate(item.title, context=self.request)
                         else:
                             title = item.title
-                        translated.append((title, item.value))
-                    translated = sorted(
-                        translated,
-                        key=lambda x: normalizeString(safe_unicode(x[0]))
-                    )
-                    for (title, value) in translated:
-                        field['values'][value] = {'title': title}
+
+                        field['values'][item.value] = {'title': title}
                 else:
                     logger.info("%s is missing, ignored." % vocabulary)
         return values
@@ -108,9 +105,11 @@ class QuerystringRegistryReader(object):
 
     def mapSortableIndexes(self, values):
         """Map sortable indexes"""
+        catalog = getToolByName(getSite(), 'portal_catalog')._catalog
         sortables = {}
         for key, field in values.get('%s.field' % self.prefix).iteritems():
-            if field['sortable']:
+            if field['sortable'] and \
+               not IZCTextIndex.providedBy(catalog.getIndex(key)):
                 sortables[key] = values.get('%s.field.%s' % (self.prefix, key))
         values['sortable'] = sortables
         return values
