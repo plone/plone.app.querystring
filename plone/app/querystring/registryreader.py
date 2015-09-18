@@ -109,7 +109,7 @@ class QuerystringRegistryReader(object):
         catalog = getToolByName(getSite(), 'portal_catalog')._catalog
         sortables = {}
         for key, field in values.get('%s.field' % self.prefix).iteritems():
-            if field['sortable'] and \
+            if field['sortable'] and key in catalog.indexes and \
                not IZCTextIndex.providedBy(catalog.getIndex(key)):
                 sortables[key] = values.get('%s.field.%s' % (self.prefix, key))
         values['sortable'] = sortables
