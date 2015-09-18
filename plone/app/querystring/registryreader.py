@@ -2,16 +2,16 @@ from operator import attrgetter
 import logging
 
 from plone.registry.interfaces import IRegistry
+from Products.CMFCore.utils import getToolByName
+from Products.ZCTextIndex.interfaces import IZCTextIndex
 from zope.component import queryUtility
 from zope.component import adapts
+from zope.component.hooks import getSite
 from zope.interface import implements
 from zope.globalrequest import getRequest
 from zope.i18n import translate
 from zope.i18nmessageid import Message
 from zope.schema.interfaces import IVocabularyFactory
-from Products.ZCTextIndex.interfaces import IZCTextIndex
-from Products.CMFCore.utils import getToolByName
-from zope.component.hooks import getSite
 
 from .interfaces import IQuerystringRegistryReader
 
