@@ -4,6 +4,9 @@ Changelog
 1.3.8 (unreleased)
 ------------------
 
+- Add "before/after N days" functionality
+  [petschki]
+
 - Fixed Sortable Indexes to not return ZCTextIndex type indexes.
   [winstonf88]
 

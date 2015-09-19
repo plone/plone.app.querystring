@@ -73,4 +73,12 @@
         provides="Products.GenericSetup.interfaces.EXTENSION"
         />
 
+    <genericsetup:registerProfile
+        name="upgrade_to_11"
+        title="Querystring Upgrade profile to v11"
+        description=""
+        directory="profiles/upgrades/to_11"
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
+
  </configure>

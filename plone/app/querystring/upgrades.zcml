@@ -102,4 +102,14 @@
         />
   </genericsetup:upgradeSteps>
 
+  <genericsetup:upgradeSteps
+      source="10"
+      destination="11"
+      profile="plone.app.querystring:default">
+    <genericsetup:upgradeDepends
+        title="Add new 'before/after relative Date' operation"
+        import_profile="plone.app.querystring:upgrade_to_11"
+        />
+  </genericsetup:upgradeSteps>
+
 </configure>
