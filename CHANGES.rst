@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.3.8 (unreleased)
+1.3.8 (2015-09-21)
 ------------------
 
 - Fixed problems introduced by merge.
