@@ -4,6 +4,9 @@ Changelog
 1.3.8 (unreleased)
 ------------------
 
+- Fixed problems introduced by merge.
+  [jensens]
+
 - Add "before/after N days" functionality
   [petschki]
 

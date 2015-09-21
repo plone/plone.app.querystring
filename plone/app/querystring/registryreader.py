@@ -1,13 +1,16 @@
-from .interfaces import IQuerystringRegistryReader
-from operator import attrgetter
+# -*- coding: utf-8 -*-
+from collections import OrderedDict
+from plone.app.querystring.interfaces import IQuerystringRegistryReader
 from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.utils import normalizeString
+from Products.CMFPlone.utils import safe_unicode
 from Products.ZCTextIndex.interfaces import IZCTextIndex
 from zope.component import queryUtility
 from zope.component.hooks import getSite
 from zope.globalrequest import getRequest
 from zope.i18n import translate
 from zope.i18nmessageid import Message
-from zope.interface import implements
+from zope.interface import implementer
 from zope.schema.interfaces import IVocabularyFactory
 import logging
 
@@ -18,7 +21,7 @@ class DottedDict(dict):
     """A dictionary where you can access nested dicts with dotted names"""
 
     def get(self, k, default=None):
-        if not '.' in k:
+        if '.' not in k:
             return super(DottedDict, self).get(k, default)
         val = self
         for x in k.split('.'):
@@ -26,10 +29,9 @@ class DottedDict(dict):
         return val
 
 
+@implementer(IQuerystringRegistryReader)
 class QuerystringRegistryReader(object):
     """Adapts a registry object to parse the querystring data."""
-
-    implements(IQuerystringRegistryReader)
 
     prefix = "plone.app.querystring"
 
@@ -53,7 +55,7 @@ class QuerystringRegistryReader(object):
             current = result
             for x in splitted[:-1]:
                 # create the key if it's not there
-                if not x in current:
+                if x not in current:
                     current[x] = {}
                 current = current[x]
 
@@ -70,21 +72,28 @@ class QuerystringRegistryReader(object):
         """Get all vocabulary values if a vocabulary is defined"""
 
         for field in values.get(self.prefix + '.field').values():
-            field['values'] = {}
+            field['values'] = OrderedDict()
             vocabulary = field.get('vocabulary', [])
-            if vocabulary:
-                utility = queryUtility(IVocabularyFactory, vocabulary)
-                if utility is not None:
-                    for item in sorted(utility(self.context),
-                                       key=attrgetter('title')):
-                        if isinstance(item.title, Message):
-                            title = translate(item.title, context=self.request)
-                        else:
-                            title = item.title
-
-                        field['values'][item.value] = {'title': title}
+            if not vocabulary:
+                continue
+            utility = queryUtility(IVocabularyFactory, vocabulary)
+            if utility is None:
+                logger.info("%s is missing, ignored." % vocabulary)
+                continue
+            translated = []
+            for item in utility(self.context):
+                if isinstance(item.title, Message):
+                    title = translate(item.title, context=self.request)
                 else:
-                    logger.info("%s is missing, ignored." % vocabulary)
+                    title = item.title
+                translated.append((title, item.value))
+            translated = sorted(
+                translated,
+                key=lambda x: normalizeString(safe_unicode(x[0]))
+            )
+            for (title, value) in translated:
+                field['values'][value] = {'title': title}
+
         return values
 
     def mapOperations(self, values):
@@ -108,8 +117,11 @@ class QuerystringRegistryReader(object):
         catalog = getToolByName(getSite(), 'portal_catalog')._catalog
         sortables = {}
         for key, field in values.get('%s.field' % self.prefix).iteritems():
-            if field['sortable'] and key in catalog.indexes and \
-               not IZCTextIndex.providedBy(catalog.getIndex(key)):
+            if (
+                field['sortable']
+                and key in catalog.indexes
+                and not IZCTextIndex.providedBy(catalog.getIndex(key))
+            ):
                 sortables[key] = values.get('%s.field.%s' % (self.prefix, key))
         values['sortable'] = sortables
         return values
