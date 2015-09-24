@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2.8 (unreleased)
+1.2.8 (2015-09-24)
 ------------------
 
 - Fixed Sortable Indexes to not return ZCTextIndex type indexes.
