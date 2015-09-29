@@ -24,6 +24,7 @@ def fix_select_all_existing_collections(context):
         u'portal_type',
         u'review_state',
         u'Creator'
+        u'Subject'
     ]
     operator_mapping = {
         # old -> new

@@ -4,7 +4,8 @@ Changelog
 1.3.9 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Add upgrade step to fix Subject index for existing collections
+  [ezvirtual]
 
 
 1.3.8 (2015-09-21)

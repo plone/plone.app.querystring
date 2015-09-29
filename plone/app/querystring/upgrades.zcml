@@ -112,4 +112,13 @@
         />
   </genericsetup:upgradeSteps>
 
+  <genericsetup:upgradeStep
+      source="11"
+      destination="12"
+      title="Fix existing collections"
+      profile="plone.app.querystring:default"
+      description="Fix indexes on existing collections by changing 'is' operators to 'any'"
+      handler=".upgrades.fix_select_all_existing_collections"
+      />
+
 </configure>
