@@ -4,6 +4,10 @@ Changelog
 1.3.9 (unreleased)
 ------------------
 
+- fix resultview icons
+  https://github.com/plone/Products.CMFPlone/issues/1151
+  [fgrcon]
+
 - Add upgrade step to fix Subject index for existing collections
   [ezvirtual]
 
