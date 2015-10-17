@@ -7,7 +7,8 @@
                  limited_results python:context[:25];
                  original_context nocall:options/original_context|nocall:context;
                  toLocalizedTime nocall:original_context/@@plone/toLocalizedTime;
-                 pas_member original_context/@@pas_member"
+                 pas_member original_context/@@pas_member;
+                 normalize nocall: context/@@plone/normalizeString;"
     i18n:domain="plone">
 
     <span i18n:translate="batch_x_items_matching_your_criteria">
@@ -25,13 +26,16 @@
 
         <dl class="searchResults" tal:condition="limited_results">
             <tal:results repeat="item limited_results">
-                <tal:entry tal:define="author python:pas_member.info(item.Creator())">
+                <tal:entry tal:define="author python:pas_member.info(item.Creator());
+                	                   item_state python:'state-'+item.review_state();
+                	                   item_type python:'contenttype-'+normalize(item.portal_type)">
                     <dt>
-                      <img tal:replace="structure item/getIcon" />
+                      
                        <a
                          href="#"
+                         
                          tal:attributes="href item/getURL;
-                                         class item/review_state"
+                                         class  string:$item_state $item_type"
                          tal:content="item/Title" />
                         <span class="documentByLine">
                             <span class="documentAuthor"
