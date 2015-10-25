@@ -33,7 +33,7 @@
                       
                        <img
                          tal:define="thumb python:item.getURL()+'/@@images/image/icon'"
-                         tal:condition="python:  item.getIcon()"                          
+                         tal:condition="python:  item.getIcon"                          
                          tal:attributes="href item/getURL;
                                          src  string:$thumb"
                           />
