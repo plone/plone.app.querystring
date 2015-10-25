@@ -32,10 +32,10 @@
                     <dt>
                       
                        <img
-                         tal:define="thumb python:item.getURL()+'/@@images/image/icon'"
-                         tal:condition="python:  item.getIcon()"                          
+                         tal:define="getIcon python:item.getURL()+'/@@images/image/icon'"
+                         tal:condition="python:  item.getIcon"                          
                          tal:attributes="href item/getURL;
-                                         src  string:$thumb"
+                                         src  string:$getIcon"
                           />
                        <a
                          href="#"                                               
