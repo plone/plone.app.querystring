@@ -33,10 +33,9 @@
                       
                        <img
                          tal:define="getIcon python:item.getURL()+'/@@images/image/icon'"
-                         tal:condition="python:  item.getIcon"                          
+                         tal:condition="item/getIcon"
                          tal:attributes="href item/getURL;
-                                         src  string:$getIcon"
-                          />
+                                         src  string:$getIcon">
                        <a
                          href="#"                                               
                          tal:attributes="href item/getURL;
