@@ -1,6 +1,7 @@
- # -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 
-from plone.app.querystring.testing import TEST_PROFILE_PLONEAPPQUERYSTRING_INTEGRATION_TESTING
+from plone.app.querystring.testing import \
+    TEST_PROFILE_PLONEAPPQUERYSTRING_INTEGRATION_TESTING
 
 from zope.component import getMultiAdapter
 from zope.publisher.browser import TestRequest

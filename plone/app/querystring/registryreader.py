@@ -19,7 +19,7 @@ class DottedDict(dict):
     """A dictionary where you can access nested dicts with dotted names"""
 
     def get(self, k, default=None):
-        if not '.' in k:
+        if '.' not in k:
             return super(DottedDict, self).get(k, default)
         val = self
         for x in k.split('.'):
@@ -54,7 +54,7 @@ class QuerystringRegistryReader(object):
             current = result
             for x in splitted[:-1]:
                 # create the key if it's not there
-                if not x in current:
+                if x not in current:
                     current[x] = {}
                 current = current[x]
 

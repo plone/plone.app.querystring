@@ -4,7 +4,13 @@ Changelog
 1.2.9 (unreleased)
 ------------------
 
-- Nothing changed yet.
+Fixes:
+
+- Fixed flake8 warnings.
+  [maurits]
+
+- Updated compatibility information in README.
+  [maurits]
 
 
 1.2.8 (2015-09-24)

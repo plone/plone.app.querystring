@@ -46,13 +46,15 @@ class PloneAppQuerystringTestProfileLayer(PloneSandboxLayer):
     def tearDownZope(self, app):
         z2.uninstallProduct(app, 'plone.app.querystring')
 
-TEST_PROFILE_PLONEAPPQUERYSTRING_FIXTURE = PloneAppQuerystringTestProfileLayer()
+TEST_PROFILE_PLONEAPPQUERYSTRING_FIXTURE = \
+    PloneAppQuerystringTestProfileLayer()
 
 
 class PloneAppQuerystringLayer(PloneAppQuerystringTestProfileLayer):
 
     def setUpZope(self, app, configurationContext):
-        super(PloneAppQuerystringLayer, self).setUpZope(app, configurationContext)
+        super(PloneAppQuerystringLayer, self).setUpZope(
+            app, configurationContext)
         z2.installProduct(app, 'plone.app.querystring')
         import plone.app.querystring
         xmlconfig.file(
