@@ -1,14 +1,22 @@
 Changelog
 =========
 
-1.3.9 (unreleased)
+1.3.9 (2015-10-30)
 ------------------
 
-- fix resultview icons
+Fixes:
+
+- Fixed flake8 warnings.
+  [maurits]
+
+- Updated compatibility information in README.
+  [maurits]
+
+- Fixed resultview icons.
   https://github.com/plone/Products.CMFPlone/issues/1151
   [fgrcon]
 
-- Add upgrade step to fix Subject index for existing collections
+- Added upgrade step to fix Subject index for existing collections.
   [ezvirtual]
 
 

@@ -1,7 +1,8 @@
-# -*- coding: utf8 -*-
+# -*- coding: utf-8 -*-
 
 from plone.app.querystring.interfaces import IParsedQueryIndexModifier
-from plone.app.querystring.testing import PLONEAPPQUERYSTRING_INTEGRATION_TESTING
+from plone.app.querystring.testing import \
+    PLONEAPPQUERYSTRING_INTEGRATION_TESTING
 
 from zope.publisher.browser import TestRequest
 from zope.component import getGlobalSiteManager

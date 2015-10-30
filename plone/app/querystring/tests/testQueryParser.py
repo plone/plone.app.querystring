@@ -8,7 +8,8 @@ from plone.registry import Registry
 from plone.registry.interfaces import IRegistry
 
 from plone.app.querystring.queryparser import Row
-from plone.app.querystring.testing import NOT_INSTALLED_PLONEAPPQUERYSTRING_INTEGRATION_TESTING
+from plone.app.querystring.testing import \
+    NOT_INSTALLED_PLONEAPPQUERYSTRING_INTEGRATION_TESTING
 
 from zope.component import getGlobalSiteManager
 from zope.interface.declarations import implements

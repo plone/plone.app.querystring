@@ -1,4 +1,5 @@
-from plone.app.querystring.testing import PLONEAPPQUERYSTRING_INTEGRATION_TESTING
+from plone.app.querystring.testing import \
+    PLONEAPPQUERYSTRING_INTEGRATION_TESTING
 
 import unittest2 as unittest
 
