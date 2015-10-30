@@ -4,7 +4,10 @@ Changelog
 1.3.10 (unreleased)
 -------------------
 
-- Nothing changed yet.
+Fixes:
+
+- Added missing ',' for subject upgrade.
+  [ezvirtual]
 
 
 1.3.9 (2015-10-30)
