@@ -30,21 +30,17 @@
                 	                   item_state python:'state-'+item.review_state();
                 	                   item_type python:'contenttype-'+normalize(item.portal_type)">
                     <dt>
-                      
-                       <img
-                         tal:define="getIcon python:item.getURL()+'/@@images/image/icon'"
-                         tal:condition="python:  item.getIcon"                          
-                         tal:attributes="href item/getURL;
-                                         src  string:$getIcon"
-                          />
+
+                      <img tal:define="getIcon python:item.getURL()+'/@@images/image/icon'"
+                           tal:condition="item/getIcon"
+                           tal:attributes="href item/getURL;
+                                           src  string:$getIcon" />
                        <a
-                         href="#"                                               
+                         href="#"
                          tal:attributes="href item/getURL;
                                          class  string:$item_state $item_type"
                          tal:content="item/Title" />
-                         
 
-                                                  
                         <span class="documentByLine">
                             <span class="documentAuthor"
                                 i18n:translate="label_by_author" tal:condition="author/fullname">
