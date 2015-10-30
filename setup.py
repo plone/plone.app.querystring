@@ -8,8 +8,10 @@ long_description += open("CHANGES.rst").read()
 setup(
     name='plone.app.querystring',
     version=version,
-    description=("A queryparser, querybuilder and extra helper tools, to "
-                 "parse stored queries to actual results, used in new style Plone collections"),
+    description=(
+        "A queryparser, querybuilder and extra helper tools, to "
+        "parse stored queries to actual results, used in "
+        "new style Plone collections"),
     long_description=long_description,
     classifiers=[
         "Framework :: Plone",
