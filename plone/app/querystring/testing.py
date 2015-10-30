@@ -44,13 +44,15 @@ class PloneAppQuerystringTestProfileLayer(PloneSandboxLayer):
         )
 
 
-TEST_PROFILE_PLONEAPPQUERYSTRING_FIXTURE = PloneAppQuerystringTestProfileLayer()
+TEST_PROFILE_PLONEAPPQUERYSTRING_FIXTURE = \
+    PloneAppQuerystringTestProfileLayer()
 
 
 class PloneAppQuerystringLayer(PloneAppQuerystringTestProfileLayer):
 
     def setUpZope(self, app, configurationContext):
-        super(PloneAppQuerystringLayer, self).setUpZope(app, configurationContext)
+        super(PloneAppQuerystringLayer, self).setUpZope(
+            app, configurationContext)
         import plone.app.querystring
         xmlconfig.file(
             'configure.zcml',

@@ -7,7 +7,8 @@ from zope.schema.vocabulary import SimpleVocabulary
 
 from plone.app.querystring.interfaces import IQuerystringRegistryReader
 from plone.app.querystring.registryreader import DottedDict
-from plone.app.querystring.testing import PLONEAPPQUERYSTRING_INTEGRATION_TESTING
+from plone.app.querystring.testing import \
+    PLONEAPPQUERYSTRING_INTEGRATION_TESTING
 from plone.app.querystring.tests import registry_testdata as td
 
 import unittest2 as unittest
