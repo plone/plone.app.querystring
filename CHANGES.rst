@@ -10,7 +10,9 @@ New:
 
 Fixes:
 
-- *add item here*
+- Add upgrade step to replace selection.is with selection.any operations in
+  querystrings also for objects using the Collection behavior.
+  [thet]
 
 
 1.3.11 (2015-10-30)

@@ -18,7 +18,9 @@ def upgrade_1_to_2_typo_in_registry(context):
     registry[name] = values
 
 
-def fix_select_all_existing_collections(context):
+def fix_select_all_existing_collections(
+        context,
+        query={"portal_type": "Collection"}):
 
     indexes_to_fix = [
         u'portal_type',
@@ -34,9 +36,7 @@ def fix_select_all_existing_collections(context):
             u"plone.app.querystring.operation.selection.any",
     }
     catalog = context.portal_catalog
-    brains = catalog.unrestrictedSearchResults(
-        portal_type="Collection"
-    )
+    brains = catalog.unrestrictedSearchResults(**query)
 
     for brain in brains:
         changed = False
@@ -56,3 +56,11 @@ def fix_select_all_existing_collections(context):
         if changed:
             obj.query = fixed_querystring
             obj.reindexObject()
+
+
+def fix_select_all_syndicatable_collections(context):
+
+    return fix_select_all_existing_collections(
+        context,
+        query={"object_provides": "plone.app.contenttypes.behaviors.collection.ISyndicatableCollection"}  # noqa
+    )
