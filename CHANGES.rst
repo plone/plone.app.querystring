@@ -10,6 +10,10 @@ New:
 
 Fixes:
 
+- In tests, use ``selection.any`` in querystrings.
+  Issue https://github.com/plone/Products.CMFPlone/issues/1040
+  [maurits]
+
 - Add upgrade step to replace selection.is with selection.any operations in
   querystrings also for objects using the Collection behavior.
   [thet]
