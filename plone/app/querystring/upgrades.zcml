@@ -121,13 +121,20 @@
       handler=".upgrades.fix_select_all_existing_collections"
       />
 
-  <genericsetup:upgradeStep
+  <genericsetup:upgradeSteps
       source="12"
       destination="13"
-      title="Fix ISyndicatableCollection objects"
-      profile="plone.app.querystring:default"
-      description="Fix indexes on Dexterity objects by changing 'is' operators to 'any'. All objects using the Collection behavior are fixed."
-      handler=".upgrades.fix_select_all_syndicatable_collections"
-      />
+      profile="plone.app.querystring:default">
+    <genericsetup:upgradeStep
+        title="Fix ISyndicatableCollection objects"
+        description="Fix indexes on Dexterity objects by changing 'is' operators to 'any'. All objects using the Collection behavior are fixed."
+        handler=".upgrades.fix_select_all_syndicatable_collections"
+        />
+    <genericsetup:upgradeStep
+        title="Fix existing collections"
+        description="Fix indexes on existing collections by changing 'is' operators to 'any'"
+        handler=".upgrades.fix_select_all_existing_collections"
+        />
+  </genericsetup:upgradeSteps>
 
 </configure>
