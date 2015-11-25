@@ -18,9 +18,10 @@ def upgrade_1_to_2_typo_in_registry(context):
     registry[name] = values
 
 
-def fix_select_all_existing_collections(
-        context,
-        query={"portal_type": "Collection"}):
+def fix_select_all_existing_collections(context, query=None):
+
+    if query is None:
+        query = {"portal_type": "Collection"}
 
     indexes_to_fix = [
         u'portal_type',

@@ -74,7 +74,7 @@ class TestQuerybuilder(unittest.TestCase):
         self.testpage.reindexObject()
         query = [{
             'i': 'Subject',
-            'o': 'plone.app.querystring.operation.selection.is',
+            'o': 'plone.app.querystring.operation.selection.any',
             'v': 'Lorem',
         }]
         results = self.querybuilder._makequery(query=query)
@@ -88,7 +88,7 @@ class TestQuerybuilder(unittest.TestCase):
         self.testpage.reindexObject()
         query = [{
             'i': 'Subject',
-            'o': 'plone.app.querystring.operation.selection.is',
+            'o': 'plone.app.querystring.operation.selection.any',
             'v': ['Lorem', 'Ipsum'],
         }]
         results = self.querybuilder._makequery(query=query)
@@ -102,7 +102,7 @@ class TestQuerybuilder(unittest.TestCase):
         self.testpage.reindexObject()
         query = [{
             'i': 'Subject',
-            'o': 'plone.app.querystring.operation.selection.is',
+            'o': 'plone.app.querystring.operation.selection.any',
             'v': 'Äüö',
         }]
         results = self.querybuilder._makequery(query=query)
@@ -119,7 +119,7 @@ class TestQuerybuilder(unittest.TestCase):
         self.testpage.reindexObject()
         query = [{
             'i': 'Subject',
-            'o': 'plone.app.querystring.operation.selection.is',
+            'o': 'plone.app.querystring.operation.selection.any',
             'v': u'Äüö',
         }]
         results = self.querybuilder._makequery(query=query)
@@ -136,7 +136,7 @@ class TestQuerybuilder(unittest.TestCase):
         self.testpage.reindexObject()
         query = [{
             'i': 'Subject',
-            'o': 'plone.app.querystring.operation.selection.is',
+            'o': 'plone.app.querystring.operation.selection.any',
             'v': [u'Äüö', u'Üöß'],
         }]
         results = self.querybuilder._makequery(query=query)

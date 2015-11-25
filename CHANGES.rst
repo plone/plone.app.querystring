@@ -10,8 +10,19 @@ New:
 
 Fixes:
 
-- Add upgrade step to replace selection.is with selection.any operations in
-  querystrings also for objects using the Collection behavior.
+- Again upgrade collections with ``selection.is`` to
+  ``selection.any``, because the standard events and news collections
+  may have been wrongly created in a new site.
+  Issue https://github.com/plone/Products.CMFPlone/issues/1040
+  [maurits]
+
+- In tests, use ``selection.any`` in querystrings.
+  Issue https://github.com/plone/Products.CMFPlone/issues/1040
+  [maurits]
+
+- Added upgrade step to replace ``selection.is`` with
+  ``selection.any`` operations in querystrings also for objects using
+  the Collection behavior.
   [thet]
 
 
