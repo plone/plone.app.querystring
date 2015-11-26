@@ -4,10 +4,6 @@ Changelog
 1.3.12 (unreleased)
 -------------------
 
-New:
-
-- *add item here*
-
 Fixes:
 
 - Again upgrade collections with ``selection.is`` to
