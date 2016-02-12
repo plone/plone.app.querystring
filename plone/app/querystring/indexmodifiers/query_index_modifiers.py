@@ -1,5 +1,5 @@
 # -*- coding: utf8 -*-
-from datetime import datetime
+from dateutil.parser import parse
 from plone.app.querystring.interfaces import IParsedQueryIndexModifier
 from zope.interface import implements
 
@@ -58,8 +58,8 @@ class base(object):
 
         if isinstance(query, basestring):
             try:
-                query = datetime.strptime(query, "%Y-%m-%d")
-            except:
+                query = parse(query)
+            except ValueError:
                 query = query.encode("utf-8")
         elif isinstance(query, list):
             aux = list()
@@ -67,8 +67,8 @@ class base(object):
                 if isinstance(item, unicode):
                     item = item.encode("utf-8")
                 try:
-                    val = datetime.strptime(item, "%Y-%m-%d")
-                except:
+                    val = parse(item)
+                except ValueError:
                     val = item
                 aux.append(val)
 

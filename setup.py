@@ -39,6 +39,7 @@ setup(
         'plone.app.vocabularies',
         'plone.batching',
         'plone.registry',
+        'python-dateutil',
         'setuptools',
         'zope.component',
         'zope.dottedname',
