@@ -6,7 +6,8 @@ Changelog
 
 New:
 
-- *add item here*
+- Be able to parse more date string types
+  [vangheem]
 
 Fixes:
 
