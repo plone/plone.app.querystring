@@ -1,17 +1,13 @@
 Changelog
 =========
 
-1.3.13 (unreleased)
+1.3.13 (2016-02-14)
 -------------------
 
 New:
 
 - Be able to parse more date string types
   [vangheem]
-
-Fixes:
-
-- *add item here*
 
 
 1.3.12 (2015-11-26)
