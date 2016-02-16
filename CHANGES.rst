@@ -10,7 +10,9 @@ New:
 
 Fixes:
 
-- *add item here*
+- Set path to navigation root by default to have the same results
+  in Collection preview and view.
+  [Gagaro]
 
 
 1.3.13 (2016-02-14)
