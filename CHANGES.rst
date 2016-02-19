@@ -4,10 +4,6 @@ Changelog
 1.3.14 (unreleased)
 -------------------
 
-New:
-
-- *add item here*
-
 Fixes:
 
 - Set path to navigation root by default to have the same results
