@@ -1,84 +1,84 @@
 <configure
-        xmlns="http://namespaces.zope.org/zope"
-        xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
-        i18n_domain="plone">
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    i18n_domain="plone">
 
-    <utility
-        factory=".hiddenprofiles.HiddenProfiles"
-        name="plone.app.querystring"
-        provides="Products.CMFPlone.interfaces.INonInstallable"
-        />
+  <utility
+      factory=".hiddenprofiles.HiddenProfiles"
+      name="plone.app.querystring"
+      provides="Products.CMFPlone.interfaces.INonInstallable"
+      />
 
-    <genericsetup:registerProfile
-        name="default"
-        title="Querystring parser/builder"
-        directory="profiles/default"
-        description="Querystring parser and builder, building block and transformer for the new style collections"
-        provides="Products.GenericSetup.interfaces.EXTENSION"
-        />
+  <genericsetup:registerProfile
+      name="default"
+      title="Querystring parser/builder"
+      directory="profiles/default"
+      description="Querystring parser and builder, building block and transformer for the new style collections"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
 
-    <genericsetup:registerProfile
-        name="upgrade_to_3"
-        title="Querystring Upgrade profile to v3"
-        description=""
-        directory="profiles/upgrades/to_3"
-        provides="Products.GenericSetup.interfaces.EXTENSION"
-        />
+  <genericsetup:registerProfile
+      name="upgrade_to_3"
+      title="Querystring Upgrade profile to v3"
+      description=""
+      directory="profiles/upgrades/to_3"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
 
-    <genericsetup:registerProfile
-        name="upgrade_to_5"
-        title="Querystring Upgrade profile to v5"
-        description=""
-        directory="profiles/upgrades/to_5"
-        provides="Products.GenericSetup.interfaces.EXTENSION"
-        />
+  <genericsetup:registerProfile
+      name="upgrade_to_5"
+      title="Querystring Upgrade profile to v5"
+      description=""
+      directory="profiles/upgrades/to_5"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
 
-    <genericsetup:registerProfile
-        name="upgrade_to_6"
-        title="Querystring Upgrade profile to v6"
-        description=""
-        directory="profiles/upgrades/to_6"
-        provides="Products.GenericSetup.interfaces.EXTENSION"
-        />
+  <genericsetup:registerProfile
+      name="upgrade_to_6"
+      title="Querystring Upgrade profile to v6"
+      description=""
+      directory="profiles/upgrades/to_6"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
 
-    <genericsetup:registerProfile
-        name="upgrade_to_7"
-        title="Querystring Upgrade profile to v7"
-        description=""
-        directory="profiles/upgrades/to_7"
-        provides="Products.GenericSetup.interfaces.EXTENSION"
-        />
+  <genericsetup:registerProfile
+      name="upgrade_to_7"
+      title="Querystring Upgrade profile to v7"
+      description=""
+      directory="profiles/upgrades/to_7"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
 
-    <genericsetup:registerProfile
-        name="upgrade_to_8"
-        title="Querystring Upgrade profile to v8"
-        description=""
-        directory="profiles/upgrades/to_8"
-        provides="Products.GenericSetup.interfaces.EXTENSION"
-        />
+  <genericsetup:registerProfile
+      name="upgrade_to_8"
+      title="Querystring Upgrade profile to v8"
+      description=""
+      directory="profiles/upgrades/to_8"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
 
-    <genericsetup:registerProfile
-        name="upgrade_to_9"
-        title="Querystring Upgrade profile to v9"
-        description=""
-        directory="profiles/upgrades/to_9"
-        provides="Products.GenericSetup.interfaces.EXTENSION"
-        />
+  <genericsetup:registerProfile
+      name="upgrade_to_9"
+      title="Querystring Upgrade profile to v9"
+      description=""
+      directory="profiles/upgrades/to_9"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
 
-    <genericsetup:registerProfile
-        name="upgrade_to_10"
-        title="Querystring Upgrade profile to v10"
-        description=""
-        directory="profiles/upgrades/to_10"
-        provides="Products.GenericSetup.interfaces.EXTENSION"
-        />
+  <genericsetup:registerProfile
+      name="upgrade_to_10"
+      title="Querystring Upgrade profile to v10"
+      description=""
+      directory="profiles/upgrades/to_10"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
 
-    <genericsetup:registerProfile
-        name="upgrade_to_11"
-        title="Querystring Upgrade profile to v11"
-        description=""
-        directory="profiles/upgrades/to_11"
-        provides="Products.GenericSetup.interfaces.EXTENSION"
-        />
+  <genericsetup:registerProfile
+      name="upgrade_to_11"
+      title="Querystring Upgrade profile to v11"
+      description=""
+      directory="profiles/upgrades/to_11"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
 
- </configure>
+</configure>
