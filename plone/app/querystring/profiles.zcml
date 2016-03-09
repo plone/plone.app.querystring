@@ -17,6 +17,7 @@
       description=""
       directory="profiles/upgrades/to_3"
       provides="Products.GenericSetup.interfaces.EXTENSION"
+      for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
       />
 
   <genericsetup:registerProfile
@@ -25,6 +26,7 @@
       description=""
       directory="profiles/upgrades/to_5"
       provides="Products.GenericSetup.interfaces.EXTENSION"
+      for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
       />
 
 </configure>
