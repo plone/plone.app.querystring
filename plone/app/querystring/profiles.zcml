@@ -23,6 +23,7 @@
       description=""
       directory="profiles/upgrades/to_3"
       provides="Products.GenericSetup.interfaces.EXTENSION"
+      for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
       />
 
   <genericsetup:registerProfile
@@ -31,6 +32,7 @@
       description=""
       directory="profiles/upgrades/to_5"
       provides="Products.GenericSetup.interfaces.EXTENSION"
+      for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
       />
 
   <genericsetup:registerProfile
@@ -39,6 +41,7 @@
       description=""
       directory="profiles/upgrades/to_6"
       provides="Products.GenericSetup.interfaces.EXTENSION"
+      for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
       />
 
   <genericsetup:registerProfile
@@ -47,6 +50,7 @@
       description=""
       directory="profiles/upgrades/to_7"
       provides="Products.GenericSetup.interfaces.EXTENSION"
+      for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
       />
 
   <genericsetup:registerProfile
@@ -55,6 +59,7 @@
       description=""
       directory="profiles/upgrades/to_8"
       provides="Products.GenericSetup.interfaces.EXTENSION"
+      for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
       />
 
   <genericsetup:registerProfile
@@ -63,6 +68,7 @@
       description=""
       directory="profiles/upgrades/to_9"
       provides="Products.GenericSetup.interfaces.EXTENSION"
+      for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
       />
 
   <genericsetup:registerProfile
@@ -71,6 +77,7 @@
       description=""
       directory="profiles/upgrades/to_10"
       provides="Products.GenericSetup.interfaces.EXTENSION"
+      for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
       />
 
   <genericsetup:registerProfile
@@ -79,6 +86,7 @@
       description=""
       directory="profiles/upgrades/to_11"
       provides="Products.GenericSetup.interfaces.EXTENSION"
+      for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
       />
 
 </configure>
