@@ -10,8 +10,7 @@ New:
 
 Fixes:
 
-- Hide profiles associated with upgrade steps.
-  [hvelarde]
+- *add item here*
 
 
 1.2.9 (2015-10-30)
