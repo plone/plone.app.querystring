@@ -1,13 +1,15 @@
 from Acquisition import aq_parent
+from collections import namedtuple
 from DateTime import DateTime
+from plone.app.layout.navigation.root import getNavigationRoot
+from plone.registry.interfaces import IRegistry
+from plone.uuid.interfaces import IUUID
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.interfaces import IPloneSiteRoot
 from Products.CMFPlone.utils import base_hasattr
-from collections import namedtuple
-from plone.app.layout.navigation.root import getNavigationRoot
-from plone.registry.interfaces import IRegistry
 from zope.component import getUtility
 from zope.dottedname.resolve import resolve
+
 
 Row = namedtuple('Row', ['index', 'operator', 'values'])
 
@@ -332,6 +334,39 @@ def _relativePath(context, row):
               values='/'.join(obj.getPhysicalPath()) + depthstr)
 
     return _absolutePath(context, row)
+
+
+def _referenceIs(context, row):
+    # could come in as UID or path
+
+    values = row.values
+
+    if not values:
+        return {}
+
+    # clear possible depth string
+    values = values.split('::')[0]
+
+    if '/' not in values:
+        return {row.index: values}
+
+    pquery = _absolutePath(context, row)
+    if not pquery:
+        return {}
+    # use resolved path here...
+    path = pquery[row.index]['query']
+
+    portal_url = getToolByName(context, 'portal_url')
+    portal = portal_url.getPortalObject()
+
+    if type(path) == list:
+        path = path[0]
+
+    obj = portal.restrictedTraverse(str(path), None)
+    if obj is None:
+        return {}
+
+    return {row.index: IUUID(obj)}
 
 
 # Helper functions
