@@ -10,7 +10,8 @@ New:
 
 Fixes:
 
-- *add item here*
+- Add missing _referenceIs query parser
+  [vangheem]
 
 
 1.3.14 (2016-02-19)

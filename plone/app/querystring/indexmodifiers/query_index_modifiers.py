@@ -59,7 +59,7 @@ class base(object):
         if isinstance(query, basestring):
             try:
                 query = parse(query)
-            except ValueError:
+            except (ValueError, AttributeError):
                 query = query.encode("utf-8")
         elif isinstance(query, list):
             aux = list()
@@ -68,7 +68,7 @@ class base(object):
                     item = item.encode("utf-8")
                 try:
                     val = parse(item)
-                except ValueError:
+                except (ValueError, AttributeError):
                     val = item
                 aux.append(val)
 
