@@ -4,10 +4,6 @@ Changelog
 1.3.15 (unreleased)
 -------------------
 
-New:
-
-- *add item here*
-
 Fixes:
 
 - Add missing _referenceIs query parser
