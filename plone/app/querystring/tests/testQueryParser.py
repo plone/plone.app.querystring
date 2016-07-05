@@ -74,8 +74,8 @@ class MockSiteProperties(object):
     navtree_properties = MockNavtreeProperties()
 
 
+@implementer(INavigationRoot, IPloneSiteRoot)
 class MockSite(object):
-    implements(INavigationRoot, IPloneSiteRoot)
 
     def __init__(self, portal_membership=None):
         self.reference_catalog = MockCatalog()
@@ -88,8 +88,9 @@ class MockSite(object):
         return ["", MOCK_SITE_ID]
 
 
+@implementer(INavigationRoot)
 class MockNavRoot(MockObject):
-    implements(INavigationRoot)
+    pass
 
 
 class MockUser(object):

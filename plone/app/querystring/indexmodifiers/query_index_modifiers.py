@@ -1,9 +1,10 @@
 # -*- coding: utf8 -*-
 from dateutil.parser import parse
 from plone.app.querystring.interfaces import IParsedQueryIndexModifier
-from zope.interface import implements
+from zope.interface import implementer
 
 
+@implementer(IParsedQueryIndexModifier)
 class Subject(object):
 
     """
@@ -16,8 +17,6 @@ class Subject(object):
     XXX: As soon as Plone uses unicode for all indexes, this code can
     be removed.
     """
-
-    implements(IParsedQueryIndexModifier)
 
     def __call__(self, value):
         query = value['query']
@@ -42,14 +41,13 @@ class Subject(object):
         return ('Subject', value)
 
 
+@implementer(IParsedQueryIndexModifier)
 class base(object):
 
     """
     DateIndex query modifier
     see Products.PluginIndexes.DateIndex.DateIndex.DateIndex._convert function
     """
-
-    implements(IParsedQueryIndexModifier)
 
     def __call__(self, value):
         query = value['query']
