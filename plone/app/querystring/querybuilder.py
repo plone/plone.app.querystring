@@ -1,21 +1,21 @@
-import json
-import logging
-
+# -*- coding: utf-8 -*-
+from operator import itemgetter
+from plone.app.contentlisting.interfaces import IContentListing
+from plone.app.querystring import queryparser
+from plone.app.querystring.interfaces import IParsedQueryIndexModifier
+from plone.app.querystring.interfaces import IQueryModifier
+from plone.app.querystring.interfaces import IQuerystringRegistryReader
+from plone.batching import Batch
+from plone.registry.interfaces import IRegistry
+from Products.CMFCore.utils import getToolByName
 from zope.component import getMultiAdapter, getUtility, getUtilitiesFor
 from zope.i18n import translate
-
 from zope.i18nmessageid import MessageFactory
 from zope.publisher.browser import BrowserView
 
-from plone.app.contentlisting.interfaces import IContentListing
-from plone.registry.interfaces import IRegistry
-from plone.app.querystring import queryparser
-from plone.app.querystring.interfaces import IParsedQueryIndexModifier
+import json
+import logging
 
-from Products.CMFCore.utils import getToolByName
-from plone.batching import Batch
-
-from .interfaces import IQuerystringRegistryReader
 
 logger = logging.getLogger('plone.app.querystring')
 _ = MessageFactory('plone')
@@ -105,19 +105,9 @@ class QueryBuilder(BrowserView):
                    sort_on=None, sort_order=None, limit=0, brains=False,
                    custom_query=None):
         """Parse the (form)query and return using multi-adapter"""
-        # Reproduce path behaviours of Collection
-        # See p.a.contenttypes.behaviours.collection.Collection
-        if query:
-            has_path_criteria = any(
-                (criteria['i'] == 'path')
-                for criteria in query
-            )
-            if not has_path_criteria:
-                query.append({
-                    'i': 'path',
-                    'o': 'plone.app.querystring.operation.string.path',
-                    'v': '/',
-                })
+        query_modifiers = getUtilitiesFor(IQueryModifier)
+        for name, modifier in sorted(query_modifiers, key=itemgetter(0)):
+            query = modifier(query)
 
         parsedquery = queryparser.parseFormquery(
             self.context, query, sort_on, sort_order)

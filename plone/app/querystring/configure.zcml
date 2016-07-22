@@ -59,5 +59,8 @@
     permission="zope2.View"
     for="*"
     />
-
+  <utility
+    component=".querymodifiers.modify_query_to_enforce_navigation_root"
+    name="1000"
+    />
 </configure>

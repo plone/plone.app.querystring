@@ -1,8 +1,8 @@
 Changelog
 =========
 
-1.3.16 (unreleased)
--------------------
+1.4.0 (unreleased)
+------------------
 
 Breaking changes:
 
@@ -10,7 +10,11 @@ Breaking changes:
 
 New features:
 
-- *add item here*
+- Refactor addition of criteria to stick inside ``INavigationRoot`` in querybuilder.
+  Added a simple ``IQueryModifier`` interfaces expecting a query and returning a query.
+  Iterates over all sorted utilities providing such an interfaces and calls it right before the query is parsed.
+  Code to add the ``INavigationRoot`` stickyness was moved to such a query modifier.
+  [jensens]
 
 Bug fixes:
 
