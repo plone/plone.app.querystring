@@ -12,7 +12,7 @@ from plone.app.querystring.testing import \
     NOT_INSTALLED_PLONEAPPQUERYSTRING_INTEGRATION_TESTING
 
 from zope.component import getGlobalSiteManager
-from zope.interface.declarations import implements
+from zope.interface import implementer
 
 import unittest2 as unittest
 
