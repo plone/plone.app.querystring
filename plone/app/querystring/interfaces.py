@@ -43,3 +43,13 @@ class IParsedQueryIndexModifier(Interface):
         if the index name returned is different from the native one, caller
         must replace treated index with the new ones.
         """
+
+
+class IQueryModifier(Interface):
+    """Modifies a query in order to inject specific or change given criteria.
+    """
+
+    def __call__(query):
+        """
+        modify the query and return an new one.
+        """
