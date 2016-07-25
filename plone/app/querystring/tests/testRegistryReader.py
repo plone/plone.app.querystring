@@ -1,7 +1,7 @@
 from plone.registry.interfaces import IRegistry
 from plone.registry import Registry
 from zope.component import getGlobalSiteManager
-from zope.interface import implements
+from zope.interface import implementer
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleVocabulary
 
@@ -14,8 +14,8 @@ from plone.app.querystring.tests import registry_testdata as td
 import unittest2 as unittest
 
 
+@implementer(IVocabularyFactory)
 class TestVocabulary(object):
-    implements(IVocabularyFactory)
 
     def __call__(self, context):
         return SimpleVocabulary([

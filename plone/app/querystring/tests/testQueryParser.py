@@ -12,7 +12,7 @@ from plone.app.querystring.testing import \
     NOT_INSTALLED_PLONEAPPQUERYSTRING_INTEGRATION_TESTING
 
 from zope.component import getGlobalSiteManager
-from zope.interface.declarations import implements
+from zope.interface import implementer
 
 import unittest2 as unittest
 
@@ -74,8 +74,8 @@ class MockSiteProperties(object):
     navtree_properties = MockNavtreeProperties()
 
 
+@implementer(INavigationRoot, IPloneSiteRoot)
 class MockSite(object):
-    implements(INavigationRoot, IPloneSiteRoot)
 
     def __init__(self, portal_membership=None):
         self.reference_catalog = MockCatalog()
@@ -88,8 +88,9 @@ class MockSite(object):
         return ["", MOCK_SITE_ID]
 
 
+@implementer(INavigationRoot)
 class MockNavRoot(MockObject):
-    implements(INavigationRoot)
+    pass
 
 
 class MockUser(object):
