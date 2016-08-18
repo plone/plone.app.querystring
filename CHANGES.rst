@@ -4,10 +4,6 @@ Changelog
 1.4.0 (unreleased)
 ------------------
 
-Breaking changes:
-
-- *add item here*
-
 New features:
 
 - Refactor addition of criteria to stick inside ``INavigationRoot`` in querybuilder.
