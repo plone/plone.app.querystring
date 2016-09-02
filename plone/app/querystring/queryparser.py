@@ -162,7 +162,7 @@ def _showInactive(context, row):
     mt = getToolByName(context, 'portal_membership')
     user = mt.getAuthenticatedMember()
     value = False
-    user_roles = user.getRoles()
+    user_roles = user.getRolesInContext(context)
     row_values = row.values
     if row_values:
         for role in user_roles:

@@ -104,7 +104,7 @@ class MockUser(object):
     def getUserName(self):
         return self.username
 
-    def getRoles(self):
+    def getRolesInContext(self, context):
         return self.roles
 
 
