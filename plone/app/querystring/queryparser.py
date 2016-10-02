@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from Acquisition import aq_parent
 from collections import namedtuple
 from DateTime import DateTime
