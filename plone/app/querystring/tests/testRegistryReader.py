@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from plone.registry.interfaces import IRegistry
 from plone.registry import Registry
 from zope.component import getGlobalSiteManager

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from datetime import datetime
 from plone.app.querystring.indexmodifiers import query_index_modifiers
 

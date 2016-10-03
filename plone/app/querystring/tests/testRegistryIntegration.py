@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from plone.app.querystring.testing import \
     PLONEAPPQUERYSTRING_INTEGRATION_TESTING
 
