@@ -43,36 +43,35 @@ class Subject(object):
 
 @implementer(IParsedQueryIndexModifier)
 class base(object):
-
-    """
-    DateIndex query modifier
+    """DateIndex query modifier
     see Products.PluginIndexes.DateIndex.DateIndex.DateIndex._convert function
     """
 
     def __call__(self, value):
-        query = value['query']
-        if isinstance(query, unicode):
-            query = query.encode("utf-8")
 
-        if isinstance(query, basestring):
-            try:
-                query = parse(query)
-            except (ValueError, AttributeError):
-                query = query.encode("utf-8")
-        elif isinstance(query, list):
+        def _normalize(val):
+            """Encode value, parse dates.
+            """
+            if isinstance(val, unicode):
+                val = val.encode("utf-8")
+
+            if isinstance(val, basestring):
+                try:
+                    val = parse(val)
+                except (ValueError, AttributeError):
+                    pass
+
+            return val
+
+        query = value['query']
+        query = _normalize(query)
+
+        if isinstance(query, list):
             aux = list()
             for item in query:
-                if isinstance(item, unicode):
-                    item = item.encode("utf-8")
-                try:
-                    val = parse(item)
-                except (ValueError, AttributeError):
-                    val = item
-                aux.append(val)
-
+                aux.append(_normalize(item))
             query = aux
-        else:
-            pass
+
         value['query'] = query
         return (self.__class__.__name__, value)
 

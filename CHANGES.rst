@@ -14,7 +14,8 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Fix a case, where index modifiers with queries containing ``largerThanRelativeDate`` or ``lessThanRelativeDate`` date operators failed with an ``TypeError``.
+  [thet]
 
 
 1.4.1 (2016-11-18)
