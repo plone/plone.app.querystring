@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from Acquisition import aq_parent
 from collections import namedtuple
+from DateTime.interfaces import DateTimeError
 from DateTime import DateTime
 from plone.app.layout.navigation.root import getNavigationRoot
 from plone.registry.interfaces import IRegistry
@@ -210,11 +211,11 @@ def _moreThanRelativeDate(context, row):
 def _betweenDates(context, row):
     try:
         start_date = DateTime(row.values[0])
-    except DateTime.DateTimeError:
+    except DateTimeError:
         start_date = DateTime(0)
     try:
         end_date = DateTime(row.values[1])
-    except DateTime.DateTimeError:
+    except DateTimeError:
         row = Row(index=row.index,
                   operator=row.operator,
                   values=start_date)

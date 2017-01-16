@@ -4,18 +4,14 @@ Changelog
 1.4.2 (unreleased)
 ------------------
 
-Breaking changes:
-
-- *add item here*
-
-New features:
-
-- *add item here*
-
 Bug fixes:
 
 - Fix a case, where index modifiers with queries containing ``largerThanRelativeDate`` or ``lessThanRelativeDate`` date operators failed with an ``TypeError``.
   [thet]
+
+- Import DateTimeError from DateTime.interfaces, class attribute
+  DateTime.DateTimeError was removed in DateTime 3.0
+  [vincentfretin]
 
 
 1.4.1 (2016-11-18)
@@ -25,6 +21,7 @@ Bug fixes:
 
 - Add coding header on python files.
   [gforcada]
+
 
 1.4 (2016-08-18)
 ----------------
@@ -90,7 +87,6 @@ Fixes:
   ``selection.any`` operations in querystrings also for objects using
   the Collection behavior.
   [thet]
-
 
 1.3.11 (2015-10-30)
 -------------------
