@@ -4,17 +4,11 @@ Changelog
 1.2.11 (unreleased)
 -------------------
 
-Breaking changes:
-
-- *add item here*
-
-New features:
-
-- *add item here*
-
 Bug fixes:
 
-- *add item here*
+- Import DateTimeError from DateTime.interfaces, class attribute
+  DateTime.DateTimeError was removed in DateTime 3.0
+  [vincentfretin]
 
 
 1.2.10 (2016-06-27)

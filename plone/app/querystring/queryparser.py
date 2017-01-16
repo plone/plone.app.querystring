@@ -1,5 +1,6 @@
 from Acquisition import aq_parent
 from DateTime import DateTime
+from DateTime.interfaces import DateTimeError
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.browser.navtree import getNavigationRoot
 from Products.CMFPlone.utils import base_hasattr
@@ -198,11 +199,11 @@ def _moreThanRelativeDate(context, row):
 def _betweenDates(context, row):
     try:
         start_date = DateTime(row.values[0])
-    except DateTime.DateTimeError:
+    except DateTimeError:
         start_date = DateTime(0)
     try:
         end_date = DateTime(row.values[1])
-    except DateTime.DateTimeError:
+    except DateTimeError:
         row = Row(index=row.index,
                   operator=row.operator,
                   values=start_date)
