@@ -14,7 +14,9 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Disable "Subject" ("Tags") as sortable index.
+  Keyword Indexes are not sortable.
+  [jensens]
 
 
 1.4.2 (2017-01-17)
