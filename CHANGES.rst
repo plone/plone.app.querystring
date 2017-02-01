@@ -14,7 +14,9 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Make integer query operators accept unicode values
+  Fixes their usage via QueryStringFieldWidget
+  [lzdych]
 
 
 1.3.16 (2017-01-17)
