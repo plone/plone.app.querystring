@@ -288,6 +288,15 @@ class TestQueryGenerators(TestQueryParserBase):
         data = Row(
             index='modified',
             operator='_intEqual',
+            values=u'20'
+        )
+        parsed = queryparser._intEqual(MockSite(), data)
+        expected = {'modified': {'query': 20}}
+        self.assertEqual(parsed, expected)
+
+        data = Row(
+            index='modified',
+            operator='_intEqual',
             values=['20', '21']
         )
         parsed = queryparser._intEqual(MockSite(), data)
@@ -314,6 +323,15 @@ class TestQueryGenerators(TestQueryParserBase):
         expected = {'modified': {'query': 20, 'range': 'max'}}
         self.assertEqual(parsed, expected)
 
+        data = Row(
+            index='modified',
+            operator='_intLessThan',
+            values=u'20'
+        )
+        parsed = queryparser._intLessThan(MockSite(), data)
+        expected = {'modified': {'query': 20, 'range': 'max'}}
+        self.assertEqual(parsed, expected)
+
     def test__largerThan(self):
         data = Row(
             index='modified',
@@ -329,6 +347,15 @@ class TestQueryGenerators(TestQueryParserBase):
             index='modified',
             operator='_intLargerThan',
             values='20'
+        )
+        parsed = queryparser._intLargerThan(MockSite(), data)
+        expected = {'modified': {'query': 20, 'range': 'min'}}
+        self.assertEqual(parsed, expected)
+
+        data = Row(
+            index='modified',
+            operator='_intLargerThan',
+            values=u'20'
         )
         parsed = queryparser._intLargerThan(MockSite(), data)
         expected = {'modified': {'query': 20, 'range': 'min'}}
