@@ -4,14 +4,6 @@ Changelog
 1.3.17 (unreleased)
 -------------------
 
-Breaking changes:
-
-- *add item here*
-
-New features:
-
-- *add item here*
-
 Bug fixes:
 
 - Make integer query operators accept unicode values
