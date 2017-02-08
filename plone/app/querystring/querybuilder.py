@@ -135,11 +135,7 @@ class QueryBuilder(BrowserView):
                 "Using empty query because there are no valid indexes used.")
             parsedquery = {}
 
-        if not parsedquery:
-            if brains:
-                return []
-            else:
-                return IContentListing([])
+        empty_query = not parsedquery  # store emptiness
 
         if batch:
             parsedquery['b_start'] = b_start
@@ -150,16 +146,19 @@ class QueryBuilder(BrowserView):
         if 'path' not in parsedquery:
             parsedquery['path'] = {'query': ''}
 
-        if isinstance(custom_query, dict):
+        if isinstance(custom_query, dict) and custom_query:
             # Update the parsed query with an extra query dictionary. This may
             # override the parsed query. The custom_query is a dictonary of
             # index names and their associated query values.
             parsedquery.update(custom_query)
+            empty_query = False
 
-        results = catalog(**parsedquery)
-        if getattr(results, 'actual_result_count', False) and limit\
-                and results.actual_result_count > limit:
-            results.actual_result_count = limit
+        results = []
+        if not empty_query:
+            results = catalog(**parsedquery)
+            if getattr(results, 'actual_result_count', False) and limit\
+                    and results.actual_result_count > limit:
+                results.actual_result_count = limit
 
         if not brains:
             results = IContentListing(results)

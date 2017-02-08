@@ -14,6 +14,9 @@ New features:
 
 Bug fixes:
 
+- Fix ``QueryBuilder`` with empty queries to return a Batch when requested.
+  [thet]
+
 - Disable "Subject" ("Tags") as sortable index.
   Keyword Indexes are not sortable.
   [jensens]
@@ -286,7 +289,7 @@ Fixes:
   [sdelcourt]
 
 - Fix querybuilder code if results object does not provide an
-  actual_results_count attribute. This regression has been introduced in
+  actual_result_count attribute. This regression has been introduced in
   release 1.1.1 (fixed broken handling of limit and batch size).
   [timo]
 
