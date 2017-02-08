@@ -189,6 +189,62 @@ class TestQuerybuilder(unittest.TestCase):
         self.assertEqual(results[0].Title(), 'Test Folder')
 
 
+class TestQuerybuilderResultTypes(unittest.TestCase):
+
+    layer = TEST_PROFILE_PLONEAPPQUERYSTRING_INTEGRATION_TESTING
+
+    def setUp(self):
+        self.portal = self.layer['portal']
+        self.request = TestRequest()
+        self.querybuilder = getMultiAdapter(
+            (self.portal, self.request),
+            name='querybuilderresults'
+        )
+        self.query = [{
+            'i': 'Title',
+            'o': 'plone.app.querystring.operation.string.is',
+            'v': 'Non-existent',
+        }]
+
+    def testQueryBuilderEmptyQueryContentListing(self):
+        results = self.querybuilder(query={})
+        self.assertEqual(len(results), 0)
+        self.assertEqual(type(results).__name__, 'ContentListing')
+
+    def testQueryBuilderEmptyQueryBrains(self):
+        results = self.querybuilder(query={}, brains=True)
+        self.assertEqual(len(results), 0)
+        self.assertEqual(results, [])
+
+    def testQueryBuilderEmptyQueryBatch(self):
+        results = self.querybuilder(query={}, batch=True)
+        self.assertEqual(len(results), 0)
+        self.assertEqual(type(results).__name__, 'BaseBatch')
+
+    def testQueryBuilderNonEmptyQueryContentListing(self):
+        results = self.querybuilder(query=self.query)
+        self.assertEqual(len(results), 0)
+        self.assertEqual(type(results).__name__, 'ContentListing')
+
+    def testQueryBuilderNonEmptyQueryBrains(self):
+        results = self.querybuilder(query=self.query, brains=True)
+        self.assertEqual(len(results), 0)
+        self.assertEqual(type(results).__name__, 'LazyCat')
+
+    def testQueryBuilderNonEmptyQueryBatch(self):
+        results = self.querybuilder(query=self.query, batch=True)
+        self.assertEqual(len(results), 0)
+        self.assertEqual(type(results).__name__, 'BaseBatch')
+
+    def testQueryBuilderNonEmptyContentListingCustomQuery(self):
+        results = self.querybuilder(
+            query={},
+            custom_query={'portal_type': 'NonExistent'}
+        )
+        self.assertEqual(len(results), 0)
+        self.assertEqual(type(results).__name__, 'ContentListing')
+
+
 class TestConfigurationFetcher(unittest.TestCase):
 
     layer = TEST_PROFILE_PLONEAPPQUERYSTRING_INTEGRATION_TESTING
