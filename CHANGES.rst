@@ -4,14 +4,6 @@ Changelog
 1.4.3 (unreleased)
 ------------------
 
-Breaking changes:
-
-- *add item here*
-
-New features:
-
-- *add item here*
-
 Bug fixes:
 
 - Fix ``QueryBuilder`` with empty queries to return a Batch when requested.
