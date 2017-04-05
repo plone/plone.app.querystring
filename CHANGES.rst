@@ -14,7 +14,8 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Do not fail on empty empty or not existing querystrings while upgrading.
+  [agitator]
 
 
 1.4.3 (2017-02-12)

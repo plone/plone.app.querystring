@@ -43,7 +43,7 @@ def fix_select_all_existing_collections(context, query=None):
         changed = False
         obj = brain.getObject()
         fixed_querystring = list()
-        for querystring in obj.query:
+        for querystring in (obj.query or []):
             # transform querystring to dict
             if not isinstance(querystring, dict):
                 querystring = dict(querystring)
