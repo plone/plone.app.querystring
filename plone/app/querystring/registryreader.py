@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 from collections import OrderedDict
 from plone.app.querystring.interfaces import IQuerystringRegistryReader
+from plone.memoize import ram
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import normalizeString
 from Products.CMFPlone.utils import safe_unicode
 from Products.ZCTextIndex.interfaces import IZCTextIndex
+from time import time
 from zope.component import queryUtility
 from zope.component.hooks import getSite
 from zope.globalrequest import getRequest
@@ -15,6 +17,7 @@ from zope.schema.interfaces import IVocabularyFactory
 import logging
 
 logger = logging.getLogger("plone.app.querystring")
+ONE_DAY = 60 * 60 * 24
 
 
 class DottedDict(dict):
@@ -126,7 +129,8 @@ class QuerystringRegistryReader(object):
         values['sortable'] = sortables
         return values
 
-    def __call__(self):
+    @ram.cache(lambda *args: time() // ONE_DAY)
+    def get_indexes(self):
         """Return the registry configuration in JSON format"""
 
         indexes = self.parseRegistry()
@@ -137,3 +141,6 @@ class QuerystringRegistryReader(object):
             'indexes': indexes.get('%s.field' % self.prefix),
             'sortable_indexes': indexes.get('sortable'),
         }
+
+    def __call__(self):
+        return self.get_indexes()
