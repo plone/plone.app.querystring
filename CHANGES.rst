@@ -10,7 +10,9 @@ Breaking changes:
 
 New features:
 
-- *add item here*
+- Change *Show Inactive* criteria to check against user context local
+  roles (usually global roles by default) instead of only global roles
+  [datakurre]
 
 Bug fixes:
 
