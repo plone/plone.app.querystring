@@ -10,7 +10,8 @@ Breaking changes:
 
 New features:
 
-- *add item here*
+- Hide profiles associated with upgrade steps.
+  [hvelarde]
 
 Bug fixes:
 
