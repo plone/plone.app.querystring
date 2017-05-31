@@ -6,7 +6,7 @@ from plone.app.querystring.testing import \
 from zope.component import getMultiAdapter
 from zope.publisher.browser import TestRequest
 
-import unittest2 as unittest
+import unittest
 
 
 class TestQuerybuilder(unittest.TestCase):
