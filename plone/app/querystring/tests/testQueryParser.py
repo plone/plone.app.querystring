@@ -15,7 +15,7 @@ from plone.app.querystring.testing import \
 from zope.component import getGlobalSiteManager
 from zope.interface import implementer
 
-import unittest2 as unittest
+import unittest
 
 MOCK_SITE_ID = "site"
 

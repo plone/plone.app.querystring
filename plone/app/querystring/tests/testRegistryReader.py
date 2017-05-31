@@ -12,7 +12,7 @@ from plone.app.querystring.testing import \
     PLONEAPPQUERYSTRING_INTEGRATION_TESTING
 from plone.app.querystring.tests import registry_testdata as td
 
-import unittest2 as unittest
+import unittest
 
 
 @implementer(IVocabularyFactory)
