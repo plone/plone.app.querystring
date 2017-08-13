@@ -20,6 +20,16 @@ import logging
 logger = logging.getLogger('plone.app.querystring')
 _ = MessageFactory('plone')
 
+BAD_CHARS = ('?', '-', '+', '*')
+
+
+def quote_chars(s):
+    # We need to quote parentheses when searching text indices
+    if '(' in s:
+        s = s.replace('(', '"("')
+    if ')' in s:
+        s = s.replace(')', '")"')
+    return s
 
 class ContentListingView(BrowserView):
     """BrowserView for displaying query results"""
@@ -153,6 +163,8 @@ class QueryBuilder(BrowserView):
             parsedquery.update(custom_query)
             empty_query = False
 
+        # filter bad term and operator in query
+        parsedquery =  self.filter_query(parsedquery)
         results = []
         if not empty_query:
             results = catalog(**parsedquery)
@@ -175,6 +187,20 @@ class QueryBuilder(BrowserView):
               mapping={'number': results.actual_result_count}),
             context=self.request
         )
+
+    def filter_query(self, query):
+        text = query.get('SearchableText', None)
+        if text:
+            query['SearchableText'] = self.munge_search_term(text)
+        return query
+
+    def munge_search_term(self, q):
+        for char in BAD_CHARS:
+            q = q.replace(char, ' ')
+        r = q.split()
+        r = " AND ".join(r)
+        r = quote_chars(r) + '*'
+        return r
 
 
 class RegistryConfiguration(BrowserView):
