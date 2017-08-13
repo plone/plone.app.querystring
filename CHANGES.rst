@@ -14,7 +14,8 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Filter query string from bad term and operator.
+  [nngu6036]
 
 
 1.4.5 (2017-06-20)
