@@ -14,7 +14,7 @@ New features:
 
 Bug fixes:
 
-- Filter query string from bad term and operator
+- Filter query string from bad term and operator.
   [nngu6036]
 
 
