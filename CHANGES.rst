@@ -4,14 +4,6 @@ Changelog
 1.4.6 (unreleased)
 ------------------
 
-Breaking changes:
-
-- *add item here*
-
-New features:
-
-- *add item here*
-
 Bug fixes:
 
 - Filter query string from bad term and operator.
