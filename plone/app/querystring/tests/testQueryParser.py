@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 from DateTime import DateTime
+from Products.CMFCore.interfaces import ICatalogTool
+from Products.CMFCore.interfaces import IMembershipTool
+from Products.CMFCore.interfaces import IURLTool
 from Products.CMFPlone.interfaces import IPloneSiteRoot
 from plone.app.layout.navigation.interfaces import INavigationRoot
 from plone.app.querystring import queryparser
@@ -13,6 +16,7 @@ from plone.app.querystring.testing import \
     NOT_INSTALLED_PLONEAPPQUERYSTRING_INTEGRATION_TESTING
 
 from zope.component import getGlobalSiteManager
+from zope.component import getSiteManager
 from zope.interface import implementer
 
 import unittest
@@ -79,10 +83,14 @@ class MockSiteProperties(object):
 class MockSite(object):
 
     def __init__(self, portal_membership=None):
+        sm = getSiteManager()
         self.reference_catalog = MockCatalog()
         self.portal_catalog = MockCatalog()
+        sm.registerUtility(self.portal_catalog, ICatalogTool)
         self.portal_membership = portal_membership
+        sm.registerUtility(portal_membership, IMembershipTool)
         self.portal_url = MockPortalUrl()
+        sm.registerUtility(self.portal_url, IURLTool)
         self.portal_properties = MockSiteProperties()
 
     def getPhysicalPath(self):
