@@ -16,6 +16,9 @@ Bug fixes:
 
 - Fix tests with CMF 2.3. [davisagli]
 
+- Fix querybuilder if SearchableText is a dict {'query': '...'}
+  [tomgross]
+
 
 1.4.6 (2017-09-08)
 ------------------
