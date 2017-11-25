@@ -4,14 +4,6 @@ Changelog
 1.4.7 (unreleased)
 ------------------
 
-Breaking changes:
-
-- *add item here*
-
-New features:
-
-- *add item here*
-
 Bug fixes:
 
 - Fix tests with CMF 2.3. [davisagli]
