@@ -12,7 +12,10 @@ from zope.i18n import translate
 from zope.i18nmessageid import Message
 from zope.interface import implementer
 from zope.schema.interfaces import IVocabularyFactory
+
 import logging
+import six
+
 
 logger = logging.getLogger("plone.app.querystring")
 
@@ -116,7 +119,7 @@ class QuerystringRegistryReader(object):
         """Map sortable indexes"""
         catalog = getToolByName(getSite(), 'portal_catalog')._catalog
         sortables = {}
-        for key, field in values.get('%s.field' % self.prefix).iteritems():
+        for key, field in six.iteritems(values.get('%s.field' % self.prefix)):
             if (
                 field['sortable']
                 and key in catalog.indexes
