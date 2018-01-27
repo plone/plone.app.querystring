@@ -42,6 +42,7 @@ setup(
         'plone.registry',
         'python-dateutil',
         'setuptools',
+        'six',
         'zope.component',
         'zope.dottedname',
         'zope.globalrequest',
