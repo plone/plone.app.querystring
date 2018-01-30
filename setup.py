@@ -17,7 +17,7 @@ setup(
     classifiers=[
         "Framework :: Plone",
         "Framework :: Plone :: 5.1",
-        "License :: OSI Approved :: GNU General Public License (GPL)",
+        "License :: OSI Approved :: GNU General Public License v2 (GPLv2)",
         "Programming Language :: Python",
         "Programming Language :: Python :: 2.7",
     ],
