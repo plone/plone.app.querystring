@@ -14,7 +14,8 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Ignore unknown ``sort_on`` indexes when parsing a query.
+  Otherwise you get a ``CatalogError``.  [maurits]
 
 
 1.3.17 (2017-02-05)
