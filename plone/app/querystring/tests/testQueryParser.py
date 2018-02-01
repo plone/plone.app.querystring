@@ -144,6 +144,34 @@ class TestQueryParser(TestQueryParserBase):
         parsed = queryparser.parseFormquery(MockSite(), [data, ])
         self.assertEqual(parsed, {'Title': {'query': 'Welcome to Plone'}})
 
+    def test_sort_on_known(self):
+        data = {
+            'i': 'Title',
+            'o': 'plone.app.querystring.operation.string.is',
+            'v': 'Welcome to Plone',
+        }
+        parsed = queryparser.parseFormquery(
+            MockSite(), [data, ],
+            sort_on='sortable_title',
+            sort_order='reverse')
+        self.assertEqual(
+            parsed, {'Title': {'query': 'Welcome to Plone'},
+                     'sort_on': 'sortable_title',
+                     'sort_order': 'reverse'})
+
+    def test_sort_on_unknown(self):
+        data = {
+            'i': 'Title',
+            'o': 'plone.app.querystring.operation.string.is',
+            'v': 'Welcome to Plone',
+        }
+        parsed = queryparser.parseFormquery(
+            MockSite(), [data, ],
+            sort_on='unknown',
+            sort_order='reverse')
+        self.assertEqual(
+            parsed, {'Title': {'query': 'Welcome to Plone'}})
+
     def test_path_explicit(self):
         data = {
             'i': 'path',
