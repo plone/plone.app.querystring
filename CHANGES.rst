@@ -4,14 +4,6 @@ Changelog
 1.2.12 (unreleased)
 -------------------
 
-Breaking changes:
-
-- *add item here*
-
-New features:
-
-- *add item here*
-
 Bug fixes:
 
 - Ignore unknown ``sort_on`` indexes when parsing a query.
