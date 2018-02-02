@@ -14,6 +14,9 @@ New features:
 
 Bug fixes:
 
+- Ignore unknown ``sort_on`` indexes when parsing a query.
+  Otherwise you get a ``CatalogError``.  [maurits]
+
 - Add Python 2 / 3 compatibility
   [pbauer]
 
