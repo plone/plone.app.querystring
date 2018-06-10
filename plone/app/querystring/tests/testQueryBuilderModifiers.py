@@ -8,7 +8,7 @@ from zope.publisher.browser import TestRequest
 from zope.component import getGlobalSiteManager
 from zope.component import getMultiAdapter
 
-import index_testmodifier
+from . import index_testmodifier
 
 import unittest
 
