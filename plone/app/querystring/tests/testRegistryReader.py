@@ -134,4 +134,4 @@ class TestRegistryReader(unittest.TestCase):
         registry = self.createRegistry(td.minimal_correct_xml)
         reader = IQuerystringRegistryReader(registry)
         result = reader()
-        self.assertEqual(result.keys(), ['sortable_indexes', 'indexes'])
+        self.assertEqual(list(result.keys()), ['sortable_indexes', 'indexes'])

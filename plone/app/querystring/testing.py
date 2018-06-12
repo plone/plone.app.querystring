@@ -1,37 +1,25 @@
 # -*- coding: utf-8 -*-
-
-from zope.configuration import xmlconfig
-
-from plone.testing import z2
-
-from plone.app.testing import PloneSandboxLayer
-from plone.app.testing import TEST_USER_ID
-from plone.app.testing import TEST_USER_NAME
+from plone.app.contenttypes.testing import PLONE_APP_CONTENTTYPES_FIXTURE
 from plone.app.testing import applyProfile
 from plone.app.testing import login
+from plone.app.testing import PloneSandboxLayer
 from plone.app.testing import setRoles
+from plone.app.testing import TEST_USER_ID
+from plone.app.testing import TEST_USER_NAME
 from plone.app.testing.layers import IntegrationTesting
-
-try:
-    from Products.CMFPlone.factory import _IMREALLYPLONE5  # noqa
-    PLONE50 = True
-except ImportError:
-    PLONE50 = False
+from plone.testing import z2
+from zope.configuration import xmlconfig
 
 
 class PloneAppQuerystringTestProfileLayer(PloneSandboxLayer):
 
+    defaultBases = (PLONE_APP_CONTENTTYPES_FIXTURE,)
+
     def setUpZope(self, app, configurationContext):
-        import Products.ATContentTypes
-        self.loadZCML(package=Products.ATContentTypes)
-        z2.installProduct(app, 'Products.Archetypes')
-        z2.installProduct(app, 'Products.ATContentTypes')
         import plone.app.querystring.tests
         self.loadZCML('configure.zcml', package=plone.app.querystring.tests)
 
     def setUpPloneSite(self, portal):
-        if PLONE50:
-            applyProfile(portal, 'Products.ATContentTypes:default')
         applyProfile(portal, 'plone.app.querystring.tests:registry')
         setRoles(portal, TEST_USER_ID, ['Manager'])
         login(portal, TEST_USER_NAME)
