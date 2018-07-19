@@ -290,8 +290,8 @@ def _pathByRoot(root, context, row):
         # It must be a UID
         values = getPathByUID(context, values)
     # take care of absolute paths without root
-    if not values.startswith(root):
-        values = root + values
+    # if not values.startswith(root):
+    values = root + values
     query = {}
     if depth is not None:
         query['depth'] = depth
