@@ -610,3 +610,14 @@ class TestQueryGenerators(TestQueryParserBase):
     def test_getPathByUID(self):
         actual = queryparser.getPathByUID(MockSite(), '00000000000000001')
         self.assertEqual(actual, '/site/foo')
+        
+    def test_objStartWithSiteId(self):
+        data = Row(
+            index='path',
+            operator='_path',
+            values='/{0}-news/'.format(MOCK_SITE_ID)
+        )
+        parsed = queryparser._absolutePath(MockSite(), data)
+        expected = {'path': {'query': ['/{0}/{1}-news/'.format(MOCK_SITE_ID, MOCK_SITE_ID)]}}
+        self.assertEqual(parsed, expected)
+        
