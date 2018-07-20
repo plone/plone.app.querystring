@@ -611,7 +611,7 @@ class TestQueryGenerators(TestQueryParserBase):
         actual = queryparser.getPathByUID(MockSite(), '00000000000000001')
         self.assertEqual(actual, '/site/foo')
         
-    def test_objStartWithSiteId(self):
+    def test_objStartsWithSiteId(self):
         data = Row(
             index='path',
             operator='_path',
