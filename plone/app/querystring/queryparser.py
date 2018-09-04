@@ -278,7 +278,6 @@ def _afterRelativeDate(context, row):
 
 
 def _pathByRoot(root, context, row):
-    operator = row.operator
     values = row.values
     depth = None
     if '::' in values:
@@ -298,8 +297,6 @@ def _pathByRoot(root, context, row):
         query['depth'] = depth
         # when a depth value is specified, a trailing slash matters on the
         # query
-        values = values.rstrip('/')
-    if operator == '_relativePath':
         values = values.rstrip('/')
     query['query'] = [values]
     return {row.index: query}
@@ -339,7 +336,7 @@ def _relativePath(context, row):
 
     row = Row(index=row.index,
               operator=row.operator,
-              values='/'.join(obj.getPhysicalPath()) + '/' + depthstr)
+              values='/'.join(obj.getPhysicalPath()) + depthstr)
 
     return _absolutePath(context, row)
 
