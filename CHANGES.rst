@@ -4,17 +4,10 @@ Changelog
 1.4.9 (unreleased)
 ------------------
 
-Breaking changes:
-
-- *add item here*
-
-New features:
-
-- *add item here*
-
 Bug fixes:
 
-- *add item here*
+- Fix a case, where objects id starts with roots id
+  [eikichi18]
 
 
 1.4.8 (2018-02-05)
