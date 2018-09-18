@@ -9,6 +9,9 @@ Bug fixes:
 - Fix a case, where objects id starts with roots id
   [eikichi18]
 
+- Fix query_index_modifiers and tests with py3
+  [pbauer, gforcada]
+
 
 1.4.8 (2018-02-05)
 ------------------
