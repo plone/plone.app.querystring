@@ -1,16 +1,30 @@
 Changelog
 =========
 
-1.4.9 (unreleased)
+1.4.10 (unreleased)
+-------------------
+
+Breaking changes:
+
+- *add item here*
+
+New features:
+
+- *add item here*
+
+Bug fixes:
+
+- Fix query_index_modifiers and tests with py3
+  [pbauer, gforcada]
+
+
+1.4.9 (2018-09-28)
 ------------------
 
 Bug fixes:
 
 - Fix a case, where objects id starts with roots id
   [eikichi18]
-
-- Fix query_index_modifiers and tests with py3
-  [pbauer, gforcada]
 
 
 1.4.8 (2018-02-05)
