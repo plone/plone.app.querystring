@@ -14,7 +14,8 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Fix query_index_modifiers and tests with py3
+  [pbauer, gforcada]
 
 
 1.4.9 (2018-09-28)

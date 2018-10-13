@@ -24,7 +24,7 @@ class Subject(object):
     def __call__(self, value):
         query = value['query']
         # query can be a unicode string or a list of unicode strings.
-        if isinstance(query, six.text_type):
+        if six.PY2 and isinstance(query, six.text_type):
             query = query.encode("utf-8")
         elif isinstance(query, list):
             # We do not want to change the collections' own query string,
@@ -34,7 +34,7 @@ class Subject(object):
             # unicode strings
             i = 0
             for item in copy_of_query:
-                if isinstance(item, six.text_type):
+                if six.PY2 and isinstance(item, six.text_type):
                     copy_of_query[i] = item.encode("utf-8")
                 i += 1
             query = copy_of_query
@@ -55,7 +55,7 @@ class base(object):
         def _normalize(val):
             """Encode value, parse dates.
             """
-            if isinstance(val, six.text_type):
+            if six.PY2 and isinstance(val, six.text_type):
                 val = val.encode("utf-8")
 
             if isinstance(val, six.string_types):
