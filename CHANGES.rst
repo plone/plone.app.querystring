@@ -4,14 +4,6 @@ Changelog
 1.4.10 (unreleased)
 -------------------
 
-Breaking changes:
-
-- *add item here*
-
-New features:
-
-- *add item here*
-
 Bug fixes:
 
 - Fix query_index_modifiers and tests with py3
