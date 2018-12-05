@@ -15,6 +15,7 @@ class HiddenProfiles(object):
            that will be installed as part of the site creation anyways.
         """
         return [
+            'plone.app.querystring:default',
             'plone.app.querystring:upgrade_to_3',
             'plone.app.querystring:upgrade_to_5',
             'plone.app.querystring:upgrade_to_6',

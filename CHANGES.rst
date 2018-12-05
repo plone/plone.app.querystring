@@ -14,7 +14,8 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Do not show default profile as installable (already installed with core)
+  [jensens]
 
 
 1.4.10 (2018-10-31)
