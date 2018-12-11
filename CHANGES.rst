@@ -4,14 +4,6 @@ Changelog
 1.4.11 (unreleased)
 -------------------
 
-Breaking changes:
-
-- *add item here*
-
-New features:
-
-- *add item here*
-
 Bug fixes:
 
 - Do not show default profile as installable (already installed with core)
