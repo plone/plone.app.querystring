@@ -71,9 +71,15 @@ def _equal(context, row):
 def _intEqual(context, row):
     values = None
     if type(row.values) is list:
-        values = [int(v) for v in row.values]
-    elif type(row.values) is str:
-        values = int(row.values)
+        try:
+            values = [int(v) for v in row.values]
+        except (ValueError, TypeError, AttributeError):
+            pass
+    elif not isinstance(row.values, int):
+        try:
+            values = int(row.values)
+        except (ValueError, TypeError, AttributeError):
+            pass
     return {row.index: {'query': values, }}
 
 
@@ -107,8 +113,11 @@ def _largerThan(context, row):
 
 def _intLargerThan(context, row):
     value = None
-    if type(row.values) is str:
-        value = int(row.values)
+    if not isinstance(row.values, int):
+        try:
+            value = int(row.values)
+        except (ValueError, TypeError, AttributeError):
+            pass
     tmp = {row.index:
            {
                'query': value,
@@ -130,8 +139,12 @@ def _lessThan(context, row):
 
 def _intLessThan(context, row):
     value = None
-    if type(row.values) is str:
-        value = int(row.values)
+    if not isinstance(row.values, int):
+        try:
+            value = int(row.values)
+        except (ValueError, TypeError, AttributeError):
+            # value = 0
+            pass
     tmp = {row.index:
            {
                'query': value,
