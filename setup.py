@@ -28,7 +28,7 @@ setup(
     keywords='collection queries',
     author='Plone Foundation',
     author_email='plone-developers@lists.sourceforge.net',
-    url='https://github.com/plone/plone.app.querystring'.
+    url='https://github.com/plone/plone.app.querystring',
     license='GPL version 2',
     packages=find_packages(),
     namespace_packages=['plone', 'plone.app'],
