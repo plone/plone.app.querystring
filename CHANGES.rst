@@ -8,6 +8,18 @@ Changelog
 
 .. towncrier release notes start
 
+1.4.12 (2019-10-09)
+-------------------
+
+Bug fixes:
+
+
+- Integer criterions: try to convert all input to integers.
+  Most notably this did not happen for unicode on Python 2.
+  So a ``u"42"`` was passed as value to the catalog query, and this matched either all or nothing.
+  [maurits] (#93)
+
+
 1.4.11 (2018-12-10)
 -------------------
 
