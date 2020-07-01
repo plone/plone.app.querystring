@@ -43,6 +43,10 @@ def parseFormquery(context, formquery, sort_on=None, sort_order=None):
         # Special path handling - since multipath queries are possible
         if 'path' in query and 'path' in kwargs:
             query['path']['query'].extend(kwargs['path']['query'])
+        # Special translation group path handling - since multipath tg
+        # queries are possible
+        elif 'tgpath' in query and 'tgpath' in kwargs:
+            query['tgpath']['query'].extend(kwargs['tgpath']['query'])
         else:
             query.update(kwargs)
 
