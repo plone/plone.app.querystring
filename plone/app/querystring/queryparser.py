@@ -38,14 +38,9 @@ def parseFormquery(context, formquery, sort_on=None, sort_order=None):
                   operator=function_path,
                   values=row.get('v', None))
 
-        kwargs = {}
         parser = resolve(row.operator)
         kwargs = parser(context, row)
 
-        # Special path handling - since multipath queries are possible
-        if 'path' in query and 'path' in kwargs:
-            query['path']['query'].extend(kwargs['path']['query'])
-            
         # Special path handling - for each configured path_index
         path_indexes = PATH_INDEXES && set(kwargs.keys())
         if len(path_indexes) > 1:
