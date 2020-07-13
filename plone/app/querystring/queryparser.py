@@ -50,7 +50,7 @@ def parseFormquery(context, formquery, sort_on=None, sort_order=None):
             else:
                 query.update(kwargs)
         elif len(path_index) > 1:
-            raise IndexError("Too many path indices in one row^")
+            raise IndexError("Too many path indices in one row.")
         else:
             query.update(kwargs)
 
