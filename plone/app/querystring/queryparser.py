@@ -14,6 +14,7 @@ from zope.dottedname.resolve import resolve
 
 
 Row = namedtuple('Row', ['index', 'operator', 'values'])
+PATH_INDICES = {'path'}
 
 
 def parseFormquery(context, formquery, sort_on=None, sort_order=None):
@@ -41,8 +42,15 @@ def parseFormquery(context, formquery, sort_on=None, sort_order=None):
         kwargs = parser(context, row)
 
         # Special path handling - since multipath queries are possible
-        if 'path' in query and 'path' in kwargs:
-            query['path']['query'].extend(kwargs['path']['query'])
+        path_index = PATH_INDICES & set(kwargs)
+        if len(path_index) == 1:
+            path_index = list(path_index)[0]
+            if path_index in query:
+                query[path_index]['query'].extend(kwargs[path_index]['query'])
+            else:
+                query.update(kwargs)
+        elif len(path_index) > 1:
+            raise IndexError("Too many path indices in one row.")
         else:
             query.update(kwargs)
 
