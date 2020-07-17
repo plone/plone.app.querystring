@@ -8,6 +8,15 @@ Changelog
 
 .. towncrier release notes start
 
+1.4.14 (2020-07-17)
+-------------------
+
+Bug fixes:
+
+
+- Fixing issue #97: Multiple path support for Translation Groups, using PATH_INDICES as suggested by jensens (#97)
+
+
 1.4.13 (2020-04-20)
 -------------------
 
