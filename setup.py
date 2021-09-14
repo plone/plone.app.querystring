@@ -43,7 +43,6 @@ setup(
         'plone.app.contentlisting',
         'plone.app.layout',
         'plone.app.registry>=1.1dev',
-        'plone.app.vocabularies',
         'plone.batching',
         'plone.registry',
         'python-dateutil',
