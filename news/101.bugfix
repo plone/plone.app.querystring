@@ -1,2 +1,2 @@
-Remove cyclic dependency with Products.CMFPlone, plone.app.vocabularies
+Remove cyclic dependency with plone.app.vocabularies
 [sneridagh]
