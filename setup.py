@@ -44,7 +44,7 @@ setup(
         'Products.CMFPlone',
         'plone.app.contentlisting',
         'plone.app.layout',
-        'plone.app.registry>=1.1dev',
+        'plone.app.registry>=1.1',
         'plone.batching',
         'plone.registry',
         'python-dateutil',
