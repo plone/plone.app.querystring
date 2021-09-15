@@ -8,6 +8,16 @@ Changelog
 
 .. towncrier release notes start
 
+1.4.15 (2021-09-15)
+-------------------
+
+Bug fixes:
+
+
+- Remove cyclic dependency with plone.app.vocabularies
+  [sneridagh] (#101)
+
+
 1.4.14 (2020-07-17)
 -------------------
 
