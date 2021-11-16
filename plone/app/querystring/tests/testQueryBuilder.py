@@ -188,6 +188,37 @@ class TestQuerybuilder(unittest.TestCase):
         self.assertEqual(len(results), 1)
         self.assertEqual(results[0].Title(), 'Test Folder')
 
+    def testQueryBuilderCustomQueryDoNotOverrideValues(self):
+        """Test if custom queries do not override values if they are dicts
+        """
+        self.portal.invokeFactory("Document",
+                                  "collectionstestpage-2",
+                                  title="Collectionstestpage 2")
+        testpage2 = self.portal['collectionstestpage-2']
+        query = [{
+            'i': 'UID',
+            'o': 'plone.app.querystring.operation.string.is',
+            'v': [self.testpage.UID(), testpage2.UID()],
+        }]
+
+        results = self.querybuilder._makequery(query=query)
+        self.assertEqual(len(results), 2)
+        self.assertEqual(results[0].Title(), 'Collectionstestpage')
+        self.assertEqual(results[1].Title(), 'Collectionstestpage 2')
+
+        # if we add new values to the query, they should not be overwritten
+        results = self.querybuilder._makequery(
+            query=query,
+            custom_query={'UID': {'not': testpage2.UID()}})
+        self.assertEqual(len(results), 1)
+        self.assertEqual(results[0].Title(), 'Collectionstestpage')
+
+        # if we add the same values to the query, they should be overwritten
+        results = self.querybuilder._makequery(
+            query=query,
+            custom_query={'UID': {'query': testpage2.UID()}})
+        self.assertEqual(len(results), 1)
+        self.assertEqual(results[0].Title(), 'Collectionstestpage 2')
 
 class TestQuerybuilderResultTypes(unittest.TestCase):
 
