@@ -84,8 +84,8 @@ class QuerystringRegistryReader(object):
                 logger.info("%s is missing, ignored." % vocabulary)
                 continue
             translated = []
-            if field.get('lazy', False):
-                # Bail out if the annotation is marked as lazy
+            if not field.get('fetch_vocabulary', True):
+                # Bail out if the annotation is marked not to fetch the vocabulary
                 # to allow the widget to query the vocabulary as needed
                 continue
             for item in utility(self.context):

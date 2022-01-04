@@ -28,7 +28,7 @@ class IQueryField(Interface):
     description = Text(title=u"Description")
     enabled = Bool(title=u"Enabled")
     sortable = Bool(title=u"Sortable")
-    lazy = Bool(title=u"Lazy")
+    fetch_vocabulary = Bool(title=u"Fetch vocabulary", default=True)
     operations = List(title=u"Operations",
                       value_type=DottedName(title=u"Operation ID"))
     vocabulary = TextLine(title=u"Vocabulary")
