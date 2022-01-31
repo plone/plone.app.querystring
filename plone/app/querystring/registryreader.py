@@ -84,6 +84,10 @@ class QuerystringRegistryReader(object):
                 logger.info("%s is missing, ignored." % vocabulary)
                 continue
             translated = []
+            if not field.get('fetch_vocabulary', True):
+                # Bail out if the annotation is marked not to fetch the vocabulary
+                # to allow the widget to query the vocabulary as needed
+                continue
             for item in utility(self.context):
                 if isinstance(item.title, Message):
                     title = translate(item.title, context=self.request)

@@ -15,7 +15,8 @@ parsed_correct = {
                         'vocabulary': None,
                         'title': u'Short Name',
                         'enabled': True,
-                        'sortable': True
+                        'sortable': True,
+                        'fetch_vocabulary': True
                     },
                     'created': {
                         'operations': [
@@ -28,7 +29,8 @@ parsed_correct = {
                         'vocabulary': None,
                         'title': u'Creation Date',
                         'enabled': True,
-                        'sortable': False
+                        'sortable': False,
+                        'fetch_vocabulary': True
                     }
                 },
                 'operation': {
