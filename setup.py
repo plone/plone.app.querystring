@@ -17,7 +17,6 @@ setup(
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         "Framework :: Plone",
-        "Framework :: Plone :: 5.1",
         "Framework :: Plone :: 5.2",
         "Framework :: Plone :: 6.0",
         "Framework :: Plone :: Core",
