@@ -8,6 +8,16 @@ Changelog
 
 .. towncrier release notes start
 
+1.5.0 (2022-02-04)
+------------------
+
+New features:
+
+
+- Add lazy attribute to vocabularies to prevent fetching any results
+  [reebalazs] (#104)
+
+
 1.4.15 (2021-09-15)
 -------------------
 
