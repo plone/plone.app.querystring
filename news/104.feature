@@ -1,2 +1,2 @@
-- Add lazy attribute to vocabularies to prevent fetching any results
-  [reebalazs]
+Add lazy attribute to vocabularies to prevent fetching any results
+[reebalazs]
