@@ -220,6 +220,14 @@ class TestQuerybuilder(unittest.TestCase):
         self.assertEqual(len(results), 1)
         self.assertEqual(results[0].Title(), 'Collectionstestpage 2')
 
+        # add simple custom query
+        results = self.querybuilder._makequery(
+            query=query,
+            custom_query={'UID': testpage2.UID()})
+        self.assertEqual(len(results), 1)
+        self.assertEqual(results[0].Title(), 'Collectionstestpage 2')
+
+
 class TestQuerybuilderResultTypes(unittest.TestCase):
 
     layer = TEST_PROFILE_PLONEAPPQUERYSTRING_INTEGRATION_TESTING

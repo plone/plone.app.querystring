@@ -161,15 +161,13 @@ class QueryBuilder(BrowserView):
             # override the parsed query. The custom_query is a dictonary of
             # index names and their associated query values.
             for key in custom_query:
-                if key in parsedquery:
-                    if isinstance(parsedquery[key], dict) and isinstance(
-                        custom_query[key], dict
-                    ):
-                        parsedquery[key].update(custom_query[key])
-                    else:
-                        parsedquery[key] = custom_query[key]
-                else:
-                    parsedquery[key] = custom_query[key]
+                if (
+                    isinstance(parsedquery.get(key), dict)
+                    and isinstance(custom_query.get(key), dict)
+                ):
+                    parsedquery[key].update(custom_query[key])
+                    continue
+                parsedquery[key] = custom_query[key]
             empty_query = False
 
         # filter bad term and operator in query
