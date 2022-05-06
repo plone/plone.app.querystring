@@ -37,20 +37,35 @@ def vocabulary_value_look_up(query):
     for query_param in query:
         query_field_name = query_param.get('i')
         query_vocabulary_name = registry.get(f"plone.app.querystring.field.{query_field_name}.vocabulary")
+
         if query_vocabulary_name:
+
             query_terms = query_param.get('v')
             factory = getUtility(IVocabularyFactory, query_vocabulary_name)
             vocabulary = factory(None)
-            new_terms = []
-            for query_term in query_terms:
+            if type(query_terms) is list:
+                new_terms = []
+                for query_term in query_terms:
+                    try:
+                        vocabulary_term = vocabulary.getTerm(query_term)
+                        new_terms.append(query_term)
+
+                    except:
+                        for term in vocabulary:
+                            if term.token == query_term:
+                                new_terms.append(term.value)
+                                break
+                query_param['v']= new_terms
+            elif type(query_terms) is str:
                 try:
-                    vocabulary_term = vocabulary.getTerm(query_term)
+                    vocabulary_term = vocabulary.getTerm(query_terms)
                 except:
                     for term in vocabulary:
-                        if term.token == query_term:
-                            new_terms.append(term.value)
+                        if term.token == query_terms:
+                            query_terms=term.value
                             break
-        query_param['v']= new_terms
+            query_param['v']= query_terms
+
         query_vocabulary_name = None
 
     return query
