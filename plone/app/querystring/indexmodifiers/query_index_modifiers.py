@@ -22,9 +22,19 @@ class Subject(object):
     """
 
     def __call__(self, value):
-        query = value['query']
+        if not six.PY2:
+            return ('Subject', value)
+
+        # Get the query operator
+        op = None
+        if 'query' in value:
+            op = 'query'
+        elif 'not' in value:
+            op = 'not'
+
+        query = value[op]
         # query can be a unicode string or a list of unicode strings.
-        if six.PY2 and isinstance(query, six.text_type):
+        if isinstance(query, six.text_type):
             query = query.encode("utf-8")
         elif isinstance(query, list):
             # We do not want to change the collections' own query string,
@@ -34,13 +44,13 @@ class Subject(object):
             # unicode strings
             i = 0
             for item in copy_of_query:
-                if six.PY2 and isinstance(item, six.text_type):
+                if isinstance(item, six.text_type):
                     copy_of_query[i] = item.encode("utf-8")
                 i += 1
             query = copy_of_query
         else:
             pass
-        value['query'] = query
+        value[op] = query
         return ('Subject', value)
 
 

@@ -137,4 +137,14 @@
         />
   </genericsetup:upgradeSteps>
 
+  <genericsetup:upgradeSteps
+      source="13"
+      destination="14"
+      profile="plone.app.querystring:default">
+    <genericsetup:upgradeDepends
+        title="Add new 'string.isNot' and 'selection.none' query operators."
+        import_profile="plone.app.querystring:upgrade_to_14"
+        />
+  </genericsetup:upgradeSteps>
+
 </configure>

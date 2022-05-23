@@ -52,10 +52,13 @@ class TestFieldDefinitions(unittest.TestCase):
         self.assertEqual(registry[prefix + ".title"], "Short name (id)")
 
         operations = registry[prefix + ".operations"]
-        self.assertEqual(len(operations), 1)
+        self.assertEqual(len(operations), 2)
 
         equal = 'plone.app.querystring.operation.string.is'
         self.assertTrue(equal in operations)
+
+        exclude = 'plone.app.querystring.operation.string.isNot'
+        self.assertTrue(exclude in operations)
 
         self.assertEqual(registry[prefix + ".description"],
                          "The short name of an item (used in the url)")
