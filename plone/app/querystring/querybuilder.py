@@ -160,11 +160,18 @@ class QueryBuilder(BrowserView):
             # Update the parsed query with an extra query dictionary. This may
             # override the parsed query. The custom_query is a dictonary of
             # index names and their associated query values.
-            parsedquery.update(custom_query)
+            for key in custom_query:
+                if (
+                    isinstance(parsedquery.get(key), dict)
+                    and isinstance(custom_query.get(key), dict)
+                ):
+                    parsedquery[key].update(custom_query[key])
+                    continue
+                parsedquery[key] = custom_query[key]
             empty_query = False
 
         # filter bad term and operator in query
-        parsedquery =  self.filter_query(parsedquery)
+        parsedquery = self.filter_query(parsedquery)
         results = []
         if not empty_query:
             results = catalog(**parsedquery)
