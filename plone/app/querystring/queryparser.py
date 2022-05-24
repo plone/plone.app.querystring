@@ -75,6 +75,10 @@ def _contains(context, row):
     return _equal(context, row)
 
 
+def _excludes(context, row):
+    return {row.index: {'not': row.values}}
+
+
 def _equal(context, row):
     return {row.index: {'query': row.values, }}
 

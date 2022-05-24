@@ -81,4 +81,12 @@
         provides="Products.GenericSetup.interfaces.EXTENSION"
         />
 
+    <genericsetup:registerProfile
+        name="upgrade_to_14"
+        title="Querystring Upgrade profile to v14"
+        description=""
+        directory="profiles/upgrades/to_14"
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
+
  </configure>

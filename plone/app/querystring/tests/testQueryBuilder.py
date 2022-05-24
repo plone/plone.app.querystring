@@ -69,6 +69,35 @@ class TestQuerybuilder(unittest.TestCase):
             results[0].getURL(),
             'http://nohost/plone/collectionstestpage')
 
+    def testQueryStringIs(self):
+        query = [{
+            'i': 'sortable_title',
+            'o': 'plone.app.querystring.operation.string.is',
+            'v': 'collectionstestpage',
+        }]
+
+        # Test normal, without custom_query.
+        results = self.querybuilder._makequery(query=query)
+        self.assertEqual(len(results), 1)
+        self.assertEqual(results[0].Title(), 'Collectionstestpage')
+
+    def testQueryStringIsNot(self):
+        query = [{
+            'i': 'portal_type',
+            'o': 'plone.app.querystring.operation.selection.none',
+            'v': 'Plone Site',
+        }, {
+            'i': 'sortable_title',
+            'o': 'plone.app.querystring.operation.string.isNot',
+            'v': 'collectionstestpage',
+        }]
+
+        # Test normal, without custom_query.
+        results = self.querybuilder._makequery(query=query)
+        print([it.Title() for it in results])
+        self.assertEqual(len(results), 1)
+        self.assertEqual(results[0].Title(), 'Test Folder')
+
     def testMakeQueryWithSubject(self):
         self.testpage.setSubject(['Lorem'])
         self.testpage.reindexObject()
@@ -83,6 +112,22 @@ class TestQuerybuilder(unittest.TestCase):
             results[0].getURL(),
             'http://nohost/plone/collectionstestpage')
 
+    def testMakeQueryWithSubjectNot(self):
+        self.folder.setSubject(['Ipsum'])
+        self.folder.reindexObject()
+        self.testpage.setSubject(['Lorem'])
+        self.testpage.reindexObject()
+        query = [{
+            'i': 'Subject',
+            'o': 'plone.app.querystring.operation.selection.none',
+            'v': 'Lorem',
+        }]
+        results = self.querybuilder._makequery(query=query)
+        self.assertEqual(len(results), 1)
+        self.assertEqual(
+            results[0].getURL(),
+            'http://nohost/plone/testfolder')
+
     def testMakeQueryWithMultipleSubject(self):
         self.testpage.setSubject(['Lorem'])
         self.testpage.reindexObject()
@@ -96,6 +141,22 @@ class TestQuerybuilder(unittest.TestCase):
         self.assertEqual(
             results[0].getURL(),
             'http://nohost/plone/collectionstestpage')
+
+    def testMakeQueryWithMultipleSubjectNot(self):
+        self.folder.setSubject(['Ipsum'])
+        self.folder.reindexObject()
+        self.testpage.setSubject(['Lorem'])
+        self.testpage.reindexObject()
+        query = [{
+            'i': 'Subject',
+            'o': 'plone.app.querystring.operation.selection.none',
+            'v': ['Lorem', 'Dolor'],
+        }]
+        results = self.querybuilder._makequery(query=query)
+        self.assertEqual(len(results), 1)
+        self.assertEqual(
+            results[0].getURL(),
+            'http://nohost/plone/testfolder')
 
     def testMakeQueryWithSubjectWithSpecialCharacters(self):
         self.testpage.setSubject(['Äüö'])
