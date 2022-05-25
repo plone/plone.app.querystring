@@ -8,6 +8,23 @@ Changelog
 
 .. towncrier release notes start
 
+1.6.0 (2022-05-26)
+------------------
+
+New features:
+
+
+- Add negation-query operators string.isNot and selection.none.
+  New ``plone.app.querystring.operation.string.isNot`` and ``plone.app.querystring.operation.selection.none`` including upgrade steps.
+  [thet] (#110)
+
+
+Bug fixes:
+
+
+- Fix how to merge custom_query with parsedquery without overriding values. [cekk] (#103)
+
+
 1.5.0 (2022-02-04)
 ------------------
 

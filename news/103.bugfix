@@ -1,1 +1,0 @@
-Fix how to merge custom_query with parsedquery without overriding values. [cekk]
