@@ -13,7 +13,7 @@ from zope.i18n import translate
 from zope.i18nmessageid import MessageFactory
 from zope.publisher.browser import BrowserView
 
-import jso
+import json
 import logging
 import re
 
