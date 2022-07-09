@@ -13,7 +13,7 @@ from zope.i18n import translate
 from zope.i18nmessageid import MessageFactory
 from zope.publisher.browser import BrowserView
 
-import json
+import jso
 import logging
 import re
 
@@ -244,7 +244,7 @@ class QueryBuilder(BrowserView):
             query["SearchableText"] = self.munge_search_term(text)
         return query
 
-    def munge_search_term(query):
+    def munge_search_term(self, query):
         for char in BAD_CHARS:
             query = query.replace(char, " ")
 
