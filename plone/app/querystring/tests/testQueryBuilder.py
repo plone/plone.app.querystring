@@ -209,6 +209,48 @@ class TestQuerybuilder(unittest.TestCase):
             results[0].getObject().Subject(),
             ('Äüö',))
 
+    def testMakeQueryWithSearchableText(self):
+        query = [{
+            'i': 'SearchableText',
+            'o': 'plone.app.querystring.operation.string.contains',
+            'v': u'Test',
+        }]
+        results = self.querybuilder._makequery(query=query)
+        self.assertEqual(len(results), 1)
+        self.assertEqual(
+            results[0].getURL(),
+            'http://nohost/plone/testfolder')
+
+    def testMakeQueryWithSearchableTextSpecialWordsAnd(self):
+        self.testpage.description = 'This and that is the description'
+        self.testpage.reindexObject()
+        query = [{
+            'i': 'SearchableText',
+            'o': 'plone.app.querystring.operation.string.contains',
+            'v': u'This and that',
+        }]
+        results = self.querybuilder._makequery(query=query)
+        self.assertEqual(len(results), 1)
+        self.assertEqual(
+            results[0].getURL(),
+            'http://nohost/plone/collectionstestpage')
+
+    def testMakeQueryWithSearchableTextSpecialWordsOr(self):
+        self.testpage.description = 'This or that is the description'
+        self.testpage.reindexObject()
+        query = [{
+            'i': 'SearchableText',
+            'o': 'plone.app.querystring.operation.string.contains',
+            'v': u'This or that',
+        }]
+        results = self.querybuilder._makequery(query=query)
+        self.assertEqual(len(results), 1)
+        self.assertEqual(
+            results[0].getURL(),
+            'http://nohost/plone/collectionstestpage')
+
+
+
     def testQueryBuilderCustomQuery(self):
         """Test, if custom queries are respected when getting the results.
         """
