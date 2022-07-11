@@ -8,15 +8,16 @@ from plone.app.querystring.interfaces import IQuerystringRegistryReader
 from plone.batching import Batch
 from plone.registry.interfaces import IRegistry
 from Products.CMFCore.utils import getToolByName
-from zope.component import getMultiAdapter, getUtility, getUtilitiesFor
+from Products.CMFPlone.browser.search import munge_search_term
+from zope.component import getMultiAdapter
+from zope.component import getUtilitiesFor
+from zope.component import getUtility
 from zope.i18n import translate
 from zope.i18nmessageid import MessageFactory
 from zope.publisher.browser import BrowserView
-from Products.CMFPlone.browser.search import munge_search_term
 
 import json
 import logging
-
 
 logger = logging.getLogger("plone.app.querystring")
 _ = MessageFactory("plone")
@@ -219,8 +220,11 @@ class QueryBuilder(BrowserView):
         if isinstance(text, dict):
             text = text.get("query", "")
         if text:
-            query["SearchableText"] = munge_search_term(text)
+            query["SearchableText"] = self.munge_search_term(text)
         return query
+
+    def munge_search_term(self, q):
+        return munge_search_term(q)
 
 
 class RegistryConfiguration(BrowserView):
