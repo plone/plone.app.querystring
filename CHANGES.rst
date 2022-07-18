@@ -8,6 +8,16 @@ Changelog
 
 .. towncrier release notes start
 
+1.6.1 (2022-07-18)
+------------------
+
+Bug fixes:
+
+
+- Make SearchableText work when using 'and' and 'or' as search items
+  [erral] (#111)
+
+
 1.6.0 (2022-05-26)
 ------------------
 
