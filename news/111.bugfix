@@ -1,0 +1,2 @@
+Use function from Products.CMFPlone to handle cleaning of search terms. Fixes #111
+[erral]
