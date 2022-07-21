@@ -8,6 +8,16 @@ Changelog
 
 .. towncrier release notes start
 
+2.0.0 (2022-07-21)
+------------------
+
+Bug fixes:
+
+
+- Use function from Products.CMFPlone to handle cleaning of search terms. Fixes #111
+  [erral] (#111)
+
+
 1.6.0 (2022-05-26)
 ------------------
 
