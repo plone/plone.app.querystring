@@ -63,4 +63,8 @@
     component=".querymodifiers.modify_query_to_enforce_navigation_root"
     name="1000"
     />
+  <utility
+    component=".querymodifiers.vocabulary_value_look_up"
+    name="1001"
+  />
 </configure>
