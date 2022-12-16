@@ -99,7 +99,6 @@ class TestQuerybuilder(unittest.TestCase):
 
         # Test normal, without custom_query.
         results = self.querybuilder._makequery(query=query)
-        print([it.Title() for it in results])
         self.assertEqual(len(results), 1)
         self.assertEqual(results[0].Title(), "Test Folder")
 
