@@ -8,6 +8,16 @@ Changelog
 
 .. towncrier release notes start
 
+2.0.1 (2022-12-21)
+------------------
+
+Bug fixes:
+
+
+- Minor cleanup on tests.
+  [gforcada] (#1)
+
+
 2.0.0 (2022-07-21)
 ------------------
 
