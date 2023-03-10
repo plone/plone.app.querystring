@@ -93,13 +93,13 @@ class QuerystringRegistryReader(object):
                     title = translate(item.title, context=self.request)
                 else:
                     title = item.title
-                translated.append((title, item.value))
+                translated.append((title, item.value, item.token))
             translated = sorted(
                 translated,
                 key=lambda x: normalizeString(safe_unicode(x[0]))
             )
-            for (title, value) in translated:
-                field['values'][value] = {'title': title}
+            for (title, value, token) in translated:
+                field['values'][value] = {'title': title, 'token': token}
 
         return values
 

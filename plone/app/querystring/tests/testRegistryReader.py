@@ -77,7 +77,7 @@ class TestRegistryReader(unittest.TestCase):
         result = reader.getVocabularyValues(result)
         vocabulary_result = result.get(
             'plone.app.querystring.field.reviewState.values')
-        self.assertEqual(vocabulary_result, {'foo': {'title': u'bar'}})
+        self.assertEqual(vocabulary_result, {'foo': {'title': u'bar', 'token': 'foo'}})
 
     def test_map_operations_clean(self):
         """tests if mapOperations is getting all operators correctly"""
