@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from datetime import datetime
 from DateTime import DateTime
 from plone.app.querystring.indexmodifiers import query_index_modifiers
@@ -10,17 +9,17 @@ class TestIndexModifiers(unittest.TestCase):
 
     def test_subject_encoded(self):
         self.assertEqual(
-            query_index_modifiers.Subject()({'query': u'foobar'}),
-            ('Subject', {'query': u'foobar'}))
+            query_index_modifiers.Subject()({'query': 'foobar'}),
+            ('Subject', {'query': 'foobar'}))
 
     def test_subject_encoded__list(self):
         self.assertEqual(
-            query_index_modifiers.Subject()({'query': [u'foobar']}),
-            ('Subject', {'query': [u'foobar']}))
+            query_index_modifiers.Subject()({'query': ['foobar']}),
+            ('Subject', {'query': ['foobar']}))
 
     def test_subject_encoded__list_not(self):
         self.assertEqual(
-            query_index_modifiers.Subject()({'not': [u'foobar']}),
+            query_index_modifiers.Subject()({'not': ['foobar']}),
             ('Subject', {'not': ['foobar']}))
 
     def test_date_modifier(self):
@@ -71,6 +70,6 @@ class TestIndexModifiers(unittest.TestCase):
     def test_invalid_date(self):
         modifier = query_index_modifiers.start()
         query = {'query': 'foobar'}
-        self.assertEquals(
+        self.assertEqual(
             modifier(query)[1]['query'], 'foobar'
         )

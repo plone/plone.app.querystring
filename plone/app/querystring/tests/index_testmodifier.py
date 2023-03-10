@@ -1,11 +1,9 @@
-# -*- coding: utf8 -*-
-
 from zope.interface import implementer
 from plone.app.querystring.interfaces import IParsedQueryIndexModifier
 
 
 @implementer(IParsedQueryIndexModifier)
-class SimpleFooIndexModifier(object):
+class SimpleFooIndexModifier:
     """Test simple index modifier that do nothing"""
 
     def __call__(self, value):
@@ -13,7 +11,7 @@ class SimpleFooIndexModifier(object):
 
 
 @implementer(IParsedQueryIndexModifier)
-class TitleFooIndexModifier(object):
+class TitleFooIndexModifier:
     """Test index modifier that check always Foo"""
 
     def __call__(self, value):
@@ -21,7 +19,7 @@ class TitleFooIndexModifier(object):
 
 
 @implementer(IParsedQueryIndexModifier)
-class AbstractToDescriptionIndexModifier(object):
+class AbstractToDescriptionIndexModifier:
     """
     Test index modifier that translate "Abstract" to Description index
     but where value do not count letter "e"

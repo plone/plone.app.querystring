@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from collections import OrderedDict
 from plone.app.querystring.interfaces import IQuerystringRegistryReader
 from Products.CMFCore.utils import getToolByName
@@ -25,7 +24,7 @@ class DottedDict(dict):
 
     def get(self, k, default=None):
         if '.' not in k:
-            return super(DottedDict, self).get(k, default)
+            return super().get(k, default)
         val = self
         for x in k.split('.'):
             val = val[x]
@@ -33,7 +32,7 @@ class DottedDict(dict):
 
 
 @implementer(IQuerystringRegistryReader)
-class QuerystringRegistryReader(object):
+class QuerystringRegistryReader:
     """Adapts a registry object to parse the querystring data."""
 
     prefix = "plone.app.querystring"
@@ -123,13 +122,13 @@ class QuerystringRegistryReader(object):
         """Map sortable indexes"""
         catalog = getToolByName(getSite(), 'portal_catalog')._catalog
         sortables = {}
-        for key, field in six.iteritems(values.get('%s.field' % self.prefix)):
+        for key, field in values.get('%s.field' % self.prefix).items():
             if (
                 field['sortable']
                 and key in catalog.indexes
                 and not IZCTextIndex.providedBy(catalog.getIndex(key))
             ):
-                sortables[key] = values.get('%s.field.%s' % (self.prefix, key))
+                sortables[key] = values.get('{}.field.{}'.format(self.prefix, key))
         values['sortable'] = sortables
         return values
 

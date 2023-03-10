@@ -1,11 +1,10 @@
-# -*- coding: utf-8 -*-
 from Products.CMFPlone.interfaces import INonInstallable as \
     INonInstallableProfiles
 from zope.interface import implementer
 
 
 @implementer(INonInstallableProfiles)
-class HiddenProfiles(object):
+class HiddenProfiles:
 
     def getNonInstallableProfiles(self):
         """Returns a list of profiles that should not be available for

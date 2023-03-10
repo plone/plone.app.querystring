@@ -1,4 +1,3 @@
-# -*- coding: utf8 -*-
 from dateutil.parser import parse
 from plone.app.querystring.interfaces import IParsedQueryIndexModifier
 from zope.interface import implementer
@@ -8,7 +7,7 @@ import six
 
 
 @implementer(IParsedQueryIndexModifier)
-class Subject(object):
+class Subject:
 
     """
     The Subject field in Plone currently uses a utf-8 encoded string.
@@ -22,8 +21,7 @@ class Subject(object):
     """
 
     def __call__(self, value):
-        if not six.PY2:
-            return ('Subject', value)
+        return ('Subject', value)
 
         # Get the query operator
         op = None
@@ -34,7 +32,7 @@ class Subject(object):
 
         query = value[op]
         # query can be a unicode string or a list of unicode strings.
-        if isinstance(query, six.text_type):
+        if isinstance(query, str):
             query = query.encode("utf-8")
         elif isinstance(query, list):
             # We do not want to change the collections' own query string,
@@ -44,7 +42,7 @@ class Subject(object):
             # unicode strings
             i = 0
             for item in copy_of_query:
-                if isinstance(item, six.text_type):
+                if isinstance(item, str):
                     copy_of_query[i] = item.encode("utf-8")
                 i += 1
             query = copy_of_query
@@ -55,7 +53,7 @@ class Subject(object):
 
 
 @implementer(IParsedQueryIndexModifier)
-class base(object):
+class base:
     """DateIndex query modifier
     see Products.PluginIndexes.DateIndex.DateIndex.DateIndex._convert function
     """
@@ -65,10 +63,10 @@ class base(object):
         def _normalize(val):
             """Encode value, parse dates.
             """
-            if six.PY2 and isinstance(val, six.text_type):
+            if six.PY2 and isinstance(val, str):
                 val = val.encode("utf-8")
 
-            if isinstance(val, six.string_types):
+            if isinstance(val, str):
                 try:
                     val = parse(val)
                 except (ValueError, AttributeError):

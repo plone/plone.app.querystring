@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from DateTime import DateTime
 from Products.CMFCore.interfaces import ICatalogTool
 from Products.CMFCore.interfaces import IMembershipTool
@@ -24,7 +23,7 @@ import unittest
 MOCK_SITE_ID = "site"
 
 
-class MockObject(object):
+class MockObject:
 
     def __init__(self, uid, path):
         self.uid = uid
@@ -40,7 +39,7 @@ class MockObject(object):
         return self.path
 
 
-class MockCatalog(object):
+class MockCatalog:
 
     def unrestrictedSearchResults(self, query):
         uid = query.get('UID')
@@ -60,7 +59,7 @@ class MockCatalog(object):
                 'getRawRelatedItems', 'Subject']
 
 
-class MockPortalUrl(object):
+class MockPortalUrl:
 
     def getPortalPath(self):
         return "/%s" % MOCK_SITE_ID
@@ -69,18 +68,18 @@ class MockPortalUrl(object):
         return MockObject(uid='00000000000000000', path="/%s" % MOCK_SITE_ID)
 
 
-class MockNavtreeProperties(object):
+class MockNavtreeProperties:
 
     def getProperty(self, name, default=""):
         return ""
 
 
-class MockSiteProperties(object):
+class MockSiteProperties:
     navtree_properties = MockNavtreeProperties()
 
 
 @implementer(INavigationRoot, IPloneSiteRoot)
-class MockSite(object):
+class MockSite:
 
     def __init__(self, portal_membership=None):
         sm = getSiteManager()
@@ -102,7 +101,7 @@ class MockNavRoot(MockObject):
     pass
 
 
-class MockUser(object):
+class MockUser:
 
     def __init__(self, username=None, roles=None):
         self.username = 'Anonymous User'
@@ -117,7 +116,7 @@ class MockUser(object):
         return self.roles
 
 
-class MockPortal_membership(object):
+class MockPortal_membership:
 
     def __init__(self, user):
         self.user = user
@@ -142,7 +141,7 @@ class TestQueryParserBase(unittest.TestCase):
             'plone.app.querystring.queryparser._absolutePath')
 
     def setFunctionForOperation(self, operation, function):
-        function_field = field.ASCIILine(title=u"Operator")
+        function_field = field.ASCIILine(title="Operator")
         function_record = Record(function_field)
         function_record.value = function
         self.registry.records[operation] = function_record
@@ -338,7 +337,7 @@ class TestQueryGenerators(TestQueryParserBase):
         data = Row(
             index='modified',
             operator='_intEqual',
-            values=u'20'
+            values='20'
         )
         parsed = queryparser._intEqual(MockSite(), data)
         expected = {'modified': {'query': 20}}
@@ -348,7 +347,7 @@ class TestQueryGenerators(TestQueryParserBase):
         data = Row(
             index='modified',
             operator='_intEqual',
-            values=[u'20', u'21']
+            values=['20', '21']
         )
         parsed = queryparser._intEqual(MockSite(), data)
         expected = {'modified': {'query': [20, 21]}}
@@ -368,7 +367,7 @@ class TestQueryGenerators(TestQueryParserBase):
         data = Row(
             index='modified',
             operator='_intEqual',
-            values=[b'bad', 'text', u'values']
+            values=[b'bad', 'text', 'values']
         )
         parsed = queryparser._intEqual(MockSite(), data)
         expected = {'modified': {'query': None}}
@@ -399,7 +398,7 @@ class TestQueryGenerators(TestQueryParserBase):
         data = Row(
             index='modified',
             operator='_intLessThan',
-            values=u'20'
+            values='20'
         )
         parsed = queryparser._intLessThan(MockSite(), data)
         expected = {'modified': {'query': 20, 'range': 'max'}}
@@ -440,7 +439,7 @@ class TestQueryGenerators(TestQueryParserBase):
         data = Row(
             index='modified',
             operator='_intLargerThan',
-            values=u'20'
+            values='20'
         )
         parsed = queryparser._intLargerThan(MockSite(), data)
         expected = {'modified': {'query': 20, 'range': 'min'}}
@@ -699,9 +698,9 @@ class TestQueryGenerators(TestQueryParserBase):
         data = Row(
             index='path',
             operator='_path',
-            values='/{0}-news/'.format(MOCK_SITE_ID)
+            values=f'/{MOCK_SITE_ID}-news/'
         )
         parsed = queryparser._absolutePath(MockSite(), data)
-        expected = {'path': {'query': ['/{0}/{1}-news/'.format(MOCK_SITE_ID, MOCK_SITE_ID)]}}
+        expected = {'path': {'query': [f'/{MOCK_SITE_ID}/{MOCK_SITE_ID}-news/']}}
         self.assertEqual(parsed, expected)
         

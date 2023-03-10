@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from plone.app.querystring.testing import (
     TEST_PROFILE_PLONEAPPQUERYSTRING_INTEGRATION_TESTING,
 )
@@ -190,7 +188,7 @@ class TestQuerybuilder(unittest.TestCase):
             {
                 "i": "Subject",
                 "o": "plone.app.querystring.operation.selection.any",
-                "v": u"Äüö",
+                "v": "Äüö",
             }
         ]
         results = self.querybuilder._makequery(query=query)
@@ -207,7 +205,7 @@ class TestQuerybuilder(unittest.TestCase):
             {
                 "i": "Subject",
                 "o": "plone.app.querystring.operation.selection.any",
-                "v": [u"Äüö", u"Üöß"],
+                "v": ["Äüö", "Üöß"],
             }
         ]
         results = self.querybuilder._makequery(query=query)
@@ -222,7 +220,7 @@ class TestQuerybuilder(unittest.TestCase):
             {
                 "i": "SearchableText",
                 "o": "plone.app.querystring.operation.string.contains",
-                "v": u"Test",
+                "v": "Test",
             }
         ]
         results = self.querybuilder._makequery(query=query)
@@ -236,7 +234,7 @@ class TestQuerybuilder(unittest.TestCase):
             {
                 "i": "SearchableText",
                 "o": "plone.app.querystring.operation.string.contains",
-                "v": u"This and that",
+                "v": "This and that",
             }
         ]
         results = self.querybuilder._makequery(query=query)
@@ -252,7 +250,7 @@ class TestQuerybuilder(unittest.TestCase):
             {
                 "i": "SearchableText",
                 "o": "plone.app.querystring.operation.string.contains",
-                "v": u"This or that",
+                "v": "This or that",
             }
         ]
         results = self.querybuilder._makequery(query=query)

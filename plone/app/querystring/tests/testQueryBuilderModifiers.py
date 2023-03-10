@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from plone.app.querystring.interfaces import IParsedQueryIndexModifier
 from plone.app.querystring.testing import \
     PLONEAPPQUERYSTRING_INTEGRATION_TESTING
@@ -48,7 +46,7 @@ class TestQuerybuilderExtended(unittest.TestCase):
         gsm = getGlobalSiteManager()
         gsm.registerUtility(
             index_testmodifier.SimpleFooIndexModifier(),
-            name=u'Foo'
+            name='Foo'
         )
         query = [{
             'i': 'Title',
@@ -62,13 +60,13 @@ class TestQuerybuilderExtended(unittest.TestCase):
             self.fail("Unexpected: index modifier has been called")
         self.assertEqual(len(results), 1)
         self.assertEqual(results[0].Title(), "Collectionstestpage")
-        gsm.unregisterUtility(provided=IParsedQueryIndexModifier, name=u'Foo')
+        gsm.unregisterUtility(provided=IParsedQueryIndexModifier, name='Foo')
 
     def testModifierChangeQuery(self):
         gsm = getGlobalSiteManager()
         gsm.registerUtility(
             index_testmodifier.TitleFooIndexModifier(),
-            name=u'Title'
+            name='Title'
         )
         query = [{
             'i': 'Title',
@@ -81,14 +79,14 @@ class TestQuerybuilderExtended(unittest.TestCase):
         self.assertEqual(results[0].Title(), "Foo")
         gsm.unregisterUtility(
             provided=IParsedQueryIndexModifier,
-            name=u'Title'
+            name='Title'
         )
 
     def testModifierChangeQueryAndIndex(self):
         gsm = getGlobalSiteManager()
         gsm.registerUtility(
             index_testmodifier.AbstractToDescriptionIndexModifier(),
-            name=u'Abstract'
+            name='Abstract'
         )
         query = [{
             'i': 'Abstract',
@@ -101,5 +99,5 @@ class TestQuerybuilderExtended(unittest.TestCase):
         self.assertEqual(results[0].Title(), "Bar")
         gsm.unregisterUtility(
             provided=IParsedQueryIndexModifier,
-            name=u'Abstract'
+            name='Abstract'
         )

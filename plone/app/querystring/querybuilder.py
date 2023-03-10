@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from operator import itemgetter
 from plone.app.contentlisting.interfaces import IContentListing
 from plone.app.querystring import queryparser
@@ -35,7 +34,7 @@ class QueryBuilder(BrowserView):
     fetching configuration or results"""
 
     def __init__(self, context, request):
-        super(QueryBuilder, self).__init__(context, request)
+        super().__init__(context, request)
         self._results = None
 
     def __call__(
@@ -208,8 +207,8 @@ class QueryBuilder(BrowserView):
         results = self(query, sort_on=None, sort_order=None, limit=1)
         return translate(
             _(
-                u"batch_x_items_matching_your_criteria",
-                default=u"${number} items matching your search terms.",
+                "batch_x_items_matching_your_criteria",
+                default="${number} items matching your search terms.",
                 mapping={"number": results.actual_result_count},
             ),
             context=self.request,

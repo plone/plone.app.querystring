@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from plone.app.querystring.testing import \
     PLONEAPPQUERYSTRING_INTEGRATION_TESTING
 
@@ -22,7 +21,7 @@ class TestOperationDefinitions(unittest.TestCase):
         self.assertEqual(registry[prefix + ".description"],
                          'Tip: you can use * to autocomplete.')
         self.assertEqual(registry[prefix + ".operation"],
-                         u'plone.app.querystring.queryparser._equal')
+                         'plone.app.querystring.queryparser._equal')
 
     def test_date_lessthan(self):
         registry = self.portal.portal_registry
@@ -34,7 +33,7 @@ class TestOperationDefinitions(unittest.TestCase):
         self.assertEqual(registry[prefix + ".description"],
                          'Please use YYYY/MM/DD.')
         self.assertEqual(registry[prefix + ".operation"],
-                         u'plone.app.querystring.queryparser._lessThan')
+                         'plone.app.querystring.queryparser._lessThan')
 
 
 class TestFieldDefinitions(unittest.TestCase):

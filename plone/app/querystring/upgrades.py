@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from Products.CMFCore.utils import getUtility
 from plone.registry.interfaces import IRegistry
 
@@ -24,17 +23,17 @@ def fix_select_all_existing_collections(context, query=None):
         query = {"portal_type": "Collection"}
 
     indexes_to_fix = [
-        u'portal_type',
-        u'review_state',
-        u'Creator',
-        u'Subject'
+        'portal_type',
+        'review_state',
+        'Creator',
+        'Subject'
     ]
     operator_mapping = {
         # old -> new
-        u"plone.app.querystring.operation.selection.is":
-            u"plone.app.querystring.operation.selection.any",
-        u"plone.app.querystring.operation.string.is":
-            u"plone.app.querystring.operation.selection.any",
+        "plone.app.querystring.operation.selection.is":
+            "plone.app.querystring.operation.selection.any",
+        "plone.app.querystring.operation.string.is":
+            "plone.app.querystring.operation.selection.any",
     }
     catalog = context.portal_catalog
     brains = catalog.unrestrictedSearchResults(**query)

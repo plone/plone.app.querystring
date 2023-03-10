@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from plone.app.contenttypes.testing import PLONE_APP_CONTENTTYPES_FIXTURE
 from plone.app.testing import applyProfile
 from plone.app.testing import login
@@ -39,7 +38,7 @@ TEST_PROFILE_PLONEAPPQUERYSTRING_FIXTURE = \
 class PloneAppQuerystringLayer(PloneAppQuerystringTestProfileLayer):
 
     def setUpZope(self, app, configurationContext):
-        super(PloneAppQuerystringLayer, self).setUpZope(
+        super().setUpZope(
             app, configurationContext)
         import plone.app.querystring
         xmlconfig.file(
@@ -49,7 +48,7 @@ class PloneAppQuerystringLayer(PloneAppQuerystringTestProfileLayer):
         )
 
     def setUpPloneSite(self, portal):
-        super(PloneAppQuerystringLayer, self).setUpPloneSite(portal)
+        super().setUpPloneSite(portal)
         applyProfile(portal, 'plone.app.querystring:default')
 
 PLONEAPPQUERYSTRING_FIXTURE = PloneAppQuerystringLayer()

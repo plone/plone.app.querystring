@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from plone.registry.interfaces import IRegistry
 from plone.registry import Registry
 from zope.component import getGlobalSiteManager
@@ -16,11 +15,11 @@ import unittest
 
 
 @implementer(IVocabularyFactory)
-class TestVocabulary(object):
+class TestVocabulary:
 
     def __call__(self, context):
         return SimpleVocabulary([
-            SimpleVocabulary.createTerm('foo', 'foo', u'bar')])
+            SimpleVocabulary.createTerm('foo', 'foo', 'bar')])
 
 
 class TestRegistryReader(unittest.TestCase):
@@ -77,7 +76,7 @@ class TestRegistryReader(unittest.TestCase):
         result = reader.getVocabularyValues(result)
         vocabulary_result = result.get(
             'plone.app.querystring.field.reviewState.values')
-        self.assertEqual(vocabulary_result, {'foo': {'title': u'bar'}})
+        self.assertEqual(vocabulary_result, {'foo': {'title': 'bar'}})
 
     def test_map_operations_clean(self):
         """tests if mapOperations is getting all operators correctly"""
