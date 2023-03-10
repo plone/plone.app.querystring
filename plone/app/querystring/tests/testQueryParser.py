@@ -1,5 +1,5 @@
 from DateTime import DateTime
-from plone.app.layout.navigation.interfaces import INavigationRoot
+from plone.base.interfaces import INavigationRoot
 from plone.app.querystring import queryparser
 from plone.app.querystring.queryparser import Row
 from plone.app.querystring.testing import (
