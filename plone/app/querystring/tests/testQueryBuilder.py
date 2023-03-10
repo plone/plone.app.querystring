@@ -1,15 +1,13 @@
-from plone.app.querystring.testing import (
-    TEST_PROFILE_PLONEAPPQUERYSTRING_INTEGRATION_TESTING,
-)
+import unittest
 
 from zope.component import getMultiAdapter
 from zope.publisher.browser import TestRequest
 
-import unittest
+from plone.app.querystring.testing import \
+    TEST_PROFILE_PLONEAPPQUERYSTRING_INTEGRATION_TESTING
 
 
 class TestQuerybuilder(unittest.TestCase):
-
     layer = TEST_PROFILE_PLONEAPPQUERYSTRING_INTEGRATION_TESTING
 
     def setUp(self):
@@ -63,9 +61,7 @@ class TestQuerybuilder(unittest.TestCase):
     def testMakeQuery(self):
         results = self.querybuilder._makequery(query=self.query)
         self.assertEqual(len(results), 1)
-        self.assertEqual(
-            results[0].getURL(), "http://nohost/plone/collectionstestpage"
-        )
+        self.assertEqual(results[0].getURL(), "http://nohost/plone/collectionstestpage")
 
     def testQueryStringIs(self):
         query = [
@@ -112,9 +108,7 @@ class TestQuerybuilder(unittest.TestCase):
         ]
         results = self.querybuilder._makequery(query=query)
         self.assertEqual(len(results), 1)
-        self.assertEqual(
-            results[0].getURL(), "http://nohost/plone/collectionstestpage"
-        )
+        self.assertEqual(results[0].getURL(), "http://nohost/plone/collectionstestpage")
 
     def testMakeQueryWithSubjectNot(self):
         self.folder.setSubject(["Ipsum"])
@@ -144,9 +138,7 @@ class TestQuerybuilder(unittest.TestCase):
         ]
         results = self.querybuilder._makequery(query=query)
         self.assertEqual(len(results), 1)
-        self.assertEqual(
-            results[0].getURL(), "http://nohost/plone/collectionstestpage"
-        )
+        self.assertEqual(results[0].getURL(), "http://nohost/plone/collectionstestpage")
 
     def testMakeQueryWithMultipleSubjectNot(self):
         self.folder.setSubject(["Ipsum"])
@@ -176,9 +168,7 @@ class TestQuerybuilder(unittest.TestCase):
         ]
         results = self.querybuilder._makequery(query=query)
         self.assertEqual(len(results), 1)
-        self.assertEqual(
-            results[0].getURL(), "http://nohost/plone/collectionstestpage"
-        )
+        self.assertEqual(results[0].getURL(), "http://nohost/plone/collectionstestpage")
         self.assertEqual(results[0].getObject().Subject(), ("Äüö",))
 
     def testMakeQueryWithUnicodeSubjectWithSpecialCharacters(self):
@@ -193,9 +183,7 @@ class TestQuerybuilder(unittest.TestCase):
         ]
         results = self.querybuilder._makequery(query=query)
         self.assertEqual(len(results), 1)
-        self.assertEqual(
-            results[0].getURL(), "http://nohost/plone/collectionstestpage"
-        )
+        self.assertEqual(results[0].getURL(), "http://nohost/plone/collectionstestpage")
         self.assertEqual(results[0].getObject().Subject(), ("Äüö",))
 
     def testMakeQueryWithUnicodeSubjectWithMultipleSubjects(self):
@@ -210,9 +198,7 @@ class TestQuerybuilder(unittest.TestCase):
         ]
         results = self.querybuilder._makequery(query=query)
         self.assertEqual(len(results), 1)
-        self.assertEqual(
-            results[0].getURL(), "http://nohost/plone/collectionstestpage"
-        )
+        self.assertEqual(results[0].getURL(), "http://nohost/plone/collectionstestpage")
         self.assertEqual(results[0].getObject().Subject(), ("Äüö",))
 
     def testMakeQueryWithSearchableText(self):
@@ -239,9 +225,7 @@ class TestQuerybuilder(unittest.TestCase):
         ]
         results = self.querybuilder._makequery(query=query)
         self.assertEqual(len(results), 1)
-        self.assertEqual(
-            results[0].getURL(), "http://nohost/plone/collectionstestpage"
-        )
+        self.assertEqual(results[0].getURL(), "http://nohost/plone/collectionstestpage")
 
     def testMakeQueryWithSearchableTextSpecialWordsOr(self):
         self.testpage.description = "This or that is the description"
@@ -255,9 +239,7 @@ class TestQuerybuilder(unittest.TestCase):
         ]
         results = self.querybuilder._makequery(query=query)
         self.assertEqual(len(results), 1)
-        self.assertEqual(
-            results[0].getURL(), "http://nohost/plone/collectionstestpage"
-        )
+        self.assertEqual(results[0].getURL(), "http://nohost/plone/collectionstestpage")
 
     def testQueryBuilderCustomQuery(self):
         """Test, if custom queries are respected when getting the results."""
@@ -345,7 +327,6 @@ class TestQuerybuilder(unittest.TestCase):
 
 
 class TestQuerybuilderResultTypes(unittest.TestCase):
-
     layer = TEST_PROFILE_PLONEAPPQUERYSTRING_INTEGRATION_TESTING
 
     def setUp(self):
@@ -401,7 +382,6 @@ class TestQuerybuilderResultTypes(unittest.TestCase):
 
 
 class TestConfigurationFetcher(unittest.TestCase):
-
     layer = TEST_PROFILE_PLONEAPPQUERYSTRING_INTEGRATION_TESTING
 
     def setUp(self):

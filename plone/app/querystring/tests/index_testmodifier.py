@@ -1,4 +1,5 @@
 from zope.interface import implementer
+
 from plone.app.querystring.interfaces import IParsedQueryIndexModifier
 
 
@@ -15,7 +16,7 @@ class TitleFooIndexModifier:
     """Test index modifier that check always Foo"""
 
     def __call__(self, value):
-        return ('Title', 'Foo')
+        return ("Title", "Foo")
 
 
 @implementer(IParsedQueryIndexModifier)
@@ -26,5 +27,5 @@ class AbstractToDescriptionIndexModifier:
     """
 
     def __call__(self, value):
-        value['query'] = value['query'].replace('e', '')
-        return ('Description', value)
+        value["query"] = value["query"].replace("e", "")
+        return ("Description", value)

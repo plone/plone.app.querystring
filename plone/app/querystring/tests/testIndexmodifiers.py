@@ -1,42 +1,43 @@
-from datetime import datetime
-from DateTime import DateTime
-from plone.app.querystring.indexmodifiers import query_index_modifiers
-
 import unittest
+from datetime import datetime
+
+from DateTime import DateTime
+
+from plone.app.querystring.indexmodifiers import query_index_modifiers
 
 
 class TestIndexModifiers(unittest.TestCase):
-
     def test_subject_encoded(self):
         self.assertEqual(
-            query_index_modifiers.Subject()({'query': 'foobar'}),
-            ('Subject', {'query': 'foobar'}))
+            query_index_modifiers.Subject()({"query": "foobar"}),
+            ("Subject", {"query": "foobar"}),
+        )
 
     def test_subject_encoded__list(self):
         self.assertEqual(
-            query_index_modifiers.Subject()({'query': ['foobar']}),
-            ('Subject', {'query': ['foobar']}))
+            query_index_modifiers.Subject()({"query": ["foobar"]}),
+            ("Subject", {"query": ["foobar"]}),
+        )
 
     def test_subject_encoded__list_not(self):
         self.assertEqual(
-            query_index_modifiers.Subject()({'not': ['foobar']}),
-            ('Subject', {'not': ['foobar']}))
+            query_index_modifiers.Subject()({"not": ["foobar"]}),
+            ("Subject", {"not": ["foobar"]}),
+        )
 
     def test_date_modifier(self):
         modifier = query_index_modifiers.start()
         self.assertTrue(
-            isinstance(modifier({'query': '2010-01-01'})[1]['query'], datetime)
+            isinstance(modifier({"query": "2010-01-01"})[1]["query"], datetime)
         )
         self.assertTrue(
-            isinstance(modifier({'query': '01/01/2010'})[1]['query'], datetime)
+            isinstance(modifier({"query": "01/01/2010"})[1]["query"], datetime)
         )
 
     def test_date_modifier_list(self):
         modifier = query_index_modifiers.start()
-        query = {'query': ['01/01/2010', '01/01/2010']}
-        self.assertTrue(
-            isinstance(modifier(query)[1]['query'][0], datetime)
-        )
+        query = {"query": ["01/01/2010", "01/01/2010"]}
+        self.assertTrue(isinstance(modifier(query)[1]["query"][0], datetime))
 
     def test_date_modifier_list_DateTime(self):
         """Test a case with largerThanRelativeDate operatiors, where
@@ -62,14 +63,10 @@ class TestIndexModifiers(unittest.TestCase):
         }
         """
         modifier = query_index_modifiers.start()
-        query = {'query': [DateTime('01/01/2010'), DateTime('01/01/2010')]}
-        self.assertTrue(
-            isinstance(modifier(query)[1]['query'][0], DateTime)
-        )
+        query = {"query": [DateTime("01/01/2010"), DateTime("01/01/2010")]}
+        self.assertTrue(isinstance(modifier(query)[1]["query"][0], DateTime))
 
     def test_invalid_date(self):
         modifier = query_index_modifiers.start()
-        query = {'query': 'foobar'}
-        self.assertEqual(
-            modifier(query)[1]['query'], 'foobar'
-        )
+        query = {"query": "foobar"}
+        self.assertEqual(modifier(query)[1]["query"], "foobar")

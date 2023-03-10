@@ -1,9 +1,8 @@
+import six
 from dateutil.parser import parse
-from plone.app.querystring.interfaces import IParsedQueryIndexModifier
 from zope.interface import implementer
 
-
-import six
+from plone.app.querystring.interfaces import IParsedQueryIndexModifier
 
 
 @implementer(IParsedQueryIndexModifier)
@@ -21,14 +20,14 @@ class Subject:
     """
 
     def __call__(self, value):
-        return ('Subject', value)
+        return ("Subject", value)
 
         # Get the query operator
         op = None
-        if 'query' in value:
-            op = 'query'
-        elif 'not' in value:
-            op = 'not'
+        if "query" in value:
+            op = "query"
+        elif "not" in value:
+            op = "not"
 
         query = value[op]
         # query can be a unicode string or a list of unicode strings.
@@ -49,7 +48,7 @@ class Subject:
         else:
             pass
         value[op] = query
-        return ('Subject', value)
+        return ("Subject", value)
 
 
 @implementer(IParsedQueryIndexModifier)
@@ -59,10 +58,8 @@ class base:
     """
 
     def __call__(self, value):
-
         def _normalize(val):
-            """Encode value, parse dates.
-            """
+            """Encode value, parse dates."""
             if six.PY2 and isinstance(val, str):
                 val = val.encode("utf-8")
 
@@ -74,7 +71,7 @@ class base:
 
             return val
 
-        query = value['query']
+        query = value["query"]
         query = _normalize(query)
 
         if isinstance(query, list):
@@ -83,7 +80,7 @@ class base:
                 aux.append(_normalize(item))
             query = aux
 
-        value['query'] = query
+        value["query"] = query
         return (self.__class__.__name__, value)
 
 

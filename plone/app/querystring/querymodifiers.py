@@ -1,5 +1,6 @@
-from plone.app.querystring.interfaces import IQueryModifier
 from zope.interface import provider
+
+from plone.app.querystring.interfaces import IQueryModifier
 
 
 @provider(IQueryModifier)
@@ -12,15 +13,14 @@ def modify_query_to_enforce_navigation_root(query):
     if not query:
         return query
 
-    has_path_criteria = any(
-        (criteria['i'] == 'path')
-        for criteria in query
-    )
+    has_path_criteria = any((criteria["i"] == "path") for criteria in query)
     if not has_path_criteria:
         query = list(query)
-        query.append({
-            'i': 'path',
-            'o': 'plone.app.querystring.operation.string.path',
-            'v': '/',
-        })
+        query.append(
+            {
+                "i": "path",
+                "o": "plone.app.querystring.operation.string.path",
+                "v": "/",
+            }
+        )
     return query

@@ -1,18 +1,12 @@
 from zope.interface import Interface
-from zope.schema import Bool
-from zope.schema import DottedName
-from zope.schema import List
-from zope.schema import Text
-from zope.schema import TextLine
+from zope.schema import Bool, DottedName, List, Text, TextLine
 
 
 class IQuerystringRegistryReader(Interface):
-    """Adapts a registry object to parse the querystring data
-    """
+    """Adapts a registry object to parse the querystring data"""
 
     def __call__():
-        """Return query string in dict-format.
-        """
+        """Return query string in dict-format."""
 
 
 class IQueryOperation(Interface):
@@ -28,15 +22,13 @@ class IQueryField(Interface):
     enabled = Bool(title="Enabled")
     sortable = Bool(title="Sortable")
     fetch_vocabulary = Bool(title="Fetch vocabulary", default=True)
-    operations = List(title="Operations",
-                      value_type=DottedName(title="Operation ID"))
+    operations = List(title="Operations", value_type=DottedName(title="Operation ID"))
     vocabulary = TextLine(title="Vocabulary")
     group = TextLine(title="Group")
 
 
 class IParsedQueryIndexModifier(Interface):
-    """Transform a parsed query index in something different
-    """
+    """Transform a parsed query index in something different"""
 
     def __call__(value):
         """
@@ -47,8 +39,7 @@ class IParsedQueryIndexModifier(Interface):
 
 
 class IQueryModifier(Interface):
-    """Modifies a query in order to inject specific or change given criteria.
-    """
+    """Modifies a query in order to inject specific or change given criteria."""
 
     def __call__(query):
         """

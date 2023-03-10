@@ -1,22 +1,21 @@
+import json
+import logging
 from operator import itemgetter
+
 from plone.app.contentlisting.interfaces import IContentListing
-from plone.app.querystring import queryparser
-from plone.app.querystring.interfaces import IParsedQueryIndexModifier
-from plone.app.querystring.interfaces import IQueryModifier
-from plone.app.querystring.interfaces import IQuerystringRegistryReader
 from plone.batching import Batch
 from plone.registry.interfaces import IRegistry
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.browser.search import munge_search_term
-from zope.component import getMultiAdapter
-from zope.component import getUtilitiesFor
-from zope.component import getUtility
+from zope.component import getMultiAdapter, getUtilitiesFor, getUtility
 from zope.i18n import translate
 from zope.i18nmessageid import MessageFactory
 from zope.publisher.browser import BrowserView
 
-import json
-import logging
+from plone.app.querystring import queryparser
+from plone.app.querystring.interfaces import (IParsedQueryIndexModifier,
+                                              IQueryModifier,
+                                              IQuerystringRegistryReader)
 
 logger = logging.getLogger("plone.app.querystring")
 _ = MessageFactory("plone")
@@ -110,9 +109,9 @@ class QueryBuilder(BrowserView):
             limit=10,
         )
 
-        return getMultiAdapter(
-            (results, self.request), name="display_query_results"
-        )(**options)
+        return getMultiAdapter((results, self.request), name="display_query_results")(
+            **options
+        )
 
     def _makequery(
         self,
@@ -148,16 +147,12 @@ class QueryBuilder(BrowserView):
 
         # Check for valid indexes
         catalog = getToolByName(self.context, "portal_catalog")
-        valid_indexes = [
-            index for index in parsedquery if index in catalog.indexes()
-        ]
+        valid_indexes = [index for index in parsedquery if index in catalog.indexes()]
 
         # We'll ignore any invalid index, but will return an empty set if none
         # of the indexes are valid.
         if not valid_indexes:
-            logger.warning(
-                "Using empty query because there are no valid indexes used."
-            )
+            logger.warning("Using empty query because there are no valid indexes used.")
             parsedquery = {}
 
         empty_query = not parsedquery  # store emptiness
@@ -229,8 +224,6 @@ class QueryBuilder(BrowserView):
 class RegistryConfiguration(BrowserView):
     def __call__(self):
         registry = getUtility(IRegistry)
-        reader = getMultiAdapter(
-            (registry, self.request), IQuerystringRegistryReader
-        )
+        reader = getMultiAdapter((registry, self.request), IQuerystringRegistryReader)
         data = reader()
         return json.dumps(data)
