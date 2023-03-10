@@ -1,8 +1,8 @@
-import six
 from dateutil.parser import parse
+from plone.app.querystring.interfaces import IParsedQueryIndexModifier
 from zope.interface import implementer
 
-from plone.app.querystring.interfaces import IParsedQueryIndexModifier
+import six
 
 
 @implementer(IParsedQueryIndexModifier)

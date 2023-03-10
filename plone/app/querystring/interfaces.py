@@ -1,5 +1,9 @@
 from zope.interface import Interface
-from zope.schema import Bool, DottedName, List, Text, TextLine
+from zope.schema import Bool
+from zope.schema import DottedName
+from zope.schema import List
+from zope.schema import Text
+from zope.schema import TextLine
 
 
 class IQuerystringRegistryReader(Interface):

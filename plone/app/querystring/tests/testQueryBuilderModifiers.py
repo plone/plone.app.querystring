@@ -1,13 +1,11 @@
-import unittest
-
-from zope.component import getGlobalSiteManager, getMultiAdapter
+from . import index_testmodifier
+from plone.app.querystring.interfaces import IParsedQueryIndexModifier
+from plone.app.querystring.testing import PLONEAPPQUERYSTRING_INTEGRATION_TESTING
+from zope.component import getGlobalSiteManager
+from zope.component import getMultiAdapter
 from zope.publisher.browser import TestRequest
 
-from plone.app.querystring.interfaces import IParsedQueryIndexModifier
-from plone.app.querystring.testing import \
-    PLONEAPPQUERYSTRING_INTEGRATION_TESTING
-
-from . import index_testmodifier
+import unittest
 
 
 class TestQuerybuilderExtended(unittest.TestCase):

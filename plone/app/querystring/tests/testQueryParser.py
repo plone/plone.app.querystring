@@ -1,18 +1,24 @@
-import unittest
-
 from DateTime import DateTime
 from plone.app.layout.navigation.interfaces import INavigationRoot
-from plone.base.interfaces import IPloneSiteRoot
-from plone.registry import Record, Registry, field
-from plone.registry.interfaces import IRegistry
-from Products.CMFCore.interfaces import ICatalogTool, IMembershipTool, IURLTool
-from zope.component import getGlobalSiteManager, getSiteManager
-from zope.interface import implementer
-
 from plone.app.querystring import queryparser
 from plone.app.querystring.queryparser import Row
-from plone.app.querystring.testing import \
-    NOT_INSTALLED_PLONEAPPQUERYSTRING_INTEGRATION_TESTING
+from plone.app.querystring.testing import (
+    NOT_INSTALLED_PLONEAPPQUERYSTRING_INTEGRATION_TESTING,
+)
+from plone.base.interfaces import IPloneSiteRoot
+from plone.registry import field
+from plone.registry import Record
+from plone.registry import Registry
+from plone.registry.interfaces import IRegistry
+from Products.CMFCore.interfaces import ICatalogTool
+from Products.CMFCore.interfaces import IMembershipTool
+from Products.CMFCore.interfaces import IURLTool
+from zope.component import getGlobalSiteManager
+from zope.component import getSiteManager
+from zope.interface import implementer
+
+import unittest
+
 
 MOCK_SITE_ID = "site"
 

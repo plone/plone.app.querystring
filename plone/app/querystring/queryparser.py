@@ -1,6 +1,5 @@
-from collections import namedtuple
-
 from Acquisition import aq_parent
+from collections import namedtuple
 from DateTime import DateTime
 from DateTime.interfaces import DateTimeError
 from plone.app.layout.navigation.root import getNavigationRoot
@@ -11,6 +10,7 @@ from plone.uuid.interfaces import IUUID
 from Products.CMFCore.utils import getToolByName
 from zope.component import getUtility
 from zope.dottedname.resolve import resolve
+
 
 Row = namedtuple("Row", ["index", "operator", "values"])
 PATH_INDICES = {"path"}

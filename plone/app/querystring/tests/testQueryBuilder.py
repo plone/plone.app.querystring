@@ -1,10 +1,10 @@
-import unittest
-
+from plone.app.querystring.testing import (
+    TEST_PROFILE_PLONEAPPQUERYSTRING_INTEGRATION_TESTING,
+)
 from zope.component import getMultiAdapter
 from zope.publisher.browser import TestRequest
 
-from plone.app.querystring.testing import \
-    TEST_PROFILE_PLONEAPPQUERYSTRING_INTEGRATION_TESTING
+import unittest
 
 
 class TestQuerybuilder(unittest.TestCase):

@@ -1,9 +1,8 @@
-import logging
 from collections import OrderedDict
-
-import six
+from plone.app.querystring.interfaces import IQuerystringRegistryReader
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.utils import normalizeString, safe_unicode
+from Products.CMFPlone.utils import normalizeString
+from Products.CMFPlone.utils import safe_unicode
 from Products.ZCTextIndex.interfaces import IZCTextIndex
 from zope.component import queryUtility
 from zope.component.hooks import getSite
@@ -13,7 +12,8 @@ from zope.i18nmessageid import Message
 from zope.interface import implementer
 from zope.schema.interfaces import IVocabularyFactory
 
-from plone.app.querystring.interfaces import IQuerystringRegistryReader
+import logging
+
 
 logger = logging.getLogger("plone.app.querystring")
 

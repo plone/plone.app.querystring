@@ -1,7 +1,6 @@
-import unittest
+from plone.app.querystring.testing import PLONEAPPQUERYSTRING_INTEGRATION_TESTING
 
-from plone.app.querystring.testing import \
-    PLONEAPPQUERYSTRING_INTEGRATION_TESTING
+import unittest
 
 
 class TestOperationDefinitions(unittest.TestCase):

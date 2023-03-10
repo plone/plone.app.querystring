@@ -1,6 +1,5 @@
-from zope.interface import provider
-
 from plone.app.querystring.interfaces import IQueryModifier
+from zope.interface import provider
 
 
 @provider(IQueryModifier)

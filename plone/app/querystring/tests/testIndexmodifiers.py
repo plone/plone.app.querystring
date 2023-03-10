@@ -1,9 +1,8 @@
-import unittest
 from datetime import datetime
-
 from DateTime import DateTime
-
 from plone.app.querystring.indexmodifiers import query_index_modifiers
+
+import unittest
 
 
 class TestIndexModifiers(unittest.TestCase):

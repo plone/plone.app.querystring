@@ -1,6 +1,5 @@
-from zope.interface import implementer
-
 from plone.app.querystring.interfaces import IParsedQueryIndexModifier
+from zope.interface import implementer
 
 
 @implementer(IParsedQueryIndexModifier)
