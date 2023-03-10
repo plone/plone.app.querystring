@@ -2,8 +2,6 @@ from dateutil.parser import parse
 from plone.app.querystring.interfaces import IParsedQueryIndexModifier
 from zope.interface import implementer
 
-import six
-
 
 @implementer(IParsedQueryIndexModifier)
 class Subject:
@@ -60,8 +58,6 @@ class base:
     def __call__(self, value):
         def _normalize(val):
             """Encode value, parse dates."""
-            if six.PY2 and isinstance(val, str):
-                val = val.encode("utf-8")
 
             if isinstance(val, str):
                 try:
