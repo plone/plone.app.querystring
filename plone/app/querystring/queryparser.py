@@ -4,11 +4,11 @@ from Acquisition import aq_parent
 from DateTime import DateTime
 from DateTime.interfaces import DateTimeError
 from plone.app.layout.navigation.root import getNavigationRoot
+from plone.base.interfaces import IPloneSiteRoot
+from plone.base.utils import base_hasattr
 from plone.registry.interfaces import IRegistry
 from plone.uuid.interfaces import IUUID
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.interfaces import IPloneSiteRoot
-from Products.CMFPlone.utils import base_hasattr
 from zope.component import getUtility
 from zope.dottedname.resolve import resolve
 

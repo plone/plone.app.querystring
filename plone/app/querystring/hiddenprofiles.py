@@ -1,5 +1,4 @@
-from Products.CMFPlone.interfaces import \
-    INonInstallable as INonInstallableProfiles
+from plone.base.interfaces import INonInstallable as INonInstallableProfiles
 from zope.interface import implementer
 
 

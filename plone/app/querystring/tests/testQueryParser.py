@@ -2,10 +2,10 @@ import unittest
 
 from DateTime import DateTime
 from plone.app.layout.navigation.interfaces import INavigationRoot
+from plone.base.interfaces import IPloneSiteRoot
 from plone.registry import Record, Registry, field
 from plone.registry.interfaces import IRegistry
 from Products.CMFCore.interfaces import ICatalogTool, IMembershipTool, IURLTool
-from Products.CMFPlone.interfaces import IPloneSiteRoot
 from zope.component import getGlobalSiteManager, getSiteManager
 from zope.interface import implementer
 
