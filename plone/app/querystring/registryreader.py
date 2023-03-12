@@ -1,9 +1,10 @@
 from collections import OrderedDict
 from plone.app.querystring.interfaces import IQuerystringRegistryReader
+from plone.base.utils import safe_text
+from plone.i18n.normalizer.interfaces import IIDNormalizer
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.utils import normalizeString
-from Products.CMFPlone.utils import safe_unicode
 from Products.ZCTextIndex.interfaces import IZCTextIndex
+from zope.component import getUtility
 from zope.component import queryUtility
 from zope.component.hooks import getSite
 from zope.globalrequest import getRequest
@@ -71,7 +72,7 @@ class QuerystringRegistryReader:
 
     def getVocabularyValues(self, values):
         """Get all vocabulary values if a vocabulary is defined"""
-
+        id_normalize = getUtility(IIDNormalizer).normalize
         for field in values.get(self.prefix + ".field").values():
             field["values"] = OrderedDict()
             vocabulary = field.get("vocabulary", [])
@@ -93,7 +94,7 @@ class QuerystringRegistryReader:
                     title = item.title
                 translated.append((title, item.value))
             translated = sorted(
-                translated, key=lambda x: normalizeString(safe_unicode(x[0]))
+                translated, key=lambda x: id_normalize(safe_text(x[0]))
             )
             for title, value in translated:
                 field["values"][value] = {"title": title}
