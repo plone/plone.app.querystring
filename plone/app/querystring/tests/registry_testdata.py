@@ -50,8 +50,8 @@ parsed_correct = {
                     "string": {
                         "is": {
                             "widget": None,
-                            "operation": "plone.app.querystring.queryparser." "_equal",
-                            "description": "Tip: you can use * to " "autocomplete.",
+                            "operation": "plone.app.querystring.queryparser._equal",
+                            "description": "Tip: you can use * to autocomplete.",
                             "title": "equals",
                         }
                     },

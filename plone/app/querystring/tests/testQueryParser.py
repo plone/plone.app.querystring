@@ -1,10 +1,10 @@
 from DateTime import DateTime
-from plone.base.interfaces import INavigationRoot
 from plone.app.querystring import queryparser
 from plone.app.querystring.queryparser import Row
 from plone.app.querystring.testing import (
     NOT_INSTALLED_PLONEAPPQUERYSTRING_INTEGRATION_TESTING,
 )
+from plone.base.interfaces import INavigationRoot
 from plone.base.interfaces import IPloneSiteRoot
 from plone.registry import field
 from plone.registry import Record
@@ -167,12 +167,7 @@ class TestQueryParser(TestQueryParserBase):
             "o": "plone.app.querystring.operation.string.is",
             "v": "Welcome to Plone",
         }
-        parsed = queryparser.parseFormquery(
-            MockSite(),
-            [
-                data,
-            ],
-        )
+        parsed = queryparser.parseFormquery(MockSite(), [data])
         self.assertEqual(parsed, {"Title": {"query": "Welcome to Plone"}})
 
     def test_sort_on_known(self):
@@ -183,9 +178,7 @@ class TestQueryParser(TestQueryParserBase):
         }
         parsed = queryparser.parseFormquery(
             MockSite(),
-            [
-                data,
-            ],
+            [data],
             sort_on="sortable_title",
             sort_order="reverse",
         )
@@ -206,9 +199,7 @@ class TestQueryParser(TestQueryParserBase):
         }
         parsed = queryparser.parseFormquery(
             MockSite(),
-            [
-                data,
-            ],
+            [data],
             sort_on="unknown",
             sort_order="reverse",
         )
@@ -222,9 +213,7 @@ class TestQueryParser(TestQueryParserBase):
         }
         parsed = queryparser.parseFormquery(
             MockSite(),
-            [
-                data,
-            ],
+            [data],
         )
         self.assertEqual(parsed, {"path": {"query": ["/%s/foo" % MOCK_SITE_ID]}})
 
@@ -236,9 +225,7 @@ class TestQueryParser(TestQueryParserBase):
         }
         parsed = queryparser.parseFormquery(
             MockSite(),
-            [
-                data,
-            ],
+            [data],
         )
         self.assertEqual(parsed, {"path": {"query": ["/%s/foo" % MOCK_SITE_ID]}})
 
@@ -251,9 +238,7 @@ class TestQueryParser(TestQueryParserBase):
 
         parsed = queryparser.parseFormquery(
             MockSite(),
-            [
-                data,
-            ],
+            [data],
         )
         self.assertEqual(
             parsed, {"path": {"query": ["/%s/foo" % MOCK_SITE_ID], "depth": 2}}

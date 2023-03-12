@@ -24,30 +24,32 @@ _ = MessageFactory("plone")
 
 # We should accept both a simple space, unicode u'\u0020 but also a
 # multi-space, so called 'waji-kankaku', unicode u'\u3000'
-_MULTISPACE = '\u3000'
-_BAD_CHARS = ('?', '-', '+', '*', _MULTISPACE)
+_MULTISPACE = "\u3000"
+_BAD_CHARS = ("?", "-", "+", "*", _MULTISPACE)
+
 
 def _quote_chars(s):
     # We need to quote parentheses when searching text indices
-    if '(' in s:
-        s = s.replace('(', '"("')
-    if ')' in s:
-        s = s.replace(')', '")"')
+    if "(" in s:
+        s = s.replace("(", '"("')
+    if ")" in s:
+        s = s.replace(")", '")"')
     if _MULTISPACE in s:
-        s = s.replace(_MULTISPACE, ' ')
+        s = s.replace(_MULTISPACE, " ")
     return s
 
 
 def _quote(term):
     # The terms and, or and not must be wrapped in quotes to avoid
     # being parsed as logical query atoms.
-    if term.lower() in ('and', 'or', 'not'):
+    if term.lower() in ("and", "or", "not"):
         term = '"%s"' % term
     return term
 
+
 def munge_search_term(query):
     for char in _BAD_CHARS:
-        query = query.replace(char, ' ')
+        query = query.replace(char, " ")
 
     # extract quoted phrases first
     quoted_phrases = re.findall(r'"([^"]*)"', query)
@@ -64,8 +66,9 @@ def munge_search_term(query):
 
     r += map(_quote, query.strip().split())
     r = " AND ".join(r)
-    r = _quote_chars(r) + ('*' if r and not r.endswith('"') else '')
+    r = _quote_chars(r) + ("*" if r and not r.endswith('"') else "")
     return r
+
 
 class ContentListingView(BrowserView):
     """BrowserView for displaying query results"""

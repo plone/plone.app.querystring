@@ -125,7 +125,7 @@ class QuerystringRegistryReader:
                 and key in catalog.indexes
                 and not IZCTextIndex.providedBy(catalog.getIndex(key))
             ):
-                sortables[key] = values.get("{}.field.{}".format(self.prefix, key))
+                sortables[key] = values.get(f"{self.prefix}.field.{key}")
         values["sortable"] = sortables
         return values
 

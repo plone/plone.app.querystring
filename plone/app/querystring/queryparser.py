@@ -79,11 +79,7 @@ def _excludes(context, row):
 
 
 def _equal(context, row):
-    return {
-        row.index: {
-            "query": row.values,
-        }
-    }
+    return {row.index: {"query": row.values}}
 
 
 def _all(context, row):
@@ -102,27 +98,15 @@ def _intEqual(context, row):
             values = int(row.values)
         except (ValueError, TypeError, AttributeError):
             pass
-    return {
-        row.index: {
-            "query": values,
-        }
-    }
+    return {row.index: {"query": values}}
 
 
 def _isTrue(context, row):
-    return {
-        row.index: {
-            "query": True,
-        }
-    }
+    return {row.index: {"query": True}}
 
 
 def _isFalse(context, row):
-    return {
-        row.index: {
-            "query": False,
-        }
-    }
+    return {row.index: {"query": False}}
 
 
 def _between(context, row):
