@@ -6,7 +6,7 @@
     <utility
         factory=".hiddenprofiles.HiddenProfiles"
         name="plone.app.querystring"
-        provides="Products.CMFPlone.interfaces.INonInstallable"
+        provides="plone.base.interfaces.INonInstallable"
         />
 
     <genericsetup:registerProfile

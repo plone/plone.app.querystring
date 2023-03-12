@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from collections import OrderedDict
 from plone.app.querystring.interfaces import IQuerystringRegistryReader
 from Products.CMFCore.utils import getToolByName
@@ -14,7 +13,6 @@ from zope.interface import implementer
 from zope.schema.interfaces import IVocabularyFactory
 
 import logging
-import six
 
 
 logger = logging.getLogger("plone.app.querystring")
@@ -24,16 +22,16 @@ class DottedDict(dict):
     """A dictionary where you can access nested dicts with dotted names"""
 
     def get(self, k, default=None):
-        if '.' not in k:
-            return super(DottedDict, self).get(k, default)
+        if "." not in k:
+            return super().get(k, default)
         val = self
-        for x in k.split('.'):
+        for x in k.split("."):
             val = val[x]
         return val
 
 
 @implementer(IQuerystringRegistryReader)
-class QuerystringRegistryReader(object):
+class QuerystringRegistryReader:
     """Adapts a registry object to parse the querystring data."""
 
     prefix = "plone.app.querystring"
@@ -54,7 +52,7 @@ class QuerystringRegistryReader(object):
             if not record.startswith(self.prefix):
                 continue
 
-            splitted = record.split('.')
+            splitted = record.split(".")
             current = result
             for x in splitted[:-1]:
                 # create the key if it's not there
@@ -74,9 +72,9 @@ class QuerystringRegistryReader(object):
     def getVocabularyValues(self, values):
         """Get all vocabulary values if a vocabulary is defined"""
 
-        for field in values.get(self.prefix + '.field').values():
-            field['values'] = OrderedDict()
-            vocabulary = field.get('vocabulary', [])
+        for field in values.get(self.prefix + ".field").values():
+            field["values"] = OrderedDict()
+            vocabulary = field.get("vocabulary", [])
             if not vocabulary:
                 continue
             utility = queryUtility(IVocabularyFactory, vocabulary)
@@ -84,7 +82,7 @@ class QuerystringRegistryReader(object):
                 logger.info("%s is missing, ignored." % vocabulary)
                 continue
             translated = []
-            if not field.get('fetch_vocabulary', True):
+            if not field.get("fetch_vocabulary", True):
                 # Bail out if the annotation is marked not to fetch the vocabulary
                 # to allow the widget to query the vocabulary as needed
                 continue
@@ -95,25 +93,23 @@ class QuerystringRegistryReader(object):
                     title = item.title
                 translated.append((title, item.value))
             translated = sorted(
-                translated,
-                key=lambda x: normalizeString(safe_unicode(x[0]))
+                translated, key=lambda x: normalizeString(safe_unicode(x[0]))
             )
-            for (title, value) in translated:
-                field['values'][value] = {'title': title}
+            for title, value in translated:
+                field["values"][value] = {"title": title}
 
         return values
 
     def mapOperations(self, values):
         """Get the operations from the registry and put them in the key
-           'operators' with the short name as key
+        'operators' with the short name as key
         """
-        for field in values.get(self.prefix + '.field').values():
-            fieldoperations = field.get('operations', [])
-            field['operators'] = {}
+        for field in values.get(self.prefix + ".field").values():
+            fieldoperations = field.get("operations", [])
+            field["operators"] = {}
             for operation_key in fieldoperations:
                 try:
-                    field['operators'][operation_key] = \
-                        values.get(operation_key)
+                    field["operators"][operation_key] = values.get(operation_key)
                 except KeyError:
                     # invalid operation, probably doesn't exist, pass for now
                     pass
@@ -121,16 +117,16 @@ class QuerystringRegistryReader(object):
 
     def mapSortableIndexes(self, values):
         """Map sortable indexes"""
-        catalog = getToolByName(getSite(), 'portal_catalog')._catalog
+        catalog = getToolByName(getSite(), "portal_catalog")._catalog
         sortables = {}
-        for key, field in six.iteritems(values.get('%s.field' % self.prefix)):
+        for key, field in values.get("%s.field" % self.prefix).items():
             if (
-                field['sortable']
+                field["sortable"]
                 and key in catalog.indexes
                 and not IZCTextIndex.providedBy(catalog.getIndex(key))
             ):
-                sortables[key] = values.get('%s.field.%s' % (self.prefix, key))
-        values['sortable'] = sortables
+                sortables[key] = values.get(f"{self.prefix}.field.{key}")
+        values["sortable"] = sortables
         return values
 
     def __call__(self):
@@ -141,6 +137,6 @@ class QuerystringRegistryReader(object):
         indexes = self.mapOperations(indexes)
         indexes = self.mapSortableIndexes(indexes)
         return {
-            'indexes': indexes.get('%s.field' % self.prefix),
-            'sortable_indexes': indexes.get('sortable'),
+            "indexes": indexes.get("%s.field" % self.prefix),
+            "sortable_indexes": indexes.get("sortable"),
         }

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from operator import itemgetter
 from plone.app.contentlisting.interfaces import IContentListing
 from plone.app.querystring import queryparser
@@ -8,7 +7,6 @@ from plone.app.querystring.interfaces import IQuerystringRegistryReader
 from plone.batching import Batch
 from plone.registry.interfaces import IRegistry
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.browser.search import munge_search_term
 from zope.component import getMultiAdapter
 from zope.component import getUtilitiesFor
 from zope.component import getUtility
@@ -18,9 +16,58 @@ from zope.publisher.browser import BrowserView
 
 import json
 import logging
+import re
+
 
 logger = logging.getLogger("plone.app.querystring")
 _ = MessageFactory("plone")
+
+# We should accept both a simple space, unicode u'\u0020 but also a
+# multi-space, so called 'waji-kankaku', unicode u'\u3000'
+_MULTISPACE = "\u3000"
+_BAD_CHARS = ("?", "-", "+", "*", _MULTISPACE)
+
+
+def _quote_chars(s):
+    # We need to quote parentheses when searching text indices
+    if "(" in s:
+        s = s.replace("(", '"("')
+    if ")" in s:
+        s = s.replace(")", '")"')
+    if _MULTISPACE in s:
+        s = s.replace(_MULTISPACE, " ")
+    return s
+
+
+def _quote(term):
+    # The terms and, or and not must be wrapped in quotes to avoid
+    # being parsed as logical query atoms.
+    if term.lower() in ("and", "or", "not"):
+        term = '"%s"' % term
+    return term
+
+
+def munge_search_term(query):
+    for char in _BAD_CHARS:
+        query = query.replace(char, " ")
+
+    # extract quoted phrases first
+    quoted_phrases = re.findall(r'"([^"]*)"', query)
+    r = []
+    for qp in quoted_phrases:
+        # remove from original query
+        query = query.replace(f'"{qp}"', "")
+        # replace with cleaned leading/trailing whitespaces
+        # and skip empty phrases
+        clean_qp = qp.strip()
+        if not clean_qp:
+            continue
+        r.append(f'"{clean_qp}"')
+
+    r += map(_quote, query.strip().split())
+    r = " AND ".join(r)
+    r = _quote_chars(r) + ("*" if r and not r.endswith('"') else "")
+    return r
 
 
 class ContentListingView(BrowserView):
@@ -35,7 +82,7 @@ class QueryBuilder(BrowserView):
     fetching configuration or results"""
 
     def __init__(self, context, request):
-        super(QueryBuilder, self).__init__(context, request)
+        super().__init__(context, request)
         self._results = None
 
     def __call__(
@@ -111,9 +158,9 @@ class QueryBuilder(BrowserView):
             limit=10,
         )
 
-        return getMultiAdapter(
-            (results, self.request), name="display_query_results"
-        )(**options)
+        return getMultiAdapter((results, self.request), name="display_query_results")(
+            **options
+        )
 
     def _makequery(
         self,
@@ -149,16 +196,12 @@ class QueryBuilder(BrowserView):
 
         # Check for valid indexes
         catalog = getToolByName(self.context, "portal_catalog")
-        valid_indexes = [
-            index for index in parsedquery if index in catalog.indexes()
-        ]
+        valid_indexes = [index for index in parsedquery if index in catalog.indexes()]
 
         # We'll ignore any invalid index, but will return an empty set if none
         # of the indexes are valid.
         if not valid_indexes:
-            logger.warning(
-                "Using empty query because there are no valid indexes used."
-            )
+            logger.warning("Using empty query because there are no valid indexes used.")
             parsedquery = {}
 
         empty_query = not parsedquery  # store emptiness
@@ -208,8 +251,8 @@ class QueryBuilder(BrowserView):
         results = self(query, sort_on=None, sort_order=None, limit=1)
         return translate(
             _(
-                u"batch_x_items_matching_your_criteria",
-                default=u"${number} items matching your search terms.",
+                "batch_x_items_matching_your_criteria",
+                default="${number} items matching your search terms.",
                 mapping={"number": results.actual_result_count},
             ),
             context=self.request,
@@ -230,8 +273,6 @@ class QueryBuilder(BrowserView):
 class RegistryConfiguration(BrowserView):
     def __call__(self):
         registry = getUtility(IRegistry)
-        reader = getMultiAdapter(
-            (registry, self.request), IQuerystringRegistryReader
-        )
+        reader = getMultiAdapter((registry, self.request), IQuerystringRegistryReader)
         data = reader()
         return json.dumps(data)

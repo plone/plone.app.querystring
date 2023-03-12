@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from zope.interface import Interface
 from zope.schema import Bool
 from zope.schema import DottedName
@@ -8,36 +7,32 @@ from zope.schema import TextLine
 
 
 class IQuerystringRegistryReader(Interface):
-    """Adapts a registry object to parse the querystring data
-    """
+    """Adapts a registry object to parse the querystring data"""
 
     def __call__():
-        """Return query string in dict-format.
-        """
+        """Return query string in dict-format."""
 
 
 class IQueryOperation(Interface):
-    title = TextLine(title=u"Title")
-    description = Text(title=u"Description")
-    operation = TextLine(title=u"Operation")
-    widget = TextLine(title=u"Widget")
+    title = TextLine(title="Title")
+    description = Text(title="Description")
+    operation = TextLine(title="Operation")
+    widget = TextLine(title="Widget")
 
 
 class IQueryField(Interface):
-    title = TextLine(title=u"Title")
-    description = Text(title=u"Description")
-    enabled = Bool(title=u"Enabled")
-    sortable = Bool(title=u"Sortable")
-    fetch_vocabulary = Bool(title=u"Fetch vocabulary", default=True)
-    operations = List(title=u"Operations",
-                      value_type=DottedName(title=u"Operation ID"))
-    vocabulary = TextLine(title=u"Vocabulary")
-    group = TextLine(title=u"Group")
+    title = TextLine(title="Title")
+    description = Text(title="Description")
+    enabled = Bool(title="Enabled")
+    sortable = Bool(title="Sortable")
+    fetch_vocabulary = Bool(title="Fetch vocabulary", default=True)
+    operations = List(title="Operations", value_type=DottedName(title="Operation ID"))
+    vocabulary = TextLine(title="Vocabulary")
+    group = TextLine(title="Group")
 
 
 class IParsedQueryIndexModifier(Interface):
-    """Transform a parsed query index in something different
-    """
+    """Transform a parsed query index in something different"""
 
     def __call__(value):
         """
@@ -48,8 +43,7 @@ class IParsedQueryIndexModifier(Interface):
 
 
 class IQueryModifier(Interface):
-    """Modifies a query in order to inject specific or change given criteria.
-    """
+    """Modifies a query in order to inject specific or change given criteria."""
 
     def __call__(query):
         """
