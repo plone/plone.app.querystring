@@ -1,8 +1,9 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
-    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     xmlns:browser="http://namespaces.zope.org/browser"
-    i18n_domain="plone">
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    i18n_domain="plone"
+    >
 
   <include file="profiles.zcml" />
   <include file="upgrades.zcml" />
@@ -12,55 +13,55 @@
   <include package=".indexmodifiers" />
 
   <adapter
-    for="plone.registry.interfaces.IRegistry"
-    factory=".registryreader.QuerystringRegistryReader"
-    />
+      factory=".registryreader.QuerystringRegistryReader"
+      for="plone.registry.interfaces.IRegistry"
+      />
 
   <adapter
-    for="plone.registry.interfaces.IRegistry
-         zope.publisher.interfaces.http.IHTTPRequest"
-    factory=".registryreader.QuerystringRegistryReader"
-    />
+      factory=".registryreader.QuerystringRegistryReader"
+      for="plone.registry.interfaces.IRegistry
+           zope.publisher.interfaces.http.IHTTPRequest"
+      />
 
   <browser:page
-    name="display_query_results"
-    class=".querybuilder.ContentListingView"
-    permission="zope2.View"
-    for="*"
-    template="results.pt"
-    />
+      name="display_query_results"
+      for="*"
+      class=".querybuilder.ContentListingView"
+      template="results.pt"
+      permission="zope2.View"
+      />
 
   <browser:page
-    name="querybuilderresults"
-    class=".querybuilder.QueryBuilder"
-    permission="zope2.View"
-    for="*"
-    />
+      name="querybuilderresults"
+      for="*"
+      class=".querybuilder.QueryBuilder"
+      permission="zope2.View"
+      />
 
   <browser:page
-    name="querybuilder_html_results"
-    class=".querybuilder.QueryBuilder"
-    permission="zope2.View"
-    attribute="html_results"
-    for="*"
-    />
+      name="querybuilder_html_results"
+      for="*"
+      class=".querybuilder.QueryBuilder"
+      attribute="html_results"
+      permission="zope2.View"
+      />
 
   <browser:page
-    name="querybuildernumberofresults"
-    class=".querybuilder.QueryBuilder"
-    permission="zope2.View"
-    for="*"
-    attribute="number_of_results"
-    />
+      name="querybuildernumberofresults"
+      for="*"
+      class=".querybuilder.QueryBuilder"
+      attribute="number_of_results"
+      permission="zope2.View"
+      />
 
   <browser:page
-    name="querybuilderjsonconfig"
-    class=".querybuilder.RegistryConfiguration"
-    permission="zope2.View"
-    for="*"
-    />
+      name="querybuilderjsonconfig"
+      for="*"
+      class=".querybuilder.RegistryConfiguration"
+      permission="zope2.View"
+      />
   <utility
-    component=".querymodifiers.modify_query_to_enforce_navigation_root"
-    name="1000"
-    />
+      name="1000"
+      component=".querymodifiers.modify_query_to_enforce_navigation_root"
+      />
 </configure>

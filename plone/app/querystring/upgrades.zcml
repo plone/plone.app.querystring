@@ -1,20 +1,22 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
-    xmlns:genericsetup="http://namespaces.zope.org/genericsetup">
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    >
 
   <genericsetup:upgradeStep
-      source="1"
-      destination="2"
       title="Fix Typo in Registry"
       description="Migrate registry to fix a typo."
       profile="plone.app.querystring:default"
+      source="1"
+      destination="2"
       handler=".upgrades.upgrade_1_to_2_typo_in_registry"
       />
 
   <genericsetup:upgradeSteps
+      profile="plone.app.querystring:default"
       source="2"
       destination="3"
-      profile="plone.app.querystring:default">
+      >
     <genericsetup:upgradeDepends
         title="Add show inactive operation and field"
         import_profile="plone.app.querystring:upgrade_to_3"
@@ -22,9 +24,10 @@
   </genericsetup:upgradeSteps>
 
   <genericsetup:upgradeSteps
+      profile="plone.app.querystring:default"
       source="3"
       destination="4"
-      profile="plone.app.querystring:default">
+      >
     <genericsetup:upgradeDepends
         title="Fix wrong vocabulary declaration of the show_inactive field"
         import_profile="plone.app.querystring:upgrade_to_3"
@@ -32,9 +35,10 @@
   </genericsetup:upgradeSteps>
 
   <genericsetup:upgradeSteps
+      profile="plone.app.querystring:default"
       source="4"
       destination="5"
-      profile="plone.app.querystring:default">
+      >
     <genericsetup:upgradeDepends
         title="Add navigation path query operation and modify referring field"
         import_profile="plone.app.querystring:upgrade_to_5"
@@ -42,9 +46,10 @@
   </genericsetup:upgradeSteps>
 
   <genericsetup:upgradeSteps
+      profile="plone.app.querystring:default"
       source="5"
       destination="6"
-      profile="plone.app.querystring:default">
+      >
     <genericsetup:upgradeDepends
         title="Fix int operators"
         import_profile="plone.app.querystring:upgrade_to_6"
@@ -52,9 +57,10 @@
   </genericsetup:upgradeSteps>
 
   <genericsetup:upgradeSteps
+      profile="plone.app.querystring:default"
       source="6"
       destination="7"
-      profile="plone.app.querystring:default">
+      >
     <genericsetup:upgradeDepends
         title="Fix getObjPositionInParent be sortable by default"
         import_profile="plone.app.querystring:upgrade_to_7"
@@ -62,9 +68,10 @@
   </genericsetup:upgradeSteps>
 
   <genericsetup:upgradeSteps
+      profile="plone.app.querystring:default"
       source="7"
       destination="8"
-      profile="plone.app.querystring:default">
+      >
     <genericsetup:upgradeDepends
         title="Change subject operations to selection.any and selection.all"
         import_profile="plone.app.querystring:upgrade_to_8"
@@ -72,9 +79,10 @@
   </genericsetup:upgradeSteps>
 
   <genericsetup:upgradeSteps
+      profile="plone.app.querystring:default"
       source="8"
       destination="9"
-      profile="plone.app.querystring:default">
+      >
     <genericsetup:upgradeDepends
         title="Use selection.any operation"
         description="Replace selection.is with selection.any for portal_types and review_state operations, and add selection.any for Creator operations."
@@ -88,9 +96,10 @@
   </genericsetup:upgradeSteps>
 
   <genericsetup:upgradeSteps
+      profile="plone.app.querystring:default"
       source="9"
       destination="10"
-      profile="plone.app.querystring:default">
+      >
     <genericsetup:upgradeDepends
         title="Update Creator"
         description="Add users vocabulary and remove 'is' operator from plone.app.querystring.field.Creator"
@@ -103,9 +112,10 @@
   </genericsetup:upgradeSteps>
 
   <genericsetup:upgradeSteps
+      profile="plone.app.querystring:default"
       source="10"
       destination="11"
-      profile="plone.app.querystring:default">
+      >
     <genericsetup:upgradeDepends
         title="Add new 'before/after relative Date' operation"
         import_profile="plone.app.querystring:upgrade_to_11"
@@ -113,18 +123,19 @@
   </genericsetup:upgradeSteps>
 
   <genericsetup:upgradeStep
+      title="Fix existing collections"
+      description="Fix indexes on existing collections by changing 'is' operators to 'any'"
+      profile="plone.app.querystring:default"
       source="11"
       destination="12"
-      title="Fix existing collections"
-      profile="plone.app.querystring:default"
-      description="Fix indexes on existing collections by changing 'is' operators to 'any'"
       handler=".upgrades.fix_select_all_existing_collections"
       />
 
   <genericsetup:upgradeSteps
+      profile="plone.app.querystring:default"
       source="12"
       destination="13"
-      profile="plone.app.querystring:default">
+      >
     <genericsetup:upgradeStep
         title="Fix ISyndicatableCollection objects"
         description="Fix indexes on Dexterity objects by changing 'is' operators to 'any'. All objects using the Collection behavior are fixed."
@@ -138,9 +149,10 @@
   </genericsetup:upgradeSteps>
 
   <genericsetup:upgradeSteps
+      profile="plone.app.querystring:default"
       source="13"
       destination="14"
-      profile="plone.app.querystring:default">
+      >
     <genericsetup:upgradeDepends
         title="Add new 'string.isNot' and 'selection.none' query operators."
         import_profile="plone.app.querystring:upgrade_to_14"
