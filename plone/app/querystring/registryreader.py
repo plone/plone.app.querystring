@@ -93,9 +93,7 @@ class QuerystringRegistryReader:
                 else:
                     title = item.title
                 translated.append((title, item.value))
-            translated = sorted(
-                translated, key=lambda x: id_normalize(safe_text(x[0]))
-            )
+            translated = sorted(translated, key=lambda x: id_normalize(safe_text(x[0])))
             for title, value in translated:
                 field["values"][value] = {"title": title}
 
