@@ -53,16 +53,16 @@ class QuerystringRegistryReader:
             if not record.startswith(self.prefix):
                 continue
 
-            splitted = record.split(".")
+            split = record.split(".")
             current = result
-            for x in splitted[:-1]:
+            for x in split[:-1]:
                 # create the key if it's not there
                 if x not in current:
                     current[x] = {}
                 current = current[x]
 
             # store actual key/value
-            key = splitted[-1]
+            key = split[-1]
             value = self.context.records[record].value
             if isinstance(value, Message):
                 value = translate(value, context=self.request)

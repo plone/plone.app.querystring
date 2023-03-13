@@ -217,7 +217,7 @@ class QueryBuilder(BrowserView):
 
         if isinstance(custom_query, dict) and custom_query:
             # Update the parsed query with an extra query dictionary. This may
-            # override the parsed query. The custom_query is a dictonary of
+            # override the parsed query. The custom_query is a dictionary of
             # index names and their associated query values.
             for key in custom_query:
                 if isinstance(parsedquery.get(key), dict) and isinstance(
