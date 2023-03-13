@@ -6,7 +6,6 @@ from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
 from plone.app.testing.layers import IntegrationTesting
-from plone.testing import z2
 from zope.configuration import xmlconfig
 
 
