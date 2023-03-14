@@ -502,7 +502,7 @@ class TestQueryGenerators(TestQueryParserBase):
         self.assertEqual(parsed, expected)
 
     def test__path(self):
-        # absoute path from plone site root
+        # absolute path from plone site root
         data = Row(index="path", operator="_path", values="/news/")
         parsed = queryparser._absolutePath(MockSite(), data)
         expected = {"path": {"query": ["/%s/news/" % MOCK_SITE_ID]}}
@@ -515,7 +515,7 @@ class TestQueryGenerators(TestQueryParserBase):
         self.assertEqual(parsed, expected)
 
     def test__navigationPath(self):
-        # absoute path from plone site root
+        # absolute path from plone site root
         # Search base
         context = MockObject(uid="00000000000000001", path="/%s/foo/bar" % MOCK_SITE_ID)
         # Nav root

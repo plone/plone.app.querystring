@@ -215,7 +215,7 @@ New features:
 - Refactor addition of criteria to stick inside ``INavigationRoot`` in querybuilder.
   Added a simple ``IQueryModifier`` interfaces expecting a query and returning a query.
   Iterates over all sorted utilities providing such an interfaces and calls it right before the query is parsed.
-  Code to add the ``INavigationRoot`` stickyness was moved to such a query modifier.
+  Code to add the ``INavigationRoot`` stickiness was moved to such a query modifier.
   [jensens]
 
 Bug fixes:
@@ -547,7 +547,7 @@ Fixes:
   results not wrapped as an IContentListing.
   [davisagli]
 
-* Declare all dependencies in setup.py to resolve a dependeny problem in
+* Declare all dependencies in setup.py to resolve a dependency problem in
   test setups, where the Plone stack isn't fully loaded.
   [thet]
 

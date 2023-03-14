@@ -53,7 +53,7 @@ class TestQuerybuilder(unittest.TestCase):
     def testQueryBuilderNumberOfResultsView(self):
         res = self.folder.restrictedTraverse("@@querybuildernumberofresults")
         length_of_results = res.browserDefault(None)[0](self.query)
-        # apparently brower travelsal is different from the traversal we get
+        # apparently browser traversal is different from the traversal we get
         # from restrictedTraverse. This did hurt a bit.
         numeric = int(length_of_results.split(" ")[0])
         self.assertEqual(numeric, 1)

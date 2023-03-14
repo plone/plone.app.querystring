@@ -3,99 +3,130 @@
     the selection screen). the html snippet is loaded in directly so that is why
     there are no html and body tags
 </tal:comment>
-<div tal:define="results context;
-                 limited_results python:context[:25];
-                 original_context nocall:options/original_context|nocall:context;
-                 toLocalizedTime nocall:original_context/@@plone/toLocalizedTime;
-                 pas_member original_context/@@pas_member;
-                 normalize nocall: context/@@plone/normalizeString;"
-    i18n:domain="plone">
+<div tal:define="
+       results context;
+       limited_results python:context[:25];
+       original_context nocall:options/original_context|nocall:context;
+       toLocalizedTime nocall:original_context/@@plone/toLocalizedTime;
+       pas_member original_context/@@pas_member;
+       normalize nocall: context/@@plone/normalizeString;
+     "
+     i18n:domain="plone"
+>
 
-    <span i18n:translate="batch_x_items_matching_your_criteria">
-        <strong i18n:name="number" id="search-results-number"
-                tal:content="results/actual_result_count">234</strong>
+  <span i18n:translate="batch_x_items_matching_your_criteria">
+    <strong id="search-results-number"
+            tal:content="results/actual_result_count"
+            i18n:name="number"
+    >234</strong>
         items matching your search terms.
-    </span>
+  </span>
 
-    <div id="search-results">
-        <p tal:condition="not: results">
-            <strong i18n:translate="description_no_results_found">
+  <div id="search-results">
+    <p tal:condition="not: results">
+      <strong i18n:translate="description_no_results_found">
                 No results were found.
-            </strong>
-        </p>
+      </strong>
+    </p>
 
-        <dl class="searchResults" tal:condition="limited_results">
-            <tal:results repeat="item limited_results">
-                <tal:entry tal:define="author python:pas_member.info(item.Creator());
-                	                   item_state python:'state-'+item.review_state();
-                	                   item_type python:'contenttype-'+normalize(item.portal_type)">
-                    <dt>
+    <dl class="searchResults"
+        tal:condition="limited_results"
+    >
+      <tal:results repeat="item limited_results">
+        <tal:entry tal:define="
+                     author python:pas_member.info(item.Creator());
+                     item_state python:'state-'+item.review_state();
+                     item_type python:'contenttype-'+normalize(item.portal_type);
+                   ">
+          <dt>
 
-                      <img tal:define="getIcon python:item.getURL()+'/@@images/image/icon'"
-                           tal:condition="item/getIcon"
-                           tal:attributes="href item/getURL;
-                                           src  string:$getIcon" />
-                       <a
-                         href="#"
-                         tal:attributes="href item/getURL;
-                                         class  string:$item_state $item_type"
-                         tal:content="item/Title" />
+            <img tal:define="
+                   getIcon python:item.getURL()+'/@@images/image/icon';
+                 "
+                 tal:condition="item/getIcon"
+                 tal:attributes="
+                   href item/getURL;
+                   src  string:$getIcon;
+                 "
+            />
+            <a href="#"
+               tal:content="item/Title"
+               tal:attributes="
+                 href item/getURL;
+                 class  string:$item_state $item_type;
+               "
+            ></a>
 
-                        <span class="documentByLine">
-                            <span class="documentAuthor"
-                                i18n:translate="label_by_author" tal:condition="author/fullname">
+            <span class="documentByLine">
+              <span class="documentAuthor"
+                    tal:condition="author/fullname"
+                    i18n:translate="label_by_author"
+              >
                             by
-                                  <a href="#"
-                                     tal:content="author/fullname"
-                                     tal:omit-tag="not:item/Creator"
-                                     tal:attributes="href string:${original_context/@@plone_portal_state/navigation_root_url}/author/${author/username}"
-                                     i18n:name="author">
+                <a href="#"
+                   tal:content="author/fullname"
+                   tal:omit-tag="not:item/Creator"
+                   tal:attributes="
+                     href string:${original_context/@@plone_portal_state/navigation_root_url}/author/${author/username};
+                   "
+                   i18n:name="author"
+                >
                                     Bob Dobalina
-                                  </a>
-                            </span>
+                </a>
+              </span>
 
-                            <span class="documentModified">
+              <span class="documentModified">
                               &mdash;
-                                <span i18n:translate="box_last_modified">
+                <span i18n:translate="box_last_modified">
                                 last modified
-                                </span>
-                                <span tal:replace="python:toLocalizedTime(item.ModificationDate())"
-                                      tal:on-error="string:?">
+                </span>
+                <span tal:replace="python:toLocalizedTime(item.ModificationDate())"
+                      tal:on-error="string:?"
+                >
                                 August 16, 2001 at 23:35:59
-                                </span>
-                            </span>
+                </span>
+              </span>
 
-                            <span tal:define="categories item/Subject|nothing"
-                                  tal:condition="categories">
+              <span tal:define="
+                      categories item/Subject|nothing;
+                    "
+                    tal:condition="categories"
+              >
                                 &mdash;
-                                <tal:filedunder i18n:translate="">filed under:</tal:filedunder>
-                                    <span tal:repeat="category categories">
-                                        <a href=""
-                                           class="link-category"
-                                           rel="tag"
-                                           tal:content="category"
-                                           tal:attributes="href string:${original_context/@@plone_portal_state/navigation_root_url}/search?Subject%3Alist=${category}">
+                <tal:filedunder i18n:translate="">filed under:</tal:filedunder>
+                <span tal:repeat="category categories">
+                  <a class="link-category"
+                     href=""
+                     rel="tag"
+                     tal:content="category"
+                     tal:attributes="
+                       href string:${original_context/@@plone_portal_state/navigation_root_url}/search?Subject%3Alist=${category};
+                     "
+                  >
                                            Category
-                                        </a><tal:separator condition="not: repeat/category/end">,</tal:separator>
-                                    </span>
-                            </span>
-                        </span>
-                    </dt>
-                    <dd>
-                        <span tal:replace="item/Description">
+                  </a><tal:separator condition="not: repeat/category/end">,</tal:separator>
+                </span>
+              </span>
+            </span>
+          </dt>
+          <dd>
+            <span tal:replace="item/Description">
                             Cropped description
-                        </span>
-                        <span class="documentLocation">
-                            <a href=""
-                               class="link-location"
-                               tal:content="item/getPath"
-                               tal:attributes="href item/getURL">
+            </span>
+            <span class="documentLocation">
+              <a class="link-location"
+                 href=""
+                 tal:content="item/getPath"
+                 tal:attributes="
+                   href item/getURL;
+                 "
+              >
                                 Location
-                            </a>
-                        </span>
-                   </dd>
-                </tal:entry>
-            </tal:results>
-        </dl>
-    </div>
+              </a>
+            </span>
+          </dd>
+        </tal:entry>
+      </tal:results>
+    </dl>
+  </div>
 </div>

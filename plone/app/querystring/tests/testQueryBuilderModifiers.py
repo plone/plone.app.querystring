@@ -55,7 +55,7 @@ class TestQuerybuilderExtended(unittest.TestCase):
 
         try:
             results = self.querybuilder(query=query)
-        except:
+        except Exception:
             self.fail("Unexpected: index modifier has been called")
         self.assertEqual(len(results), 1)
         self.assertEqual(results[0].Title(), "Collectionstestpage")

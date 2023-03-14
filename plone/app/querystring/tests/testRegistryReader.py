@@ -44,6 +44,13 @@ class TestRegistryReader(unittest.TestCase):
         gsm.registerUtility(self.registry, IRegistry)
 
         importer = RegistryImporter(self.registry, self)
+        if isinstance(xml, str):
+            # String can work, but not when it has an encoding declaration.
+            # It would give a ValueError:
+            # "Unicode strings with encoding declaration are not supported.
+            # Please use bytes input or XML fragments without declaration."
+
+            xml = xml.encode("utf-8")
         importer.importDocument(xml)
         return self.registry
 
