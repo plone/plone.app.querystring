@@ -8,6 +8,23 @@ Changelog
 
 .. towncrier release notes start
 
+2.0.2 (2023-03-21)
+------------------
+
+Bug fixes:
+
+
+- Housecleaning: pyupgrade, isort, black, remove six, move imports from CMFPlone to plone.base, copy munge_search_terms from CMFPlone to here to avoid dependency on CMFPlone.
+  [jensens] (#119)
+
+
+Internal:
+
+
+- Update configuration files.
+  [plone devs] (a533099d)
+
+
 2.0.1 (2022-12-21)
 ------------------
 

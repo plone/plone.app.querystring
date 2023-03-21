@@ -1,3 +1,0 @@
-Housecleaning: pyupgrade, isort, black, remove six, move imports from CMFPlone to plone.base, copy munge_search_terms from CMFPlone to here to avoid dependency on CMFPlone.
-[jensens]
-
