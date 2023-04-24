@@ -2,8 +2,8 @@ from Acquisition import aq_parent
 from collections import namedtuple
 from DateTime import DateTime
 from DateTime.interfaces import DateTimeError
-from plone.base.navigationroot import get_navigation_root
 from plone.base.interfaces import IPloneSiteRoot
+from plone.base.navigationroot import get_navigation_root
 from plone.base.utils import base_hasattr
 from plone.registry.interfaces import IRegistry
 from plone.uuid.interfaces import IUUID
