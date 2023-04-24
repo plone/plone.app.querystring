@@ -41,7 +41,6 @@ setup(
     install_requires=[
         "setuptools",
         "plone.app.contentlisting",
-        "plone.app.layout",
         "plone.app.registry>=1.1",
         "plone.base",
         "plone.batching",

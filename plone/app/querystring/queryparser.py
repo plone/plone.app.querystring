@@ -2,7 +2,7 @@ from Acquisition import aq_parent
 from collections import namedtuple
 from DateTime import DateTime
 from DateTime.interfaces import DateTimeError
-from plone.app.layout.navigation.root import getNavigationRoot
+from plone.base.navigationroot import get_navigation_root
 from plone.base.interfaces import IPloneSiteRoot
 from plone.base.utils import base_hasattr
 from plone.registry.interfaces import IRegistry
@@ -324,7 +324,7 @@ def _absolutePath(context, row):
 
 
 def _navigationPath(context, row):
-    return _pathByRoot(getNavigationRoot(context), context, row)
+    return _pathByRoot(get_navigation_root(context), context, row)
 
 
 def _relativePath(context, row):
