@@ -1,2 +1,0 @@
-Fix cyclic dependency, do not depend on `plone.app.layout`.
-[@jensens]

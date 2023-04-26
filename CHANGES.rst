@@ -8,6 +8,16 @@ Changelog
 
 .. towncrier release notes start
 
+2.0.3 (2023-04-26)
+------------------
+
+Bug fixes:
+
+
+- Fix cyclic dependency, do not depend on `plone.app.layout`.
+  [@jensens] (rm-cyclic-dep)
+
+
 2.0.2 (2023-03-21)
 ------------------
 
