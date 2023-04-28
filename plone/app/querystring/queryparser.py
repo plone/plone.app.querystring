@@ -1,3 +1,4 @@
+from .interfaces import IParsedQueryIndexModifier
 from Acquisition import aq_parent
 from collections import namedtuple
 from DateTime import DateTime
@@ -8,6 +9,7 @@ from plone.base.utils import base_hasattr
 from plone.registry.interfaces import IRegistry
 from plone.uuid.interfaces import IUUID
 from Products.CMFCore.utils import getToolByName
+from zope.component import getUtilitiesFor
 from zope.component import getUtility
 from zope.dottedname.resolve import resolve
 
@@ -65,6 +67,23 @@ def parseFormquery(context, formquery, sort_on=None, sort_order=None):
             if sort_order:
                 query["sort_order"] = sort_order
     return query
+
+
+def parseAndModifyFormquery(context, query, sort_on=None, sort_order=None):
+    parsedquery = parseFormquery(context, query, sort_on, sort_order)
+
+    index_modifiers = getUtilitiesFor(IParsedQueryIndexModifier)
+    for name, modifier in index_modifiers:
+        if name in parsedquery:
+            new_name, query = modifier(parsedquery[name])
+            parsedquery[name] = query
+            # if a new index name has been returned, we need to replace
+            # the native ones
+            if name != new_name:
+                del parsedquery[name]
+                parsedquery[new_name] = query
+
+    return parsedquery
 
 
 # Query operators

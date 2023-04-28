@@ -1,0 +1,5 @@
+Fix a circular transitive dependency to `plone.app.querystring`.
+New direct dependency explicit on `plone.app.vocabularies`.
+Move `plone.app.querystring.catalog.CatalogVocabularyFactory` to `.vocabularies`, move the ZCML to register the factory, move the the test.
+Move `plone.app.querystring.utils.parse_query` with new name `parseAndModifyFormquery` to `.queryparser`.
+[@jensens]
