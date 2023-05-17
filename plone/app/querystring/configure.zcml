@@ -64,4 +64,8 @@
       name="1000"
       component=".querymodifiers.modify_query_to_enforce_navigation_root"
       />
+  <utility
+      factory=".vocabularies.CatalogVocabularyFactory"
+      name="plone.app.vocabularies.Catalog"
+      />
 </configure>

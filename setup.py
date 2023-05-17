@@ -42,6 +42,7 @@ setup(
         "setuptools",
         "plone.app.contentlisting",
         "plone.app.registry>=1.1",
+        "plone.app.vocabularies",
         "plone.base",
         "plone.batching",
         "plone.i18n",
