@@ -8,6 +8,19 @@ Changelog
 
 .. towncrier release notes start
 
+2.0.4 (2023-05-22)
+------------------
+
+Bug fixes:
+
+
+- Fix a circular transitive dependency to `plone.app.querystring`.
+  New direct dependency explicit on `plone.app.vocabularies`.
+  Move `plone.app.querystring.catalog.CatalogVocabularyFactory` to `.vocabularies`, move the ZCML to register the factory, move the the test.
+  Move `plone.app.querystring.utils.parse_query` with new name `parseAndModifyFormquery` to `.queryparser`.
+  [@jensens] (fix-circular-dep-pavocabularies)
+
+
 2.0.3 (2023-04-26)
 ------------------
 
