@@ -64,9 +64,8 @@ def parseFormquery(context, formquery, sort_on=None, sort_order=None):
                     if not isinstance(new_query, list):
                         new_query = [new_query]
                     existing["query"] = sorted(existing_query + new_query)
-                    if (
-                        (existing["range"] == "min" and value["range"] == "max") or
-                        (existing["range"] == "max" and value["range"] == "min")
+                    if (existing["range"] == "min" and value["range"] == "max") or (
+                        existing["range"] == "max" and value["range"] == "min"
                     ):
                         existing["range"] = "minmax"
                     continue
