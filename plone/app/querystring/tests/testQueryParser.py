@@ -327,6 +327,18 @@ class TestQueryGenerators(TestQueryParserBase):
         self.assertEqual(parsed, expected)
 
     def test__intEqual(self):
+        # int
+        data = Row(index="modified", operator="_intEqual", values=20)
+        parsed = queryparser._intEqual(MockSite(), data)
+        expected = {"modified": {"query": 20}}
+        self.assertEqual(parsed, expected)
+
+        # list of ints
+        data = Row(index="modified", operator="_intEqual", values=[20, 21])
+        parsed = queryparser._intEqual(MockSite(), data)
+        expected = {"modified": {"query": [20, 21]}}
+        self.assertEqual(parsed, expected)
+
         # bytes
         data = Row(index="modified", operator="_intEqual", values=b"20")
         parsed = queryparser._intEqual(MockSite(), data)
@@ -354,7 +366,7 @@ class TestQueryGenerators(TestQueryParserBase):
         # bad text
         data = Row(index="modified", operator="_intEqual", values="bad")
         parsed = queryparser._intEqual(MockSite(), data)
-        expected = {"modified": {"query": None}}
+        expected = {}
         self.assertEqual(parsed, expected)
 
         # list of bad text
@@ -362,7 +374,7 @@ class TestQueryGenerators(TestQueryParserBase):
             index="modified", operator="_intEqual", values=[b"bad", "text", "values"]
         )
         parsed = queryparser._intEqual(MockSite(), data)
-        expected = {"modified": {"query": None}}
+        expected = {}
         self.assertEqual(parsed, expected)
 
     def test__lessThan(self):
@@ -372,6 +384,12 @@ class TestQueryGenerators(TestQueryParserBase):
         self.assertEqual(parsed, expected)
 
     def test__intLessThan(self):
+        # int
+        data = Row(index="modified", operator="_intLessThan", values=20)
+        parsed = queryparser._intLessThan(MockSite(), data)
+        expected = {"modified": {"query": 20, "range": "max"}}
+        self.assertEqual(parsed, expected)
+
         # bytes
         data = Row(index="modified", operator="_intLessThan", values=b"20")
         parsed = queryparser._intLessThan(MockSite(), data)
@@ -387,7 +405,7 @@ class TestQueryGenerators(TestQueryParserBase):
         # bad value
         data = Row(index="modified", operator="_intLessThan", values="bad")
         parsed = queryparser._intLessThan(MockSite(), data)
-        expected = {"modified": {"query": None, "range": "max"}}
+        expected = {}
         self.assertEqual(parsed, expected)
 
     def test__largerThan(self):
@@ -397,6 +415,12 @@ class TestQueryGenerators(TestQueryParserBase):
         self.assertEqual(parsed, expected)
 
     def test__intLargerThan(self):
+        # int
+        data = Row(index="modified", operator="_intLargerThan", values=20)
+        parsed = queryparser._intLargerThan(MockSite(), data)
+        expected = {"modified": {"query": 20, "range": "min"}}
+        self.assertEqual(parsed, expected)
+
         # bytes
         data = Row(index="modified", operator="_intLargerThan", values=b"20")
         parsed = queryparser._intLargerThan(MockSite(), data)
@@ -412,7 +436,7 @@ class TestQueryGenerators(TestQueryParserBase):
         # bad value
         data = Row(index="modified", operator="_intLargerThan", values="bad")
         parsed = queryparser._intLargerThan(MockSite(), data)
-        expected = {"modified": {"query": None, "range": "min"}}
+        expected = {}
         self.assertEqual(parsed, expected)
 
     def test__currentUser(self):
