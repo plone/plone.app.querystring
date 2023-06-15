@@ -1,0 +1,2 @@
+Fix integer operations to accept integers. @davisagli
+Fix integer operations to avoid adding None to the query when the input is not valid. @davisagli

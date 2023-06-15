@@ -112,11 +112,13 @@ def _intEqual(context, row):
             values = [int(v) for v in row.values]
         except (ValueError, TypeError, AttributeError):
             pass
-    elif not isinstance(row.values, int):
+    else:
         try:
             values = int(row.values)
         except (ValueError, TypeError, AttributeError):
             pass
+    if values is None:
+        return {}
     return {row.index: {"query": values}}
 
 
@@ -154,19 +156,16 @@ def _largerThan(context, row):
 
 
 def _intLargerThan(context, row):
-    value = None
-    if not isinstance(row.values, int):
-        try:
-            value = int(row.values)
-        except (ValueError, TypeError, AttributeError):
-            pass
-    tmp = {
+    try:
+        value = int(row.values)
+    except (ValueError, TypeError, AttributeError):
+        return {}
+    return {
         row.index: {
             "query": value,
             "range": "min",
         },
     }
-    return tmp
 
 
 def _lessThan(context, row):
@@ -180,20 +179,16 @@ def _lessThan(context, row):
 
 
 def _intLessThan(context, row):
-    value = None
-    if not isinstance(row.values, int):
-        try:
-            value = int(row.values)
-        except (ValueError, TypeError, AttributeError):
-            # value = 0
-            pass
-    tmp = {
+    try:
+        value = int(row.values)
+    except (ValueError, TypeError, AttributeError):
+        return {}
+    return {
         row.index: {
             "query": value,
             "range": "max",
         },
     }
-    return tmp
 
 
 def _currentUser(context, row):
