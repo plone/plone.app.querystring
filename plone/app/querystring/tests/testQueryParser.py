@@ -285,6 +285,22 @@ class TestQueryParser(TestQueryParserBase):
             },
         )
 
+    def test_merge_ranges(self):
+        data = [
+            {
+                "i": "modified",
+                "o": "plone.app.querystring.operation.int.largerThan",
+                "v": 10,
+            },
+            {
+                "i": "modified",
+                "o": "plone.app.querystring.operation.int.lessThan",
+                "v": 20,
+            },
+        ]
+        parsed = queryparser.parseFormquery(MockSite(), data)
+        self.assertEqual(parsed, {"modified": {"query": [10, 20], "range": "minmax"}})
+
 
 class TestQueryGenerators(TestQueryParserBase):
     def test__between(self):

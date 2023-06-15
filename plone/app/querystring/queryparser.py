@@ -37,7 +37,6 @@ def parseFormquery(context, formquery, sort_on=None, sort_order=None):
             index=row.get("i", None), operator=function_path, values=row.get("v", None)
         )
 
-        kwargs = {}
         parser = resolve(row.operator)
         kwargs = parser(context, row)
 
@@ -49,10 +48,29 @@ def parseFormquery(context, formquery, sort_on=None, sort_order=None):
                 query[path_index]["query"].extend(kwargs[path_index]["query"])
             else:
                 query.update(kwargs)
+            continue
         elif len(path_index) > 1:
             raise IndexError("Too many path indices in one row.")
-        else:
-            query.update(kwargs)
+
+        for index, value in kwargs.items():
+            # Merge range queries on the same index
+            if isinstance(value, dict) and "range" in value:
+                existing = query.get(index)
+                if isinstance(existing, dict) and "range" in existing:
+                    existing_query = existing["query"]
+                    if not isinstance(existing_query, list):
+                        existing_query = [existing_query]
+                    new_query = value["query"]
+                    if not isinstance(new_query, list):
+                        new_query = [new_query]
+                    existing["query"] = sorted(existing_query + new_query)
+                    if (existing["range"] == "min" and value["range"] == "max") or (
+                        existing["range"] == "max" and value["range"] == "min"
+                    ):
+                        existing["range"] = "minmax"
+                    continue
+            # Other cases: simply overwrite the query for the index
+            query[index] = value
 
     if not query:
         # If the query is empty fall back onto the equality query
