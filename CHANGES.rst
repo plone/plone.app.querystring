@@ -8,6 +8,24 @@ Changelog
 
 .. towncrier release notes start
 
+2.0.5 (2023-06-16)
+------------------
+
+Bug fixes:
+
+
+- Fix integer operations to accept integers. @davisagli
+  Fix integer operations to avoid adding None to the query when the input is not valid. @davisagli (#131)
+- Merge range queries on the same index instead of overwriting. @davisagli (#132)
+
+
+Internal:
+
+
+- Update configuration files.
+  [plone devs] (dd37b9f9)
+
+
 2.0.4 (2023-05-22)
 ------------------
 

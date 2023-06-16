@@ -1,1 +1,0 @@
-Merge range queries on the same index instead of overwriting. @davisagli
