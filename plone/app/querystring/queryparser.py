@@ -213,7 +213,7 @@ def _currentUser(context, row):
     """Current user lookup"""
     mt = getToolByName(context, "portal_membership")
     user = mt.getAuthenticatedMember()
-    return {row.index: {"query": user.getUserName()}}
+    return {row.index: {"query": user.getId()}}
 
 
 def _showInactive(context, row):

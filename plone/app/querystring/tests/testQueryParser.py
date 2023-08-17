@@ -116,14 +116,12 @@ class MockNavRoot(MockObject):
 
 
 class MockUser:
-    def __init__(self, username=None, roles=None):
-        self.username = "Anonymous User"
-        if username:
-            self.username = username
+    def __init__(self, userid=None, roles=None):
+        self.userid = userid or "Anonymous User"
         self.roles = roles or "Anonymous"
 
-    def getUserName(self):
-        return self.username
+    def getId(self):
+        return self.userid
 
     def getRoles(self):
         return self.roles
@@ -466,7 +464,7 @@ class TestQueryGenerators(TestQueryParserBase):
         self.assertEqual(parsed, expected)
 
         # Logged in user 'admin'
-        u = MockUser(username="admin")
+        u = MockUser(userid="admin")
         pm = MockPortal_membership(user=u)
         context = MockSite(portal_membership=pm)
         data = Row(index="Creator", operator="_currentUser", values=None)
@@ -486,7 +484,7 @@ class TestQueryGenerators(TestQueryParserBase):
         self.assertEqual(parsed, expected)
 
         # Logged in user 'admin'
-        u = MockUser(username="admin", roles=("Manager",))
+        u = MockUser(userid="admin", roles=("Manager",))
         pm = MockPortal_membership(user=u)
         context = MockSite(portal_membership=pm)
         data = Row(index="show_inactive", operator="_showInactive", values=["Manager"])
