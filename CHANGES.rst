@@ -8,6 +8,15 @@ Changelog
 
 .. towncrier release notes start
 
+2.0.6 (2023-08-17)
+------------------
+
+Bug fixes:
+
+
+- Fix the currentUser operation when the current user's username is different from their user id. @davisagli (#135)
+
+
 2.0.5 (2023-06-16)
 ------------------
 

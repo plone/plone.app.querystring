@@ -1,1 +1,0 @@
-Fix the currentUser operation when the current user's username is different from their user id. @davisagli
