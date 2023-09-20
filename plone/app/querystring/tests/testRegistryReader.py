@@ -15,7 +15,8 @@ import unittest
 @implementer(IVocabularyFactory)
 class TestVocabulary:
     def __call__(self, context):
-        return SimpleVocabulary([SimpleVocabulary.createTerm("foo", "foo", "bar")])
+        term = "subsite term" if getattr(context, "id", None) == "subsite" else "term"
+        return SimpleVocabulary([SimpleVocabulary.createTerm(term, term, term)])
 
 
 class TestRegistryReader(unittest.TestCase):
@@ -82,7 +83,19 @@ class TestRegistryReader(unittest.TestCase):
         result = reader.parseRegistry()
         result = reader.getVocabularyValues(result)
         vocabulary_result = result.get("plone.app.querystring.field.reviewState.values")
-        self.assertEqual(vocabulary_result, {"foo": {"title": "bar"}})
+        self.assertEqual(vocabulary_result, {"term": {"title": "term"}})
+
+    def test_get_vocabularies_in_context(self):
+        portal = self.layer["portal"]
+        subsite = portal[portal.invokeFactory("Document", "subsite", title="Subsite")]
+
+        registry = self.createRegistry(td.test_vocabulary_xml)
+        reader = IQuerystringRegistryReader(registry)
+        reader.vocab_context = subsite
+        result = reader.parseRegistry()
+        result = reader.getVocabularyValues(result)
+        vocabulary_result = result.get("plone.app.querystring.field.reviewState.values")
+        self.assertEqual(vocabulary_result, {"subsite term": {"title": "subsite term"}})
 
     def test_map_operations_clean(self):
         """tests if mapOperations is getting all operators correctly"""
