@@ -42,6 +42,7 @@ class QuerystringRegistryReader:
             request = getRequest()
 
         self.context = context
+        self.vocab_context = context
         self.request = request
 
     def parseRegistry(self):
@@ -87,7 +88,7 @@ class QuerystringRegistryReader:
                 # Bail out if the annotation is marked not to fetch the vocabulary
                 # to allow the widget to query the vocabulary as needed
                 continue
-            for item in utility(self.context):
+            for item in utility(self.vocab_context):
                 if isinstance(item.title, Message):
                     title = translate(item.title, context=self.request)
                 else:
