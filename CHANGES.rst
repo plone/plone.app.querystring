@@ -8,6 +8,15 @@ Changelog
 
 .. towncrier release notes start
 
+2.1.0 (2023-09-21)
+------------------
+
+New features:
+
+
+- Add a way to specific a context for getting vocabularies in the QuerystringRegistryReader. @davisagli (#137)
+
+
 2.0.6 (2023-08-17)
 ------------------
 
