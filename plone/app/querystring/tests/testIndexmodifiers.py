@@ -39,7 +39,7 @@ class TestIndexModifiers(unittest.TestCase):
         self.assertTrue(isinstance(modifier(query)[1]["query"][0], datetime))
 
     def test_date_modifier_list_DateTime(self):
-        """Test a case with largerThanRelativeDate operatiors, where
+        """Test a case with largerThanRelativeDate operators, where
         plone.app.querystring.querybuilder parses a querystring like this one:
 
         >>> query
