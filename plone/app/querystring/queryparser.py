@@ -412,7 +412,7 @@ def _referenceIs(context, row):
     portal_url = getToolByName(context, "portal_url")
     portal = portal_url.getPortalObject()
 
-    if type(path) == list:
+    if isinstance(path, list):
         path = path[0]
 
     obj = portal.restrictedTraverse(str(path), None)
