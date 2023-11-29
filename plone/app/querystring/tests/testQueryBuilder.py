@@ -325,7 +325,6 @@ class TestQuerybuilder(unittest.TestCase):
         self.assertEqual(len(results), 1)
         self.assertEqual(results[0].Title(), "Collectionstestpage 2")
 
-
     def test_munge_search_term(self):
         from plone.app.querystring.querybuilder import _BAD_CHARS
         from plone.app.querystring.querybuilder import munge_search_term
@@ -399,6 +398,7 @@ class TestQuerybuilder(unittest.TestCase):
 
         for _in, _out in search_term_tests:
             self.assertEqual(munge_search_term(_in), _out)
+
 
 class TestQuerybuilderResultTypes(unittest.TestCase):
     layer = TEST_PROFILE_PLONEAPPQUERYSTRING_INTEGRATION_TESTING
