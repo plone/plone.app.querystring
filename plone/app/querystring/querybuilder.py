@@ -44,10 +44,11 @@ def _quote(term):
     # being parsed as logical query atoms.
     if term.lower() in ("and", "or", "not"):
         term = '"%s"' % term
-    return term
+    return _quote_chars(term)
 
 
 def munge_search_term(query):
+    original_query = query
     for char in _BAD_CHARS:
         query = query.replace(char, " ")
 
@@ -66,7 +67,7 @@ def munge_search_term(query):
 
     r += map(_quote, query.strip().split())
     r = " AND ".join(r)
-    r = _quote_chars(r) + ("*" if r and not r.endswith('"') else "")
+    r = r + ("*" if r and not original_query.endswith('"') else "")
     return r
 
 

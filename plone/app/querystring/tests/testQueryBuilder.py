@@ -326,6 +326,80 @@ class TestQuerybuilder(unittest.TestCase):
         self.assertEqual(results[0].Title(), "Collectionstestpage 2")
 
 
+    def test_munge_search_term(self):
+        from plone.app.querystring.querybuilder import _BAD_CHARS
+        from plone.app.querystring.querybuilder import munge_search_term
+
+        search_term_tests = [
+            (
+                # search term
+                "spam ham",
+                "spam AND ham*",
+            ),
+            (
+                # quoted term
+                '"spam ham"',
+                '"spam ham"',
+            ),
+            (
+                # cleanup quoted terms
+                '" spam ham   "',
+                '"spam ham"',
+            ),
+            (
+                # quoted term with inner parenthesis
+                '"spam (ham)"',
+                '"spam (ham)"',
+            ),
+            (
+                # quoted term with inner parenthesis
+                '"spam" (ham)',
+                '"spam" AND "("ham")"*',
+            ),
+            (
+                # quoted term with inner parenthesis
+                '"(spam ham)"',
+                '"(spam ham)"',
+            ),
+            (
+                # mixed cases
+                "Spam hAm",
+                "Spam AND hAm*",
+            ),
+            (
+                # mix quoting and unquoted
+                'let\'s eat some "ham and eggs " without spam ',
+                '"ham and eggs" AND let\'s AND eat AND some ' "AND without AND spam*",
+            ),
+            (
+                'test "Welcome" to "Plone" retest',
+                '"Welcome" AND "Plone" AND test AND to AND retest*',
+            ),
+            (
+                # parentheses
+                "spam (ham)",
+                'spam AND "("ham")"*',
+            ),
+            (
+                # special keywords
+                "spam or not ham and eggs",
+                'spam AND "or" AND "not" AND ham AND "and" AND eggs*',
+            ),
+            (
+                # bad characters
+                " ".join(_BAD_CHARS),
+                "",
+            ),
+            (
+                # weird input
+                'test ""Welcome" to "Plone"" retest',
+                '"to" AND test AND WelcomePlone AND retest*',
+            ),
+        ]
+
+        for _in, _out in search_term_tests:
+            self.assertEqual(munge_search_term(_in), _out)
+
 class TestQuerybuilderResultTypes(unittest.TestCase):
     layer = TEST_PROFILE_PLONEAPPQUERYSTRING_INTEGRATION_TESTING
 
