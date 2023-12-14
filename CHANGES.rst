@@ -8,6 +8,16 @@ Changelog
 
 .. towncrier release notes start
 
+2.1.1 (2023-12-14)
+------------------
+
+Bug fixes:
+
+
+- Handle parenthesis inside quotes
+  [erral] (#139)
+
+
 2.1.0 (2023-09-21)
 ------------------
 
