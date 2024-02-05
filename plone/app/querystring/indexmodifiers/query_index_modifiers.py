@@ -5,7 +5,6 @@ from zope.interface import implementer
 
 @implementer(IParsedQueryIndexModifier)
 class Subject:
-
     """
     The Subject field in Plone currently uses a utf-8 encoded string.
     When a catalog query tries to compare a unicode string from the
