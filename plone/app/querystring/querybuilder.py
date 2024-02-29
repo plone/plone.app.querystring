@@ -97,6 +97,7 @@ class QueryBuilder(BrowserView):
         limit=0,
         brains=False,
         custom_query=None,
+        rids=False,
     ):
         """Create a zope catalog query and return results.
 
@@ -145,6 +146,7 @@ class QueryBuilder(BrowserView):
                 limit=limit,
                 brains=brains,
                 custom_query=custom_query,
+                rids=rids,
             )
         return self._results
 
@@ -174,6 +176,7 @@ class QueryBuilder(BrowserView):
         limit=0,
         brains=False,
         custom_query=None,
+        rids=False,
     ):
         """Parse the (form)query and return using multi-adapter"""
         query_modifiers = getUtilitiesFor(IQueryModifier)
@@ -206,6 +209,8 @@ class QueryBuilder(BrowserView):
             parsedquery = {}
 
         empty_query = not parsedquery  # store emptiness
+        
+        parsedquery["rids"] = rids
 
         if batch:
             parsedquery["b_start"] = b_start
