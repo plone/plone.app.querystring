@@ -209,7 +209,7 @@ class QueryBuilder(BrowserView):
             parsedquery = {}
 
         empty_query = not parsedquery  # store emptiness
-        
+
         parsedquery["rids"] = rids
 
         if batch:
