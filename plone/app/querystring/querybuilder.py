@@ -261,9 +261,12 @@ class QueryBuilder(BrowserView):
 
     def filter_query(self, query):
         text = query.get("SearchableText", None)
+        munge = True
         if isinstance(text, dict):
+            if text.get("operator", "") == "search":
+                munge = False
             text = text.get("query", "")
-        if text:
+        if text and munge:
             query["SearchableText"] = self.munge_search_term(text)
         return query
 

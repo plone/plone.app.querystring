@@ -110,6 +110,9 @@ def parseAndModifyFormquery(context, query, sort_on=None, sort_order=None):
 def _contains(context, row):
     return _equal(context, row)
 
+def _search(context, row):
+    return {row.index: {'query': row.values, 'operator': 'search' }}
+
 
 def _excludes(context, row):
     return {row.index: {"not": row.values}}
