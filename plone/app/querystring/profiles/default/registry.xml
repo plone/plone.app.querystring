@@ -803,6 +803,7 @@
     <value key="sortable">False</value>
     <value key="operations">
       <element>plone.app.querystring.operation.string.contains</element>
+      <element>plone.app.querystring.operation.string.search</element>
     </value>
     <value key="group"
            i18n:translate=""
