@@ -84,15 +84,6 @@ class MockPortalUrl:
         return MockObject(uid="00000000000000000", path="/%s" % MOCK_SITE_ID)
 
 
-class MockNavtreeProperties:
-    def getProperty(self, name, default=""):
-        return ""
-
-
-class MockSiteProperties:
-    navtree_properties = MockNavtreeProperties()
-
-
 @implementer(INavigationRoot, IPloneSiteRoot)
 class MockSite:
     def __init__(self, portal_membership=None):
@@ -104,7 +95,6 @@ class MockSite:
         sm.registerUtility(portal_membership, IMembershipTool)
         self.portal_url = MockPortalUrl()
         sm.registerUtility(self.portal_url, IURLTool)
-        self.portal_properties = MockSiteProperties()
 
     def getPhysicalPath(self):
         return ["", MOCK_SITE_ID]
