@@ -8,6 +8,23 @@ Changelog
 
 .. towncrier release notes start
 
+2.1.2 (2024-06-13)
+------------------
+
+Internal:
+
+
+- Update configuration files.
+  [plone devs] (6e36bcc4)
+
+
+Tests
+
+
+- Remove unused ``portal_properties`` code from tests.
+  [maurits] (#125)
+
+
 2.1.1 (2023-12-14)
 ------------------
 
