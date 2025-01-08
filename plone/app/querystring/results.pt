@@ -8,7 +8,7 @@
        limited_results python:context[:25];
        original_context nocall:options/original_context|nocall:context;
        toLocalizedTime nocall:original_context/@@plone/toLocalizedTime;
-       pas_member original_context/@@pas_member;
+       pas_member nocall: original_context/@@pas_member;
        normalize nocall: context/@@plone/normalizeString;
      "
      i18n:domain="plone"
