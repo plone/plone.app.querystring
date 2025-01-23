@@ -8,6 +8,15 @@ Changelog
 
 .. towncrier release notes start
 
+2.1.3 (2025-01-23)
+------------------
+
+Bug fixes:
+
+
+- Fix a not needed view call
+
+
 2.1.2 (2024-06-13)
 ------------------
 
