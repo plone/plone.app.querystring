@@ -113,13 +113,13 @@ class TestRegistryReader(unittest.TestCase):
         reader = IQuerystringRegistryReader(registry)
         result = reader.parseRegistry()
         result = reader.getVocabularyValues(result)
-        vocabulary_result = result.get(
+        vocabulary_values = result.get(
             "plone.app.querystring.field.testvocabulary_manually_ordered.values"
         )
 
-        # This first one is just here temporarily to prove that compared ordered dict works with the sorted keys.
+        # This is here to prove that we are getting sorted titles. We'll check for the manual order shortly
         self.assertEqual(
-            vocabulary_result,
+            vocabulary_values,
             OrderedDict(
                 {
                     "id_a": {"title": "A"},
@@ -130,8 +130,24 @@ class TestRegistryReader(unittest.TestCase):
                 }
             ),
         )
+        vocabulary_values_order = result.get(
+            "plone.app.querystring.field.testvocabulary_manually_ordered.values_order"
+        )
         self.assertEqual(
-            vocabulary_result,
+            vocabulary_values_order,
+            [
+                "id_a",
+                "id_e",
+                "id_b",
+                "id_d",
+                "id_c",
+            ],
+        )
+        self.assertEqual(
+            # Re-sort the sorted dictionary based on the correct order
+            OrderedDict(
+                {token: vocabulary_values[token] for token in vocabulary_values_order}
+            ),
             OrderedDict(
                 {
                     "id_a": {"title": "A"},
