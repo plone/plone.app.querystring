@@ -22,4 +22,18 @@
     <value key="vocabulary">plone.app.querystring.tests.testvocabulary</value>
     <value key="group">Metadata</value>
   </records>
+
+  <records interface="plone.app.querystring.interfaces.IQueryField"
+           prefix="plone.app.querystring.field.testvocabulary_manually_ordered"
+  >
+    <value key="title">Manually ordered test field</value>
+    <value key="enabled">True</value>
+    <value key="sortable">True</value>
+    <value key="operations">
+      <element>plone.app.querystring.operation.string.is</element>
+    </value>
+    <value key="vocabulary">plone.app.querystring.tests.testvocabulary_manually_ordered_field</value>
+    <value key="group">Metadata</value>
+  </records>
+
 </registry>

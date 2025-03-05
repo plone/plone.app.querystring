@@ -1,3 +1,4 @@
+from collections import OrderedDict
 from plone.app.querystring.interfaces import IQuerystringRegistryReader
 from plone.app.querystring.registryreader import DottedDict
 from plone.app.querystring.testing import PLONEAPPQUERYSTRING_INTEGRATION_TESTING
@@ -19,6 +20,20 @@ class TestVocabulary:
         return SimpleVocabulary([SimpleVocabulary.createTerm(term, term, term)])
 
 
+@implementer(IVocabularyFactory)
+class TestVocabularyManuallyOrdered:
+    def __call__(self, context):
+        return SimpleVocabulary.fromItems(
+            (
+                ("A", "id_a", "A"),
+                ("E", "id_e", "E"),
+                ("B", "id_b", "B"),
+                ("D", "id_d", "D"),
+                ("C", "id_c", "C"),
+            )
+        )
+
+
 class TestRegistryReader(unittest.TestCase):
     layer = PLONEAPPQUERYSTRING_INTEGRATION_TESTING
 
@@ -28,6 +43,11 @@ class TestRegistryReader(unittest.TestCase):
             TestVocabulary(),
             IVocabularyFactory,
             "plone.app.querystring.tests.testvocabulary",
+        )
+        gsm.registerUtility(
+            TestVocabularyManuallyOrdered(),
+            IVocabularyFactory,
+            "plone.app.querystring.tests.testvocabulary_manually_ordered_field",
         )
 
     def getLogger(self, value):
@@ -84,6 +104,44 @@ class TestRegistryReader(unittest.TestCase):
         result = reader.getVocabularyValues(result)
         vocabulary_result = result.get("plone.app.querystring.field.reviewState.values")
         self.assertEqual(vocabulary_result, {"term": {"title": "term"}})
+
+    def test_vocabulary_order_retained(self):
+        """tests if getVocabularyValues is returning the correct vocabulary
+        values in the correct format
+        """
+        registry = self.createRegistry(td.test_vocabulary_xml)
+        reader = IQuerystringRegistryReader(registry)
+        result = reader.parseRegistry()
+        result = reader.getVocabularyValues(result)
+        vocabulary_result = result.get(
+            "plone.app.querystring.field.testvocabulary_manually_ordered.values"
+        )
+
+        # This first one is just here temporarily to prove that compared ordered dict works with the sorted keys.
+        self.assertEqual(
+            vocabulary_result,
+            OrderedDict(
+                {
+                    "id_a": {"title": "A"},
+                    "id_b": {"title": "B"},
+                    "id_c": {"title": "C"},
+                    "id_d": {"title": "D"},
+                    "id_e": {"title": "E"},
+                }
+            ),
+        )
+        self.assertEqual(
+            vocabulary_result,
+            OrderedDict(
+                {
+                    "id_a": {"title": "A"},
+                    "id_e": {"title": "E"},
+                    "id_b": {"title": "B"},
+                    "id_d": {"title": "D"},
+                    "id_c": {"title": "C"},
+                }
+            ),
+        )
 
     def test_get_vocabularies_in_context(self):
         portal = self.layer["portal"]
