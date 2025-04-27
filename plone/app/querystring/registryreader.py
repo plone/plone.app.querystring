@@ -94,6 +94,11 @@ class QuerystringRegistryReader:
                 else:
                     title = item.title
                 translated.append((title, item.value))
+            # We don't need a values_order key if there aren't any values
+            if translated:
+                field["values_order"] = []
+            for title, value in translated:
+                field["values_order"].append(value)
             translated = sorted(translated, key=lambda x: id_normalize(safe_text(x[0])))
             for title, value in translated:
                 field["values"][value] = {"title": title}
