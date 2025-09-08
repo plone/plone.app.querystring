@@ -1,0 +1,1 @@
+add rids parameter in querybuilder used to get only the rids of documents [razvanMiu] (#145)
