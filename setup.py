@@ -34,7 +34,6 @@ setup(
     zip_safe=False,
     python_requires=">=3.10",
     install_requires=[
-        "setuptools",
         "plone.app.contentlisting",
         "plone.app.registry>=1.1",
         "plone.app.vocabularies",
