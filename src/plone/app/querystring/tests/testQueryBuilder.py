@@ -123,8 +123,12 @@ class TestQuerybuilder(unittest.TestCase):
             }
         ]
         results = self.querybuilder._makequery(query=query)
-        self.assertEqual(len(results), 1)
-        self.assertEqual(results[0].getURL(), "http://nohost/plone/testfolder")
+        # We used to expect 1 result.  But in fact the Plone Site should also
+        # be in the results.  This happens since Products.ZCatalog 7.2.0.
+        self.assertEqual(
+            sorted([brain.getURL() for brain in results]),
+            ["http://nohost/plone", "http://nohost/plone/testfolder"],
+        )
 
     def testMakeQueryWithMultipleSubject(self):
         self.testpage.setSubject(["Lorem"])
@@ -153,8 +157,12 @@ class TestQuerybuilder(unittest.TestCase):
             }
         ]
         results = self.querybuilder._makequery(query=query)
-        self.assertEqual(len(results), 1)
-        self.assertEqual(results[0].getURL(), "http://nohost/plone/testfolder")
+        # We used to expect 1 result.  But in fact the Plone Site should also
+        # be in the results.  This happens since Products.ZCatalog 7.2.0.
+        self.assertEqual(
+            sorted([brain.getURL() for brain in results]),
+            ["http://nohost/plone", "http://nohost/plone/testfolder"],
+        )
 
     def testMakeQueryWithSubjectWithSpecialCharacters(self):
         self.testpage.setSubject(["Äüö"])
