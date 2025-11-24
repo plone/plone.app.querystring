@@ -51,6 +51,7 @@ setup(
     ],
     extras_require={
         "test": [
+            "plone.app.content",
             "plone.app.testing",
             "plone.app.contenttypes[test]",
         ]

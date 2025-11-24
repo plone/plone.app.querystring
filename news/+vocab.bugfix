@@ -1,0 +1,1 @@
+Don't include vocabulary values in QuerystringRegistryReader results if the current user doesn't have permission for the vocabulary. @davisagli
