@@ -102,12 +102,18 @@ class TestRegistryReader(unittest.TestCase):
     def test_get_vocabularies_checks_permission(self):
         logout()
         from plone.app.content.browser.vocabulary import PERMISSIONS
-        with mock.patch.dict(PERMISSIONS, {"plone.app.querystring.tests.testvocabulary": "Manage portal content"}):
+
+        with mock.patch.dict(
+            PERMISSIONS,
+            {"plone.app.querystring.tests.testvocabulary": "Manage portal content"},
+        ):
             registry = self.createRegistry(td.test_vocabulary_xml)
             reader = IQuerystringRegistryReader(registry)
             result = reader.parseRegistry()
             result = reader.getVocabularyValues(result)
-            vocabulary_result = result.get("plone.app.querystring.field.reviewState.values")
+            vocabulary_result = result.get(
+                "plone.app.querystring.field.reviewState.values"
+            )
             self.assertEqual(vocabulary_result, {})
 
     def test_map_operations_clean(self):

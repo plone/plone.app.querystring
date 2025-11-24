@@ -17,9 +17,10 @@ from zope.schema.interfaces import IVocabularyFactory
 
 import logging
 
+
 try:
-    from plone.app.content.browser.vocabulary import PERMISSIONS
     from plone.app.content.browser.vocabulary import DEFAULT_PERMISSION
+    from plone.app.content.browser.vocabulary import PERMISSIONS
 except ImportError:
     PERMISSIONS = {}
     DEFAULT_PERMISSION = "View"

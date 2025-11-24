@@ -12,3 +12,4 @@ test_matrix = {"6.2" = ["*"]}
 dependencies_mappings = [
     "'Products.ZCatalog' = ['Products.ZCTextIndex']",
     ]
+dependencies_ignores = "['plone.app.content']"
