@@ -43,7 +43,6 @@ setup(
         "plone.registry",
         "plone.uuid",
         "Products.GenericSetup",
-        "Products.ZCatalog",
         "python-dateutil",
         "Zope",
         "zope.dottedname",
