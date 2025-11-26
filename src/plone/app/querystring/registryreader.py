@@ -1,3 +1,5 @@
+from AccessControl import getSecurityManager
+from Acquisition import aq_parent
 from collections import OrderedDict
 from plone.app.querystring.interfaces import IQuerystringRegistryReader
 from plone.base.utils import safe_text
@@ -15,6 +17,13 @@ from zope.schema.interfaces import IVocabularyFactory
 
 import logging
 
+
+try:
+    from plone.app.content.browser.vocabulary import DEFAULT_PERMISSION
+    from plone.app.content.browser.vocabulary import PERMISSIONS
+except ImportError:
+    PERMISSIONS = {}
+    DEFAULT_PERMISSION = "View"
 
 logger = logging.getLogger("plone.app.querystring")
 
@@ -42,7 +51,7 @@ class QuerystringRegistryReader:
             request = getRequest()
 
         self.context = context
-        self.vocab_context = context
+        self.vocab_context = aq_parent(context)
         self.request = request
 
     def parseRegistry(self):
@@ -71,6 +80,10 @@ class QuerystringRegistryReader:
 
         return result
 
+    def _checkVocabularyPermission(self, vocab_name):
+        permission = PERMISSIONS.get(vocab_name, DEFAULT_PERMISSION)
+        return getSecurityManager().checkPermission(permission, self.vocab_context)
+
     def getVocabularyValues(self, values):
         """Get all vocabulary values if a vocabulary is defined"""
         id_normalize = getUtility(IIDNormalizer).normalize
@@ -87,6 +100,9 @@ class QuerystringRegistryReader:
             if not field.get("fetch_vocabulary", True):
                 # Bail out if the annotation is marked not to fetch the vocabulary
                 # to allow the widget to query the vocabulary as needed
+                continue
+            if not self._checkVocabularyPermission(vocabulary):
+                # Don't include vocab values if user doesn't have permission
                 continue
             for item in utility(self.vocab_context):
                 if isinstance(item.title, Message):

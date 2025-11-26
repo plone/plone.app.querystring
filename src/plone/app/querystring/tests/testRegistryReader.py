@@ -2,8 +2,10 @@ from plone.app.querystring.interfaces import IQuerystringRegistryReader
 from plone.app.querystring.registryreader import DottedDict
 from plone.app.querystring.testing import PLONEAPPQUERYSTRING_INTEGRATION_TESTING
 from plone.app.querystring.tests import registry_testdata as td
+from plone.app.testing import logout
 from plone.registry import Registry
 from plone.registry.interfaces import IRegistry
+from unittest import mock
 from zope.component import getGlobalSiteManager
 from zope.interface import implementer
 from zope.schema.interfaces import IVocabularyFactory
@@ -96,6 +98,23 @@ class TestRegistryReader(unittest.TestCase):
         result = reader.getVocabularyValues(result)
         vocabulary_result = result.get("plone.app.querystring.field.reviewState.values")
         self.assertEqual(vocabulary_result, {"subsite term": {"title": "subsite term"}})
+
+    def test_get_vocabularies_checks_permission(self):
+        logout()
+        from plone.app.content.browser.vocabulary import PERMISSIONS
+
+        with mock.patch.dict(
+            PERMISSIONS,
+            {"plone.app.querystring.tests.testvocabulary": "Manage portal content"},
+        ):
+            registry = self.createRegistry(td.test_vocabulary_xml)
+            reader = IQuerystringRegistryReader(registry)
+            result = reader.parseRegistry()
+            result = reader.getVocabularyValues(result)
+            vocabulary_result = result.get(
+                "plone.app.querystring.field.reviewState.values"
+            )
+            self.assertEqual(vocabulary_result, {})
 
     def test_map_operations_clean(self):
         """tests if mapOperations is getting all operators correctly"""
