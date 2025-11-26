@@ -8,6 +8,22 @@ Changelog
 
 .. towncrier release notes start
 
+3.0.0a2 (2025-11-26)
+--------------------
+
+Bug fixes:
+
+
+- Don't ignore sort_on values which are not ZCatalog indexes. @davisagli (#173)
+- Don't include vocabulary values in QuerystringRegistryReader results if the current user doesn't have permission for the vocabulary. @davisagli
+
+
+Tests:
+
+
+- Fix tests for ``not`` queries in ``Products.ZCatalog`` 7.2.0+.  [maurits]
+
+
 3.0.0a1 (2025-11-19)
 --------------------
 
