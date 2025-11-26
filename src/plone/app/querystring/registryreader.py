@@ -2,11 +2,8 @@ from collections import OrderedDict
 from plone.app.querystring.interfaces import IQuerystringRegistryReader
 from plone.base.utils import safe_text
 from plone.i18n.normalizer.interfaces import IIDNormalizer
-from Products.CMFCore.utils import getToolByName
-from Products.ZCTextIndex.interfaces import IZCTextIndex
 from zope.component import getUtility
 from zope.component import queryUtility
-from zope.component.hooks import getSite
 from zope.globalrequest import getRequest
 from zope.i18n import translate
 from zope.i18nmessageid import Message
@@ -117,14 +114,9 @@ class QuerystringRegistryReader:
 
     def mapSortableIndexes(self, values):
         """Map sortable indexes"""
-        catalog = getToolByName(getSite(), "portal_catalog")._catalog
         sortables = {}
         for key, field in values.get("%s.field" % self.prefix).items():
-            if (
-                field["sortable"]
-                and key in catalog.indexes
-                and not IZCTextIndex.providedBy(catalog.getIndex(key))
-            ):
+            if field["sortable"]:
                 sortables[key] = values.get(f"{self.prefix}.field.{key}")
         values["sortable"] = sortables
         return values
