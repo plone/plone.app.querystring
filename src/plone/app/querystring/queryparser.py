@@ -78,12 +78,9 @@ def parseFormquery(context, formquery, sort_on=None, sort_order=None):
 
     # Add sorting (sort_on and sort_order) to the query
     if sort_on:
-        catalog = getToolByName(context, "portal_catalog")
-        # I get crazy sort_ons like '194' or 'null'.
-        if sort_on in catalog.indexes():
-            query["sort_on"] = sort_on
-            if sort_order:
-                query["sort_order"] = sort_order
+        query["sort_on"] = sort_on
+        if sort_order:
+            query["sort_order"] = sort_order
     return query
 
 

@@ -407,6 +407,10 @@ class TestQuerybuilder(unittest.TestCase):
         for _in, _out in search_term_tests:
             self.assertEqual(munge_search_term(_in), _out)
 
+    def test_query_builder_unknown_sort(self):
+        results = self.querybuilder(query=self.query, sort_on="unknown")
+        self.assertEqual(len(results), 1)
+
 
 class TestQuerybuilderResultTypes(unittest.TestCase):
     layer = TEST_PROFILE_PLONEAPPQUERYSTRING_INTEGRATION_TESTING

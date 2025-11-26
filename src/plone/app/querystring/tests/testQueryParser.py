@@ -191,7 +191,14 @@ class TestQueryParser(TestQueryParserBase):
             sort_on="unknown",
             sort_order="reverse",
         )
-        self.assertEqual(parsed, {"Title": {"query": "Welcome to Plone"}})
+        self.assertEqual(
+            parsed,
+            {
+                "Title": {"query": "Welcome to Plone"},
+                "sort_on": "unknown",
+                "sort_order": "reverse",
+            },
+        )
 
     def test_path_explicit(self):
         data = {
