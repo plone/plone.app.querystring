@@ -3,9 +3,10 @@
 # See the inline comments on how to expand/tweak this configuration file
 [meta]
 template = "default"
-commit-id = "2.0.1.dev0"
+commit-id = "2.3.3.dev0"
 
 [pyproject]
-dependencies_mappings = [
-    "'Products.ZCatalog' = ['Products.ZCTextIndex']",
-    ]
+dependencies_mappings = ["'Products.ZCatalog' = ['Products.ZCTextIndex']"]
+
+[tox]
+test_matrix = { "6.1" = ["3.13", "3.10"], "6.0" = ["3.13", "3.9"] }
