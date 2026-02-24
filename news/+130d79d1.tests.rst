@@ -1,0 +1,1 @@
+Fix tests for ``not`` queries in ``Products.ZCatalog`` 7.2.0+.  [maurits]

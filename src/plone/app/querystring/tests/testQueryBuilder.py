@@ -123,8 +123,14 @@ class TestQuerybuilder(unittest.TestCase):
             }
         ]
         results = self.querybuilder._makequery(query=query)
-        self.assertEqual(len(results), 1)
-        self.assertEqual(results[0].getURL(), "http://nohost/plone/testfolder")
+        # Since Products.ZCatalog 7.2.0 the Plone Site is also returned.
+        # To keep the test compatible with both older and newer versions,
+        # only assert that the page with subject 'Lorem' is not part of the
+        # results (the presence of the Plone site itself may vary by ZCatalog
+        # version).
+        self.assertNotIn(
+            self.testpage.absolute_url(), [brain.getURL() for brain in results]
+        )
 
     def testMakeQueryWithMultipleSubject(self):
         self.testpage.setSubject(["Lorem"])
@@ -153,8 +159,14 @@ class TestQuerybuilder(unittest.TestCase):
             }
         ]
         results = self.querybuilder._makequery(query=query)
-        self.assertEqual(len(results), 1)
-        self.assertEqual(results[0].getURL(), "http://nohost/plone/testfolder")
+        # Since Products.ZCatalog 7.2.0 the Plone Site is also returned.
+        # To keep the test compatible with both older and newer versions,
+        # only assert that the page with subject 'Lorem' is not part of the
+        # results (the presence of the Plone site itself may vary by ZCatalog
+        # version).
+        self.assertNotIn(
+            self.testpage.absolute_url(), [brain.getURL() for brain in results]
+        )
 
     def testMakeQueryWithSubjectWithSpecialCharacters(self):
         self.testpage.setSubject(["Äüö"])
