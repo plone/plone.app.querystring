@@ -8,6 +8,22 @@ Changelog
 
 .. towncrier release notes start
 
+2.1.5 (2026-02-26)
+------------------
+
+Internal:
+
+
+- Update configuration files.
+  [plone devs]
+
+
+Tests:
+
+
+- Fix tests for ``not`` queries in ``Products.ZCatalog`` 7.2.0+.  [maurits]
+
+
 2.1.4 (2025-09-11)
 ------------------
 
