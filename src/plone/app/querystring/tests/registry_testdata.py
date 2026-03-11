@@ -1,6 +1,5 @@
 import os
 
-
 parsed_correct = {
     "plone": {
         "app": {

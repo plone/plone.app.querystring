@@ -18,7 +18,6 @@ import json
 import logging
 import re
 
-
 logger = logging.getLogger("plone.app.querystring")
 _ = MessageFactory("plone")
 

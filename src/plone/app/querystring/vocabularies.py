@@ -5,7 +5,6 @@ from zope.component.hooks import getSite
 from zope.interface import implementer
 from zope.schema.interfaces import IVocabularyFactory
 
-
 # this vocabulary is in this package by intend.
 # since plone.app.querystring depends on plone.app.vocabularies
 # we can not put it over there without creating a circular dependency.

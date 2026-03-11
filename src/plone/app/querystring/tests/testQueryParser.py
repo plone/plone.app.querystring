@@ -19,7 +19,6 @@ from zope.interface import implementer
 
 import unittest
 
-
 MOCK_SITE_ID = "site"
 
 
