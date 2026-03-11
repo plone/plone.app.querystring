@@ -13,7 +13,6 @@ from zope.component import getUtilitiesFor
 from zope.component import getUtility
 from zope.dottedname.resolve import resolve
 
-
 Row = namedtuple("Row", ["index", "operator", "values"])
 PATH_INDICES = {"path"}
 
