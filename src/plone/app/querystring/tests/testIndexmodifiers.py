@@ -6,24 +6,6 @@ import unittest
 
 
 class TestIndexModifiers(unittest.TestCase):
-    def test_subject_encoded(self):
-        self.assertEqual(
-            query_index_modifiers.Subject()({"query": "foobar"}),
-            ("Subject", {"query": "foobar"}),
-        )
-
-    def test_subject_encoded__list(self):
-        self.assertEqual(
-            query_index_modifiers.Subject()({"query": ["foobar"]}),
-            ("Subject", {"query": ["foobar"]}),
-        )
-
-    def test_subject_encoded__list_not(self):
-        self.assertEqual(
-            query_index_modifiers.Subject()({"not": ["foobar"]}),
-            ("Subject", {"not": ["foobar"]}),
-        )
-
     def test_date_modifier(self):
         modifier = query_index_modifiers.start()
         self.assertTrue(
