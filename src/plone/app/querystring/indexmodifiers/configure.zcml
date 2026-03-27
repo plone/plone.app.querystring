@@ -4,11 +4,6 @@
     >
 
   <utility
-      factory=".query_index_modifiers.Subject"
-      provides="..interfaces.IParsedQueryIndexModifier"
-      name="Subject"
-      />
-  <utility
       factory=".query_index_modifiers.Date"
       provides="..interfaces.IParsedQueryIndexModifier"
       name="Date"
