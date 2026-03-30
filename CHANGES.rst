@@ -8,6 +8,26 @@ Changelog
 
 .. towncrier release notes start
 
+3.0.0a3 (2026-03-30)
+--------------------
+
+Bug fixes:
+
+
+- Fix multi-word search so all word parts get wildcard prefix matching, not just the last one.
+  Use ``munge_search_term`` from ``plone.base.utils``, deprecate old import path.
+  @jensens (#4205)
+
+
+Internal:
+
+
+- Remove Subject index modifier — a Python 2 leftover that was already a no-op.
+  @jensens (#155)
+- Update configuration files.
+  [plone devs]
+
+
 3.0.0a2 (2025-11-26)
 --------------------
 

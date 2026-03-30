@@ -1,2 +1,0 @@
-Remove Subject index modifier — a Python 2 leftover that was already a no-op.
-@jensens
