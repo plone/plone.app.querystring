@@ -159,4 +159,15 @@
         />
   </genericsetup:upgradeSteps>
 
+  <genericsetup:upgradeSteps
+      profile="plone.app.querystring:default"
+      source="14"
+      destination="15"
+      >
+    <genericsetup:upgradeDepends
+        title="Use date-specific lessThan, largerThan, and between operators."
+        import_profile="plone.app.querystring:upgrade_to_15"
+        />
+  </genericsetup:upgradeSteps>
+
 </configure>
