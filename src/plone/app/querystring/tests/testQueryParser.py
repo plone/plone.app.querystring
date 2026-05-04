@@ -305,13 +305,18 @@ class TestQueryParser(TestQueryParserBase):
             {
                 "i": "start",
                 "o": "plone.app.querystring.operation.date.largerThan",
-                "v": "2026-05-04",
+                "v": "2026/05/04",
             },
         ]
         parsed = queryparser.parseFormquery(MockSite(), data)
         self.assertEqual(
             parsed,
-            {"start": {"query": [DateTime("2026-05-04"), DateTime().earliestTime()], "range": "min"}},
+            {
+                "start": {
+                    "query": [DateTime("2026/05/04"), DateTime().earliestTime()],
+                    "range": "min",
+                }
+            },
         )
 
 
