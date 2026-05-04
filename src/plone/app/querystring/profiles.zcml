@@ -90,4 +90,12 @@
       directory="profiles/upgrades/to_14"
       />
 
+  <genericsetup:registerProfile
+      name="upgrade_to_15"
+      title="Querystring Upgrade profile to v15"
+      description=""
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      directory="profiles/upgrades/to_15"
+      />
+
 </configure>
