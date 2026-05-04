@@ -33,7 +33,7 @@ class TestOperationDefinitions(unittest.TestCase):
         self.assertEqual(registry[prefix + ".description"], "Please use YYYY/MM/DD.")
         self.assertEqual(
             registry[prefix + ".operation"],
-            "plone.app.querystring.queryparser._lessThan",
+            "plone.app.querystring.queryparser._dateLessThan",
         )
 
 

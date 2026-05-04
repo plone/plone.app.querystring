@@ -295,6 +295,25 @@ class TestQueryParser(TestQueryParserBase):
         parsed = queryparser.parseFormquery(MockSite(), data)
         self.assertEqual(parsed, {"modified": {"query": [10, 20], "range": "minmax"}})
 
+    def test_merge_date_operations(self):
+        data = [
+            {
+                "i": "start",
+                "o": "plone.app.querystring.operation.date.afterRelativeDate",
+                "v": "0",
+            },
+            {
+                "i": "start",
+                "o": "plone.app.querystring.operation.date.largerThan",
+                "v": "2026-05-04",
+            },
+        ]
+        parsed = queryparser.parseFormquery(MockSite(), data)
+        self.assertEqual(
+            parsed,
+            {"start": {"query": [DateTime("2026-05-04"), DateTime().earliestTime()], "range": "min"}},
+        )
+
 
 class TestQueryGenerators(TestQueryParserBase):
     def test__between(self):
