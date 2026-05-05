@@ -8,6 +8,10 @@ Changelog
 
 .. towncrier release notes start
 
+2.1.7 (unreleased)
+------------------
+
+
 2.1.6 (2026-05-05)
 ------------------
 
