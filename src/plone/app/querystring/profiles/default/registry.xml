@@ -67,7 +67,7 @@
            i18n:translate=""
     >Before date</value>
     <value key="description">Please use YYYY/MM/DD.</value>
-    <value key="operation">plone.app.querystring.queryparser._lessThan</value>
+    <value key="operation">plone.app.querystring.queryparser._dateLessThan</value>
     <value key="widget">DateWidget</value>
   </records>
 
@@ -80,7 +80,7 @@
     <value key="description"
            i18n:translate=""
     >Please use YYYY/MM/DD.</value>
-    <value key="operation">plone.app.querystring.queryparser._largerThan</value>
+    <value key="operation">plone.app.querystring.queryparser._dateLargerThan</value>
     <value key="widget">DateWidget</value>
   </records>
 
@@ -93,7 +93,7 @@
     <value key="description"
            i18n:translate=""
     >Please use YYYY/MM/DD.</value>
-    <value key="operation">plone.app.querystring.queryparser._between</value>
+    <value key="operation">plone.app.querystring.queryparser._dateBetween</value>
     <value key="widget">DateRangeWidget</value>
   </records>
 
