@@ -159,6 +159,19 @@ def _between(context, row):
     return tmp
 
 
+def _dateBetween(context, row):
+    try:
+        start_date = DateTime(row.values[0])
+    except DateTimeError:
+        start_date = DateTime(0)
+    try:
+        end_date = DateTime(row.values[1])
+    except DateTimeError:
+        end_date = DateTime()
+    row = Row(index=row.index, operator=row.operator, values=(start_date, end_date))
+    return _between(context, row)
+
+
 def _largerThan(context, row):
     tmp = {
         row.index: {
@@ -182,6 +195,19 @@ def _intLargerThan(context, row):
     }
 
 
+def _dateLargerThan(context, row):
+    try:
+        value = DateTime(row.values)
+    except (DateTimeError, TypeError, AttributeError):
+        return {}
+    return {
+        row.index: {
+            "query": value,
+            "range": "min",
+        },
+    }
+
+
 def _lessThan(context, row):
     tmp = {
         row.index: {
@@ -196,6 +222,19 @@ def _intLessThan(context, row):
     try:
         value = int(row.values)
     except (ValueError, TypeError, AttributeError):
+        return {}
+    return {
+        row.index: {
+            "query": value,
+            "range": "max",
+        },
+    }
+
+
+def _dateLessThan(context, row):
+    try:
+        value = DateTime(row.values)
+    except (DateTimeError, TypeError, AttributeError):
         return {}
     return {
         row.index: {
