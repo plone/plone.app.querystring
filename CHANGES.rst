@@ -8,6 +8,15 @@ Changelog
 
 .. towncrier release notes start
 
+2.1.7 (2026-05-06)
+------------------
+
+Bug fixes:
+
+
+- Don't ignore sort_on values which are not ZCatalog indexes. @davisagli (#173)
+
+
 2.1.7 (unreleased)
 ------------------
 
