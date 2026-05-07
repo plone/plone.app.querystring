@@ -8,6 +8,15 @@ Changelog
 
 .. towncrier release notes start
 
+3.0.0 (2026-05-07)
+------------------
+
+Bug fixes:
+
+
+- Fix merging multiple date operations. @davisagli (#188)
+
+
 3.0.0a3 (2026-03-30)
 --------------------
 
