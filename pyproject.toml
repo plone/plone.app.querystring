@@ -4,7 +4,70 @@
 [build-system]
 requires = ["setuptools>=68.2,<83", "wheel"]
 
+# START-MARKER-MANUAL-CONFIG
+# Anything from here until END-MARKER-MANUAL-CONFIG
+# will be kept by plone.meta
 
+[project]
+name = "plone.app.querystring"
+version = "3.0.1.dev0"
+description = "A queryparser, querybuilder and extra helper tools, to parse stored queries to actual results, used in new style Plone collections"
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Framework :: Plone",
+    "Framework :: Plone :: 6.2",
+    "Framework :: Plone :: Core",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+]
+license = "GPL-2.0-only"
+dynamic = ["readme"]
+requires-python = ">=3.10"
+authors = [
+    {name = "Plone Foundation",email = "plone-developers@lists.sourceforge.net"},
+]
+maintainers = [
+    {name = "Plone Foundation and contributors",email = "plone-developers@lists.sourceforge.net"},
+]
+dependencies = [
+    "Products.GenericSetup",
+    "Zope",
+    "plone.app.contentlisting",
+    "plone.app.registry",
+    "plone.app.vocabularies",
+    "plone.base",
+    "plone.batching",
+    "plone.i18n",
+    "plone.registry",
+    "plone.uuid",
+    "python-dateutil",
+    "zope.dottedname",
+    "zope.globalrequest",
+]
+keywords = ["collection", "queries"]
+
+[project.entry-points."plone.autoinclude.plugin"]
+target = "plone"
+
+[project.optional-dependencies]
+test = [
+    "plone.app.content",
+    "plone.app.contenttypes[test]",
+    "plone.app.testing",
+]
+
+[project.urls]
+Source = "https://github.com/plone/plone.app.querystring"
+Issues = "https://github.com/plone/Products.CMFPlone/issues"
+Changelog = "https://github.com/plone/plone.app.querystring/blob/master/CHANGES.rst"
+
+[tool.setuptools.dynamic]
+readme = {file = ["README.rst", "CHANGES.rst"]}
+# END-MARKER-MANUAL-CONFIG
 
 [tool.towncrier]
 directory = "news/"
