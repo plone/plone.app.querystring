@@ -1,0 +1,2 @@
+Fix the ``isDefaultPage`` and ``isFolderish`` query fields so they are mapped to their real catalog indexes (``is_default_page`` and ``is_folderish``). Previously the criterion was silently dropped because the field name never matched an actual index, so collections and searches filtering on "Default Page" or "Folder-like" returned unfiltered results.
+[afonsojanu]

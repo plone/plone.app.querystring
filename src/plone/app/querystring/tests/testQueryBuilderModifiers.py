@@ -94,3 +94,24 @@ class TestQuerybuilderExtended(unittest.TestCase):
         self.assertEqual(len(results), 1)
         self.assertEqual(results[0].Title(), "Bar")
         gsm.unregisterUtility(provided=IParsedQueryIndexModifier, name="Abstract")
+
+    def testIsFolderishFieldMatchesRealIndex(self):
+        # isFolderish is the id of the registry query field, but the
+        # underlying catalog index is called is_folderish. Without the
+        # built-in index modifier this criterion is silently dropped and
+        # every object in the portal is returned, see
+        # https://github.com/plone/plone.app.querystring/issues/100
+        self.portal.invokeFactory("Folder", "collectionstestfolder")
+        query = [
+            {
+                "i": "isFolderish",
+                "o": "plone.app.querystring.operation.boolean.isTrue",
+                "v": True,
+            }
+        ]
+        results = self.querybuilder(query=query)
+        ids = {brain.getId() for brain in results}
+        self.assertIn("collectionstestfolder", ids)
+        self.assertNotIn("collectionstestpage1", ids)
+        self.assertNotIn("collectionstestpage2", ids)
+        self.assertNotIn("collectionstestpage3", ids)

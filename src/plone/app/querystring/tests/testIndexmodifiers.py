@@ -51,3 +51,18 @@ class TestIndexModifiers(unittest.TestCase):
         modifier = query_index_modifiers.start()
         query = {"query": "foobar"}
         self.assertEqual(modifier(query)[1]["query"], "foobar")
+
+    def test_is_default_page_modifier_renames_index(self):
+        # The registry field is named isDefaultPage, but the ZCatalog
+        # index backing it is is_default_page, see
+        # https://github.com/plone/plone.app.querystring/issues/100
+        modifier = query_index_modifiers.isDefaultPage()
+        index_name, value = modifier({"query": True})
+        self.assertEqual(index_name, "is_default_page")
+        self.assertEqual(value, {"query": True})
+
+    def test_is_folderish_modifier_renames_index(self):
+        modifier = query_index_modifiers.isFolderish()
+        index_name, value = modifier({"query": True})
+        self.assertEqual(index_name, "is_folderish")
+        self.assertEqual(value, {"query": True})

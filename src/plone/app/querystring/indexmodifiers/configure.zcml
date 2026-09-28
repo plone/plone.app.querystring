@@ -38,5 +38,15 @@
       provides="..interfaces.IParsedQueryIndexModifier"
       name="start"
       />
+  <utility
+      factory=".query_index_modifiers.isDefaultPage"
+      provides="..interfaces.IParsedQueryIndexModifier"
+      name="isDefaultPage"
+      />
+  <utility
+      factory=".query_index_modifiers.isFolderish"
+      provides="..interfaces.IParsedQueryIndexModifier"
+      name="isFolderish"
+      />
 
 </configure>

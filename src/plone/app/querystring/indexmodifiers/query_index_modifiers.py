@@ -60,3 +60,23 @@ class modified(base):
 
 class start(base):
     pass
+
+
+@implementer(IParsedQueryIndexModifier)
+class isDefaultPage:
+    """The isDefaultPage query field is exposed under a different name
+    than the ZCatalog index (is_default_page) that actually backs it.
+    """
+
+    def __call__(self, value):
+        return ("is_default_page", value)
+
+
+@implementer(IParsedQueryIndexModifier)
+class isFolderish:
+    """The isFolderish query field is exposed under a different name
+    than the ZCatalog index (is_folderish) that actually backs it.
+    """
+
+    def __call__(self, value):
+        return ("is_folderish", value)
