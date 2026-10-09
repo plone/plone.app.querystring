@@ -1,0 +1,4 @@
+Fix path criteria behind a Virtual Host Monster: paths relative to the virtual hosting root (including ``_vh_`` segments) are now translated to physical paths.
+Before, the navigation root or portal path was prepended, which gave wrong results when the virtual root was not the portal (e.g. a subsite or language folder) or the context was inside a navigation root.
+See plone/plone.restapi#2023.
+@petschki
