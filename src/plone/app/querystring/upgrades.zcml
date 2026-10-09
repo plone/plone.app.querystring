@@ -170,4 +170,15 @@
         />
   </genericsetup:upgradeSteps>
 
+  <genericsetup:upgradeSteps
+      profile="plone.app.querystring:default"
+      source="15"
+      destination="16"
+      >
+    <genericsetup:upgradeDepends
+        title="Add 'currentUID' operation and make 'path' sortable."
+        import_profile="plone.app.querystring:upgrade_to_16"
+        />
+  </genericsetup:upgradeSteps>
+
 </configure>
