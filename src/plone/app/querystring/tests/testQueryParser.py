@@ -10,6 +10,8 @@ from plone.registry import field
 from plone.registry import Record
 from plone.registry import Registry
 from plone.registry.interfaces import IRegistry
+from plone.uuid.interfaces import ATTRIBUTE_NAME
+from plone.uuid.interfaces import IAttributeUUID
 from Products.CMFCore.interfaces import ICatalogTool
 from Products.CMFCore.interfaces import IMembershipTool
 from Products.CMFCore.interfaces import IURLTool
@@ -102,6 +104,13 @@ class MockSite:
 @implementer(INavigationRoot)
 class MockNavRoot(MockObject):
     pass
+
+
+@implementer(IAttributeUUID)
+class MockUUIDObject(MockObject):
+    def __init__(self, uid, path):
+        super().__init__(uid, path)
+        setattr(self, ATTRIBUTE_NAME, uid)
 
 
 class MockUser:
@@ -491,6 +500,19 @@ class TestQueryGenerators(TestQueryParserBase):
         parsed = queryparser._currentUser(context, data)
         expected = {"Creator": {"query": "admin"}}
         self.assertEqual(parsed, expected)
+
+    def test__currentUID(self):
+        context = MockUUIDObject(uid="00000000000000001", path="/%s/foo" % MOCK_SITE_ID)
+        data = Row(index="related_to", operator="_currentUID", values=None)
+        parsed = queryparser._currentUID(context, data)
+        expected = {"related_to": {"query": "00000000000000001"}}
+        self.assertEqual(parsed, expected)
+
+    def test__currentUID_without_uid(self):
+        context = MockObject(uid=None, path="/%s/foo" % MOCK_SITE_ID)
+        data = Row(index="related_to", operator="_currentUID", values=None)
+        parsed = queryparser._currentUID(context, data)
+        self.assertEqual(parsed, {})
 
     def test__showInactive(self):
         # Anonymous user

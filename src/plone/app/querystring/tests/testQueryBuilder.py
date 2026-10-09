@@ -1,3 +1,4 @@
+from plone.app.querystring.testing import PLONEAPPQUERYSTRING_INTEGRATION_TESTING
 from plone.app.querystring.testing import (
     TEST_PROFILE_PLONEAPPQUERYSTRING_INTEGRATION_TESTING,
 )
@@ -403,3 +404,76 @@ class TestConfigurationFetcher(unittest.TestCase):
 
     def testGettingJSONConfiguration(self):
         self.folder.restrictedTraverse("@@querybuilderjsonconfig")()
+
+
+class TestQuerybuilderDefaultProfile(unittest.TestCase):
+    layer = PLONEAPPQUERYSTRING_INTEGRATION_TESTING
+
+    def setUp(self):
+        self.portal = self.layer["portal"]
+        self.request = TestRequest()
+        self.portal.invokeFactory("Folder", "listing", title="Listing")
+        listing = self.portal.listing
+        listing.invokeFactory("Folder", "section-b", title="Section B")
+        listing["section-b"].invokeFactory("Document", "page", title="Page")
+        listing.invokeFactory("Document", "about", title="About")
+        listing.invokeFactory("Folder", "section-a", title="Section A")
+        self.listing = listing
+
+    def querybuilder(self, context):
+        return getMultiAdapter((context, self.request), name="querybuilderresults")
+
+    def test_sort_on_path(self):
+        query = [
+            {
+                "i": "path",
+                "o": "plone.app.querystring.operation.string.absolutePath",
+                "v": "/listing",
+            }
+        ]
+        results = self.querybuilder(self.portal)(
+            query=query, sort_on="path", brains=True
+        )
+        self.assertEqual(
+            [brain.getPath() for brain in results],
+            [
+                "/plone/listing",
+                "/plone/listing/about",
+                "/plone/listing/section-a",
+                "/plone/listing/section-b",
+                "/plone/listing/section-b/page",
+            ],
+        )
+
+    def test_sort_on_path_reverse(self):
+        query = [
+            {
+                "i": "path",
+                "o": "plone.app.querystring.operation.string.absolutePath",
+                "v": "/listing/section-b",
+            }
+        ]
+        results = self.querybuilder(self.portal)(
+            query=query, sort_on="path", sort_order="reverse", brains=True
+        )
+        self.assertEqual(
+            [brain.getPath() for brain in results],
+            ["/plone/listing/section-b/page", "/plone/listing/section-b"],
+        )
+
+    def test_current_uid(self):
+        page = self.listing["section-b"]["page"]
+        query = [
+            {
+                "i": "UID",
+                "o": "plone.app.querystring.operation.string.currentUID",
+            }
+        ]
+        results = self.querybuilder(page)(query=query, brains=True)
+        self.assertEqual(len(results), 1)
+        self.assertEqual(results[0].UID, page.UID())
+
+        # The same query run on another context finds that context instead
+        results = self.querybuilder(self.listing)(query=query, brains=True)
+        self.assertEqual(len(results), 1)
+        self.assertEqual(results[0].UID, self.listing.UID())

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<registry xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+          i18n:domain="plone"
+>
+
+  <records interface="plone.app.querystring.interfaces.IQueryOperation"
+           prefix="plone.app.querystring.operation.string.currentUID"
+  >
+    <value key="title"
+           i18n:translate=""
+    >Current item</value>
+    <value key="description"
+           i18n:translate=""
+    >The item where the querystring results are displayed</value>
+    <value key="operation">plone.app.querystring.queryparser._currentUID</value>
+    <value key="widget" />
+  </records>
+
+  <records interface="plone.app.querystring.interfaces.IQueryField"
+           prefix="plone.app.querystring.field.path"
+  >
+    <value key="sortable">True</value>
+  </records>
+
+</registry>

@@ -98,4 +98,12 @@
       directory="profiles/upgrades/to_15"
       />
 
+  <genericsetup:registerProfile
+      name="upgrade_to_16"
+      title="Querystring Upgrade profile to v16"
+      description=""
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      directory="profiles/upgrades/to_16"
+      />
+
 </configure>

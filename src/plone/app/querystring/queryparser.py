@@ -251,6 +251,14 @@ def _currentUser(context, row):
     return {row.index: {"query": user.getId()}}
 
 
+def _currentUID(context, row):
+    """Current item UID lookup"""
+    uid = IUUID(context, None)
+    if not uid:
+        return {}
+    return {row.index: {"query": uid}}
+
+
 def _showInactive(context, row):
     """Current user roles lookup in order to determine whether user should
     be allowed to view inactive content
