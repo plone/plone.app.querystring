@@ -7,6 +7,31 @@ It includes a registry reader which reads operators, values and criteria
 from the Plone registry.
 
 
+Filtering by the current item
+-----------------------------
+
+The ``plone.app.querystring.operation.string.currentUID`` operation
+("Current item") compares an index with the UID of the item where the query
+runs, for example the page that holds a listing block. It needs no value from
+the editor.
+
+No field uses this operation by default. It is meant for indexes that store
+the UIDs of related items: a collection or listing placed on an item can then
+show every item that points to it, such as "posts by this author". An add-on
+enables it on the field for its own index in its ``registry.xml``::
+
+    <records interface="plone.app.querystring.interfaces.IQueryField"
+             prefix="plone.app.querystring.field.authors">
+      <value key="title">Authors</value>
+      <value key="enabled">True</value>
+      <value key="sortable">False</value>
+      <value key="operations">
+        <element>plone.app.querystring.operation.string.currentUID</element>
+      </value>
+      <value key="group">Metadata</value>
+    </records>
+
+
 Compatibility with Plone versions
 ---------------------------------
 

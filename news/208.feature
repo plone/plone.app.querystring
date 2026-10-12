@@ -1,0 +1,1 @@
+Add the ``plone.app.querystring.operation.string.currentUID`` ("Current item") operation, which filters an index by the UID of the item where the query runs. Add-ons can enable it on fields for their own relation indexes. @ericof

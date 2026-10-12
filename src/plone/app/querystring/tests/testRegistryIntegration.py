@@ -1,4 +1,5 @@
 from plone.app.querystring.testing import PLONEAPPQUERYSTRING_INTEGRATION_TESTING
+from plone.app.testing import applyProfile
 
 import unittest
 
@@ -35,6 +36,19 @@ class TestOperationDefinitions(unittest.TestCase):
             registry[prefix + ".operation"],
             "plone.app.querystring.queryparser._dateLessThan",
         )
+
+    def test_current_uid(self):
+        registry = self.portal.portal_registry
+        prefix = "plone.app.querystring.operation.string.currentUID"
+
+        self.assertTrue(prefix + ".title" in registry)
+
+        self.assertEqual(registry[prefix + ".title"], "Current item")
+        self.assertEqual(
+            registry[prefix + ".operation"],
+            "plone.app.querystring.queryparser._currentUID",
+        )
+        self.assertIsNone(registry[prefix + ".widget"])
 
 
 class TestFieldDefinitions(unittest.TestCase):
@@ -80,3 +94,38 @@ class TestFieldDefinitions(unittest.TestCase):
         # check if operation is used for getObjPositionInParent
         operations = registry.get(key)
         self.assertTrue(operation in operations)
+
+    def test_path_sortable(self):
+        registry = self.portal.portal_registry
+        self.assertEqual(registry["plone.app.querystring.field.path.sortable"], True)
+
+
+class TestUpgradeTo16(unittest.TestCase):
+    layer = PLONEAPPQUERYSTRING_INTEGRATION_TESTING
+
+    def setUp(self):
+        self.portal = self.layer["portal"]
+        registry = self.portal.portal_registry
+        # Bring the registry back to its state before version 16
+        prefix = "plone.app.querystring.operation.string.currentUID."
+        for key in [k for k in registry.records.keys() if k.startswith(prefix)]:
+            del registry.records[key]
+        registry["plone.app.querystring.field.path.sortable"] = False
+
+    def test_upgrade(self):
+        registry = self.portal.portal_registry
+        prefix = "plone.app.querystring.operation.string.currentUID"
+        self.assertFalse(prefix + ".title" in registry)
+
+        applyProfile(self.portal, "plone.app.querystring:upgrade_to_16")
+
+        self.assertEqual(registry[prefix + ".title"], "Current item")
+        self.assertEqual(
+            registry[prefix + ".operation"],
+            "plone.app.querystring.queryparser._currentUID",
+        )
+        field = "plone.app.querystring.field.path"
+        self.assertEqual(registry[field + ".sortable"], True)
+        # The other values of the path field are kept
+        self.assertEqual(registry[field + ".title"], "Location")
+        self.assertEqual(len(registry[field + ".operations"]), 3)
