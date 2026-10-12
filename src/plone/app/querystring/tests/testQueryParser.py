@@ -1,4 +1,5 @@
 from DateTime import DateTime
+from io import BytesIO
 from plone.app.querystring import queryparser
 from plone.app.querystring.queryparser import Row
 from plone.app.querystring.testing import (
@@ -15,7 +16,11 @@ from Products.CMFCore.interfaces import IMembershipTool
 from Products.CMFCore.interfaces import IURLTool
 from zope.component import getGlobalSiteManager
 from zope.component import getSiteManager
+from zope.globalrequest import clearRequest
+from zope.globalrequest import setRequest
 from zope.interface import implementer
+from ZPublisher.HTTPRequest import HTTPRequest
+from ZPublisher.HTTPResponse import HTTPResponse
 
 import unittest
 
@@ -659,4 +664,105 @@ class TestQueryGenerators(TestQueryParserBase):
         data = Row(index="path", operator="_path", values=f"/{MOCK_SITE_ID}-news/")
         parsed = queryparser._absolutePath(MockSite(), data)
         expected = {"path": {"query": [f"/{MOCK_SITE_ID}/{MOCK_SITE_ID}-news/"]}}
+        self.assertEqual(parsed, expected)
+
+
+def make_virtual_host_request(virtual_root_path, vh_segments=()):
+    """Request as prepared by the Virtual Host Monster.
+
+    ``virtual_root_path`` is the physical path of the VirtualHostRoot,
+    ``vh_segments`` are the ``_vh_`` path segments (inside-out hosting).
+    """
+    environ = {
+        "SERVER_NAME": "example.org",
+        "SERVER_PORT": "80",
+        "REQUEST_METHOD": "GET",
+    }
+    request = HTTPRequest(BytesIO(), environ, HTTPResponse())
+    request.other["VirtualRootPhysicalPath"] = tuple(virtual_root_path.split("/"))
+    request._script[:] = list(vh_segments)
+    return request
+
+
+class TestVirtualHostingPaths(TestQueryParserBase):
+    def setUpRequest(self, virtual_root_path, vh_segments=()):
+        setRequest(make_virtual_host_request(virtual_root_path, vh_segments))
+        self.addCleanup(clearRequest)
+
+    def navigation_context(self):
+        # /site/foo is a navigation root, the context is /site/foo/bar
+        context = MockObject(uid="00000000000000001", path="/%s/foo/bar" % MOCK_SITE_ID)
+        context.__parent__ = MockNavRoot(
+            uid="00000000000000002", path="/%s/foo" % MOCK_SITE_ID
+        )
+        context.__parent__.__parent__ = MockSite()
+        return context
+
+    def test_virtual_root_is_portal(self):
+        self.setUpRequest("/%s" % MOCK_SITE_ID)
+        data = Row(index="path", operator="_absolutePath", values="/news/")
+        parsed = queryparser._absolutePath(MockSite(), data)
+        expected = {"path": {"query": ["/%s/news/" % MOCK_SITE_ID]}}
+        self.assertEqual(parsed, expected)
+
+    def test_virtual_root_is_subfolder(self):
+        self.setUpRequest("/%s/foo" % MOCK_SITE_ID)
+        data = Row(index="path", operator="_absolutePath", values="/bar::1")
+        parsed = queryparser._absolutePath(MockSite(), data)
+        expected = {"path": {"query": ["/%s/foo/bar" % MOCK_SITE_ID], "depth": 1}}
+        self.assertEqual(parsed, expected)
+
+    def test_virtual_root_is_navigation_root(self):
+        self.setUpRequest("/%s/foo" % MOCK_SITE_ID)
+        data = Row(index="path", operator="_navigationPath", values="/bar/")
+        parsed = queryparser._navigationPath(self.navigation_context(), data)
+        expected = {"path": {"query": ["/%s/foo/bar/" % MOCK_SITE_ID]}}
+        self.assertEqual(parsed, expected)
+
+    def test_navigation_root_below_virtual_root(self):
+        # The client sends the path relative to the virtual root, which
+        # already contains the navigation root. It must not be added twice.
+        self.setUpRequest("/%s" % MOCK_SITE_ID)
+        data = Row(index="path", operator="_navigationPath", values="/foo/bar::1")
+        parsed = queryparser._navigationPath(self.navigation_context(), data)
+        expected = {"path": {"query": ["/%s/foo/bar" % MOCK_SITE_ID], "depth": 1}}
+        self.assertEqual(parsed, expected)
+
+    def test_inside_out_hosting(self):
+        self.setUpRequest("/%s" % MOCK_SITE_ID, vh_segments=["cms"])
+        data = Row(index="path", operator="_absolutePath", values="/cms/news")
+        parsed = queryparser._absolutePath(MockSite(), data)
+        expected = {"path": {"query": ["/%s/news" % MOCK_SITE_ID]}}
+        self.assertEqual(parsed, expected)
+
+    def test_inside_out_hosting_path_outside_virtual_host(self):
+        # A path not matching the _vh_ segments falls back to the portal path.
+        self.setUpRequest("/%s" % MOCK_SITE_ID, vh_segments=["cms"])
+        data = Row(index="path", operator="_absolutePath", values="/other/news")
+        parsed = queryparser._absolutePath(MockSite(), data)
+        expected = {"path": {"query": ["/%s/other/news" % MOCK_SITE_ID]}}
+        self.assertEqual(parsed, expected)
+
+    def test_physical_path(self):
+        # Physical paths are kept, the virtual root must not be added.
+        self.setUpRequest("/%s" % MOCK_SITE_ID)
+        data = Row(
+            index="path", operator="_absolutePath", values="/%s/news" % MOCK_SITE_ID
+        )
+        parsed = queryparser._absolutePath(MockSite(), data)
+        expected = {"path": {"query": ["/%s/news" % MOCK_SITE_ID]}}
+        self.assertEqual(parsed, expected)
+
+    def test_uid(self):
+        self.setUpRequest("/%s/foo" % MOCK_SITE_ID)
+        data = Row(index="path", operator="_absolutePath", values="00000000000000001")
+        parsed = queryparser._absolutePath(MockSite(), data)
+        expected = {"path": {"query": ["/%s/foo" % MOCK_SITE_ID]}}
+        self.assertEqual(parsed, expected)
+
+    def test_relative_path(self):
+        self.setUpRequest("/%s/foo" % MOCK_SITE_ID)
+        data = Row(index="path", operator="_relativePath", values="..::1")
+        parsed = queryparser._relativePath(self.navigation_context(), data)
+        expected = {"path": {"query": ["/%s/foo" % MOCK_SITE_ID], "depth": 1}}
         self.assertEqual(parsed, expected)

@@ -12,6 +12,7 @@ from Products.CMFCore.utils import getToolByName
 from zope.component import getUtilitiesFor
 from zope.component import getUtility
 from zope.dottedname.resolve import resolve
+from zope.globalrequest import getRequest
 
 Row = namedtuple("Row", ["index", "operator", "values"])
 PATH_INDICES = {"path"}
@@ -370,8 +371,11 @@ def _pathByRoot(root, context, row):
     if "/" not in values:
         # It must be a UID
         values = getPathByUID(context, values)
-    # take care of absolute paths without root
-    if not values.startswith(root + "/") and values != root:
+    physical_path = _virtualPathToPhysicalPath(context, values)
+    if physical_path is not None:
+        values = physical_path
+    elif not values.startswith(root + "/") and values != root:
+        # take care of absolute paths without root
         values = root + values
     query = {}
     if depth is not None:
@@ -458,6 +462,35 @@ def _referenceIs(context, row):
 
 
 # Helper functions
+
+
+def _virtualPathToPhysicalPath(context, path):
+    """Translate a path relative to the virtual hosting root into a physical path.
+
+    Behind a Virtual Host Monster clients only know the URL path of an object,
+    which is relative to the virtual root (and may contain ``_vh_`` segments).
+    The path index needs the physical path.
+
+    Returns None if no virtual hosting is active, if the path is already a
+    physical path of the portal or if it does not fit into the virtual
+    hosting context.
+    """
+    if not path.startswith("/"):
+        return None
+    request = getRequest()
+    if request is None or not request.get("VirtualRootPhysicalPath"):
+        return None
+    portal_path = getToolByName(context, "portal_url").getPortalPath()
+    if path == portal_path or path.startswith(portal_path + "/"):
+        return None
+    try:
+        physical_path = "/".join(request.physicalPathFromURL(path))
+    except ValueError:
+        return None
+    if path.endswith("/") and not physical_path.endswith("/"):
+        # physicalPathFromURL drops it, keep the path as given
+        physical_path += "/"
+    return physical_path
 
 
 def getPathByUID(context, uid):
