@@ -164,6 +164,48 @@ class TestQuerybuilder(unittest.TestCase):
             ["http://nohost/plone", "http://nohost/plone/testfolder"],
         )
 
+    def testMakeQueryWithSubjectAnyAndNot(self):
+        # "is" and "is not" on the same index narrow the result together
+        # instead of the last criterion replacing the first
+        self.folder.setSubject(["Ipsum"])
+        self.folder.reindexObject()
+        self.testpage.setSubject(["Lorem", "Ipsum"])
+        self.testpage.reindexObject()
+        any_ipsum = {
+            "i": "Subject",
+            "o": "plone.app.querystring.operation.selection.any",
+            "v": ["Ipsum"],
+        }
+        not_lorem = {
+            "i": "Subject",
+            "o": "plone.app.querystring.operation.selection.none",
+            "v": ["Lorem"],
+        }
+        for query in ([any_ipsum, not_lorem], [not_lorem, any_ipsum]):
+            results = self.querybuilder._makequery(query=query)
+            self.assertEqual(
+                [brain.getURL() for brain in results],
+                ["http://nohost/plone/testfolder"],
+            )
+
+    def testMakeQueryWithRepeatedNot(self):
+        # two "is not" rows on the same index exclude both values, e.g.
+        # hiding two items by UID
+        query = [
+            {
+                "i": "UID",
+                "o": "plone.app.querystring.operation.selection.none",
+                "v": [self.testpage.UID()],
+            },
+            {
+                "i": "UID",
+                "o": "plone.app.querystring.operation.selection.none",
+                "v": self.folder.UID(),
+            },
+        ]
+        results = self.querybuilder._makequery(query=query)
+        self.assertEqual([brain.getURL() for brain in results], ["http://nohost/plone"])
+
     def testMakeQueryWithSubjectWithSpecialCharacters(self):
         self.testpage.setSubject(["Äüö"])
         self.testpage.reindexObject()
