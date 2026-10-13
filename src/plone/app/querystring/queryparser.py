@@ -53,9 +53,21 @@ def parseFormquery(context, formquery, sort_on=None, sort_order=None):
             raise IndexError("Too many path indices in one row.")
 
         for index, value in kwargs.items():
+            existing = query.get(index)
+            # Merge exclusions ("is not") with the other criteria on the same
+            # index: the catalog takes "query" and "not" in one record
+            if isinstance(value, dict) and isinstance(existing, dict):
+                if set(value) == {"not"}:
+                    existing["not"] = _as_list(existing.get("not")) + _as_list(
+                        value["not"]
+                    )
+                    continue
+                if set(existing) == {"not"} and "not" not in value:
+                    value = dict(value, **{"not": _as_list(existing["not"])})
+                    query[index] = value
+                    continue
             # Merge range queries on the same index
             if isinstance(value, dict) and "range" in value:
-                existing = query.get(index)
                 if isinstance(existing, dict) and "range" in existing:
                     existing_query = existing["query"]
                     if not isinstance(existing_query, list):
@@ -82,6 +94,14 @@ def parseFormquery(context, formquery, sort_on=None, sort_order=None):
         if sort_order:
             query["sort_order"] = sort_order
     return query
+
+
+def _as_list(value):
+    if value is None:
+        return []
+    if isinstance(value, (list, tuple)):
+        return list(value)
+    return [value]
 
 
 def parseAndModifyFormquery(context, query, sort_on=None, sort_order=None):

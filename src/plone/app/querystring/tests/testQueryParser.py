@@ -309,6 +309,116 @@ class TestQueryParser(TestQueryParserBase):
         parsed = queryparser.parseFormquery(MockSite(), data)
         self.assertEqual(parsed, {"modified": {"query": [10, 20], "range": "minmax"}})
 
+    def _register_selection_operations(self):
+        self.setFunctionForOperation(
+            "plone.app.querystring.operation.selection.any.operation",
+            "plone.app.querystring.queryparser._equal",
+        )
+        self.setFunctionForOperation(
+            "plone.app.querystring.operation.selection.none.operation",
+            "plone.app.querystring.queryparser._excludes",
+        )
+        self.setFunctionForOperation(
+            "plone.app.querystring.operation.int.largerThan.operation",
+            "plone.app.querystring.queryparser._largerThan",
+        )
+
+    def test_merge_selection_with_exclusion(self):
+        # "is" and "is not" on the same index end up in one catalog record
+        self._register_selection_operations()
+        data = [
+            {
+                "i": "review_state",
+                "o": "plone.app.querystring.operation.selection.any",
+                "v": ["published", "pending"],
+            },
+            {
+                "i": "review_state",
+                "o": "plone.app.querystring.operation.selection.none",
+                "v": ["pending"],
+            },
+        ]
+        parsed = queryparser.parseFormquery(MockSite(), data)
+        self.assertEqual(
+            parsed,
+            {"review_state": {"query": ["published", "pending"], "not": ["pending"]}},
+        )
+
+    def test_merge_exclusion_with_selection(self):
+        # the same with the exclusion first; a single value becomes a list
+        self._register_selection_operations()
+        data = [
+            {
+                "i": "review_state",
+                "o": "plone.app.querystring.operation.selection.none",
+                "v": "pending",
+            },
+            {
+                "i": "review_state",
+                "o": "plone.app.querystring.operation.selection.any",
+                "v": ["published", "pending"],
+            },
+        ]
+        parsed = queryparser.parseFormquery(MockSite(), data)
+        self.assertEqual(
+            parsed,
+            {"review_state": {"query": ["published", "pending"], "not": ["pending"]}},
+        )
+
+    def test_merge_exclusions(self):
+        self._register_selection_operations()
+        data = [
+            {
+                "i": "review_state",
+                "o": "plone.app.querystring.operation.selection.none",
+                "v": ["private"],
+            },
+            {
+                "i": "review_state",
+                "o": "plone.app.querystring.operation.selection.none",
+                "v": "pending",
+            },
+        ]
+        parsed = queryparser.parseFormquery(MockSite(), data)
+        self.assertEqual(parsed, {"review_state": {"not": ["private", "pending"]}})
+
+    def test_merge_exclusion_with_range(self):
+        self._register_selection_operations()
+        data = [
+            {
+                "i": "modified",
+                "o": "plone.app.querystring.operation.int.largerThan",
+                "v": 10,
+            },
+            {
+                "i": "modified",
+                "o": "plone.app.querystring.operation.selection.none",
+                "v": [15],
+            },
+        ]
+        parsed = queryparser.parseFormquery(MockSite(), data)
+        self.assertEqual(
+            parsed, {"modified": {"query": 10, "range": "min", "not": [15]}}
+        )
+
+    def test_repeated_selection_still_overwrites(self):
+        # two positive selections on one index keep the old behaviour
+        self._register_selection_operations()
+        data = [
+            {
+                "i": "review_state",
+                "o": "plone.app.querystring.operation.selection.any",
+                "v": ["private"],
+            },
+            {
+                "i": "review_state",
+                "o": "plone.app.querystring.operation.selection.any",
+                "v": ["published"],
+            },
+        ]
+        parsed = queryparser.parseFormquery(MockSite(), data)
+        self.assertEqual(parsed, {"review_state": {"query": ["published"]}})
+
     def test_merge_date_operations(self):
         data = [
             {
