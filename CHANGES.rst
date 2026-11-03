@@ -8,6 +8,35 @@ Changelog
 
 .. towncrier release notes start
 
+3.1.0 (2026-11-03)
+------------------
+
+New features:
+
+
+- Allow sorting query results by location (``path``), which orders items by their full physical path. @ericof (#207)
+- Add the ``plone.app.querystring.operation.string.currentUID`` ("Current item") operation, which filters an index by the UID of the item where the query runs. Add-ons can enable it on fields for their own relation indexes. @ericof (#208)
+
+
+Bug fixes:
+
+
+- Combine "is not" (``selection.none``) with other criteria on the same index into one catalog record (``query`` plus ``not``) instead of letting the last criterion overwrite the first.
+  Several exclusions on one index are merged as well; repeated positive selections keep the previous last-wins behaviour.
+  @petschki
+- Fix path criteria behind a Virtual Host Monster: paths relative to the virtual hosting root (including ``_vh_`` segments) are now translated to physical paths.
+  Before, the navigation root or portal path was prepended, which gave wrong results when the virtual root was not the portal (e.g. a subsite or language folder) or the context was inside a navigation root.
+  See plone/plone.restapi#2023.
+  @petschki
+
+
+Internal:
+
+
+- Move package metadata from ``setup.py`` to ``pyproject.toml``.
+  [plone devs]
+
+
 3.0.0 (2026-05-07)
 ------------------
 
