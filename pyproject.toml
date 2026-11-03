@@ -10,7 +10,7 @@ requires = ["setuptools>=68.2,<83", "wheel"]
 
 [project]
 name = "plone.app.querystring"
-version = "3.1.0"
+version = "3.1.1.dev0"
 description = "A queryparser, querybuilder and extra helper tools, to parse stored queries to actual results, used in new style Plone collections"
 classifiers = [
     "Development Status :: 5 - Production/Stable",
