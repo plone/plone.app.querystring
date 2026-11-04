@@ -1,0 +1,2 @@
+Ignore empty string range bounds, preserve the other bound in partially filled between criteria, and avoid converting ignored criteria into equality queries.
+[davisagli]
