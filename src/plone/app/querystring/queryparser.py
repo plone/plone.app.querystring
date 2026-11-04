@@ -84,10 +84,6 @@ def parseFormquery(context, formquery, sort_on=None, sort_order=None):
             # Other cases: simply overwrite the query for the index
             query[index] = value
 
-    if not query:
-        # If the query is empty fall back onto the equality query
-        query = _equal(context, row)
-
     # Add sorting (sort_on and sort_order) to the query
     if sort_on:
         query["sort_on"] = sort_on
@@ -167,9 +163,12 @@ def _isFalse(context, row):
 
 def _between(context, row):
     if not row.values:
-        val = ["", ""]
-    else:
-        val = row.values
+        return {}
+    val = row.values
+    if val[0] == "":
+        return _lessThan(context, row._replace(values=val[1]))
+    if val[1] == "":
+        return _largerThan(context, row._replace(values=val[0]))
 
     tmp = {
         row.index: {
@@ -194,6 +193,8 @@ def _dateBetween(context, row):
 
 
 def _largerThan(context, row):
+    if row.values == "":
+        return {}
     tmp = {
         row.index: {
             "query": row.values,
@@ -230,6 +231,8 @@ def _dateLargerThan(context, row):
 
 
 def _lessThan(context, row):
+    if row.values == "":
+        return {}
     tmp = {
         row.index: {
             "query": row.values,

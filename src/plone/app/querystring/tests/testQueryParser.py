@@ -162,6 +162,73 @@ class TestQueryParserBase(unittest.TestCase):
 
 
 class TestQueryParser(TestQueryParserBase):
+    def test_empty_range_criteria_are_ignored(self):
+        self.registry = queryparser.getUtility(IRegistry)
+        context = MockSite()
+        title = {
+            "i": "Title",
+            "o": "plone.app.querystring.operation.string.is",
+            "v": "Welcome to Plone",
+        }
+        for parser, values in (
+            ("_lessThan", ""),
+            ("_largerThan", ""),
+            ("_dateLessThan", ""),
+            ("_dateLargerThan", ""),
+            ("_intLessThan", ""),
+            ("_intLargerThan", ""),
+            ("_between", ["", ""]),
+        ):
+            with self.subTest(parser=parser, values=values):
+                self.setFunctionForOperation(
+                    "test.range.operation",
+                    "plone.app.querystring.queryparser." + parser,
+                )
+                criterion = {"i": "created", "o": "test.range", "v": values}
+                self.assertEqual(queryparser.parseFormquery(context, [criterion]), {})
+                for rows in ([title, criterion], [criterion, title]):
+                    self.assertEqual(
+                        queryparser.parseFormquery(context, rows),
+                        {"Title": {"query": "Welcome to Plone"}},
+                    )
+
+    def test_between_with_one_empty_bound(self):
+        self.registry = queryparser.getUtility(IRegistry)
+        self.setFunctionForOperation(
+            "test.range.operation", "plone.app.querystring.queryparser._between"
+        )
+        context = MockSite()
+        for values, bound, range_ in (
+            (["", "2026/05/04"], "2026/05/04", "max"),
+            (["2026/05/04", ""], "2026/05/04", "min"),
+            (["", 0], 0, "max"),
+            ([0, ""], 0, "min"),
+        ):
+            with self.subTest(values=values):
+                row = Row(index="created", operator="_between", values=values)
+                expected = {"created": {"query": bound, "range": range_}}
+                self.assertEqual(queryparser._between(context, row), expected)
+                self.assertEqual(
+                    queryparser.parseFormquery(
+                        context, [{"i": "created", "o": "test.range", "v": values}]
+                    ),
+                    expected,
+                )
+
+    def test_empty_range_does_not_replace_valid_range(self):
+        self.registry = queryparser.getUtility(IRegistry)
+        self.setFunctionForOperation(
+            "test.range.operation", "plone.app.querystring.queryparser._lessThan"
+        )
+        valid = {"i": "created", "o": "test.range", "v": "2026/05/04"}
+        empty = dict(valid, v="")
+        context = MockSite()
+        for rows in ([valid, empty], [empty, valid]):
+            self.assertEqual(
+                queryparser.parseFormquery(context, rows),
+                {"created": {"query": "2026/05/04", "range": "max"}},
+            )
+
     def test_exact_title(self):
         data = {
             "i": "Title",
@@ -468,8 +535,20 @@ class TestQueryGenerators(TestQueryParserBase):
     def test__between_empty_input(self):
         data = Row(index="modified", operator="_between", values="")
         parsed = queryparser._between(MockSite(), data)
-        expected = {"modified": {"query": ["", ""], "range": "minmax"}}
+        expected = {}
         self.assertEqual(parsed, expected)
+
+    def test_range_zero_is_preserved(self):
+        for parser, range_ in (
+            (queryparser._lessThan, "max"),
+            (queryparser._largerThan, "min"),
+        ):
+            with self.subTest(parser=parser):
+                row = Row(index="number", operator=parser.__name__, values=0)
+                self.assertEqual(
+                    parser(MockSite(), row),
+                    {"number": {"query": 0, "range": range_}},
+                )
 
     def test__equal(self):
         data = Row(index="modified", operator="_equal", values="2010/03/18")
