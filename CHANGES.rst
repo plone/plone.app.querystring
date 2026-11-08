@@ -8,6 +8,16 @@ Changelog
 
 .. towncrier release notes start
 
+3.1.1 (2026-11-08)
+------------------
+
+Bug fixes:
+
+
+- Ignore empty string range bounds, preserve the other bound in partially filled between criteria, and avoid converting ignored criteria into equality queries.
+  [davisagli] (empty-range)
+
+
 3.1.0 (2026-11-03)
 ------------------
 
