@@ -518,9 +518,7 @@ def _virtualPathToPhysicalPath(context, path):
         physical_path = "/".join(request.physicalPathFromURL(path))
     except ValueError:
         return None
-    if physical_path != portal_path and not physical_path.startswith(
-        portal_path + "/"
-    ):
+    if physical_path != portal_path and not physical_path.startswith(portal_path + "/"):
         # The virtual root is above the portal (e.g. the Zope root, the site
         # is reachable as /Plone): the path is relative to the portal.
         return None
