@@ -964,6 +964,40 @@ class TestVirtualHostingPaths(TestQueryParserBase):
         expected = {"path": {"query": ["/%s/news" % MOCK_SITE_ID]}}
         self.assertEqual(parsed, expected)
 
+    def test_virtual_root_above_portal(self):
+        # VirtualHostRoot is the Zope root, the site is reachable as /site.
+        # Clients like folder_contents send paths relative to the portal;
+        # they are no physical paths although physicalPathFromURL returns
+        # them unchanged.
+        self.setUpRequest("")
+        data = Row(index="path", operator="_absolutePath", values="/news::1")
+        parsed = queryparser._absolutePath(MockSite(), data)
+        expected = {"path": {"query": ["/%s/news" % MOCK_SITE_ID], "depth": 1}}
+        self.assertEqual(parsed, expected)
+
+    def test_virtual_root_above_portal_site_root(self):
+        self.setUpRequest("")
+        data = Row(index="path", operator="_absolutePath", values="/::1")
+        parsed = queryparser._absolutePath(MockSite(), data)
+        expected = {"path": {"query": ["/%s" % MOCK_SITE_ID], "depth": 1}}
+        self.assertEqual(parsed, expected)
+
+    def test_virtual_root_above_portal_navigation_path(self):
+        self.setUpRequest("")
+        data = Row(index="path", operator="_navigationPath", values="/bar/")
+        parsed = queryparser._navigationPath(self.navigation_context(), data)
+        expected = {"path": {"query": ["/%s/foo/bar/" % MOCK_SITE_ID]}}
+        self.assertEqual(parsed, expected)
+
+    def test_virtual_root_above_portal_physical_path(self):
+        self.setUpRequest("")
+        data = Row(
+            index="path", operator="_absolutePath", values="/%s/news" % MOCK_SITE_ID
+        )
+        parsed = queryparser._absolutePath(MockSite(), data)
+        expected = {"path": {"query": ["/%s/news" % MOCK_SITE_ID]}}
+        self.assertEqual(parsed, expected)
+
     def test_uid(self):
         self.setUpRequest("/%s/foo" % MOCK_SITE_ID)
         data = Row(index="path", operator="_absolutePath", values="00000000000000001")
