@@ -8,6 +8,17 @@ Changelog
 
 .. towncrier release notes start
 
+3.1.2 (2026-11-11)
+------------------
+
+Bug fixes:
+
+
+- Fix path criteria behind a Virtual Host Monster whose virtual root is above the portal (e.g. the Zope root, site reachable as ``/Plone``):
+  portal relative paths were taken as physical paths since 3.1.0 and matched nothing, which left ``folder_contents`` empty.
+  @petschki
+
+
 3.1.1 (2026-11-08)
 ------------------
 
