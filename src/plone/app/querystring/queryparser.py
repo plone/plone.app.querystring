@@ -503,8 +503,8 @@ def _virtualPathToPhysicalPath(context, path):
     The path index needs the physical path.
 
     Returns None if no virtual hosting is active, if the path is already a
-    physical path of the portal or if it does not fit into the virtual
-    hosting context.
+    physical path of the portal, if it does not fit into the virtual
+    hosting context or if the translated path lies outside the portal.
     """
     if not path.startswith("/"):
         return None
@@ -517,6 +517,12 @@ def _virtualPathToPhysicalPath(context, path):
     try:
         physical_path = "/".join(request.physicalPathFromURL(path))
     except ValueError:
+        return None
+    if physical_path != portal_path and not physical_path.startswith(
+        portal_path + "/"
+    ):
+        # The virtual root is above the portal (e.g. the Zope root, the site
+        # is reachable as /Plone): the path is relative to the portal.
         return None
     if path.endswith("/") and not physical_path.endswith("/"):
         # physicalPathFromURL drops it, keep the path as given
