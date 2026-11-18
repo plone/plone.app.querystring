@@ -66,6 +66,19 @@ def parseFormquery(context, formquery, sort_on=None, sort_order=None):
                     value = dict(value, **{"not": _as_list(existing["not"])})
                     query[index] = value
                     continue
+            # Merge plain selections ("is") on the same index: the catalog
+            # takes a list of values as "any of"
+            if (
+                isinstance(value, dict)
+                and isinstance(existing, dict)
+                and set(value) == {"query"}
+                and "query" in existing
+                and set(existing) <= {"query", "not"}
+            ):
+                merged = _as_list(existing["query"])
+                merged.extend(v for v in _as_list(value["query"]) if v not in merged)
+                existing["query"] = merged
+                continue
             # Merge range queries on the same index
             if isinstance(value, dict) and "range" in value:
                 if isinstance(existing, dict) and "range" in existing:

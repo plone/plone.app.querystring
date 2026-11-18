@@ -207,6 +207,30 @@ class TestQuerybuilder(unittest.TestCase):
         results = self.querybuilder._makequery(query=query)
         self.assertEqual([brain.getURL() for brain in results], ["http://nohost/plone"])
 
+    def testMakeQueryWithRepeatedIs(self):
+        # two "is" rows on the same index list both items, e.g. picking
+        # items by their short name
+        query = [
+            {
+                "i": "getId",
+                "o": "plone.app.querystring.operation.string.is",
+                "v": self.testpage.getId(),
+            },
+            {
+                "i": "getId",
+                "o": "plone.app.querystring.operation.string.is",
+                "v": self.folder.getId(),
+            },
+        ]
+        results = self.querybuilder._makequery(query=query)
+        self.assertEqual(
+            sorted(brain.getURL() for brain in results),
+            [
+                "http://nohost/plone/collectionstestpage",
+                "http://nohost/plone/testfolder",
+            ],
+        )
+
     def testMakeQueryWithSubjectWithSpecialCharacters(self):
         self.testpage.setSubject(["Äüö"])
         self.testpage.reindexObject()
