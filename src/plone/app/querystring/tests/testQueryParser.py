@@ -468,8 +468,8 @@ class TestQueryParser(TestQueryParserBase):
             parsed, {"modified": {"query": 10, "range": "min", "not": [15]}}
         )
 
-    def test_repeated_selection_still_overwrites(self):
-        # two positive selections on one index keep the old behaviour
+    def test_merge_repeated_selection(self):
+        # two positive selections on one index match either value
         self._register_selection_operations()
         data = [
             {
@@ -480,11 +480,73 @@ class TestQueryParser(TestQueryParserBase):
             {
                 "i": "review_state",
                 "o": "plone.app.querystring.operation.selection.any",
-                "v": ["published"],
+                "v": ["published", "private"],
             },
         ]
         parsed = queryparser.parseFormquery(MockSite(), data)
-        self.assertEqual(parsed, {"review_state": {"query": ["published"]}})
+        self.assertEqual(parsed, {"review_state": {"query": ["private", "published"]}})
+
+    def test_merge_repeated_string_is(self):
+        # several "is" rows with a single value each, e.g. items by id
+        self.setFunctionForOperation(
+            "plone.app.querystring.operation.string.is.operation",
+            "plone.app.querystring.queryparser._equal",
+        )
+        data = [
+            {"i": "getId", "o": "plone.app.querystring.operation.string.is", "v": v}
+            for v in ("foo", "bar", "baz")
+        ]
+        parsed = queryparser.parseFormquery(MockSite(), data)
+        self.assertEqual(parsed, {"getId": {"query": ["foo", "bar", "baz"]}})
+
+    def test_merge_repeated_selection_keeps_exclusion(self):
+        self._register_selection_operations()
+        data = [
+            {
+                "i": "review_state",
+                "o": "plone.app.querystring.operation.selection.any",
+                "v": ["private"],
+            },
+            {
+                "i": "review_state",
+                "o": "plone.app.querystring.operation.selection.none",
+                "v": ["pending"],
+            },
+            {
+                "i": "review_state",
+                "o": "plone.app.querystring.operation.selection.any",
+                "v": "published",
+            },
+        ]
+        parsed = queryparser.parseFormquery(MockSite(), data)
+        self.assertEqual(
+            parsed,
+            {"review_state": {"query": ["private", "published"], "not": ["pending"]}},
+        )
+
+    def test_selection_all_is_not_merged(self):
+        # "matches all of" has its own operator and still overwrites
+        self._register_selection_operations()
+        self.setFunctionForOperation(
+            "plone.app.querystring.operation.selection.all.operation",
+            "plone.app.querystring.queryparser._all",
+        )
+        data = [
+            {
+                "i": "Subject",
+                "o": "plone.app.querystring.operation.selection.all",
+                "v": ["a", "b"],
+            },
+            {
+                "i": "Subject",
+                "o": "plone.app.querystring.operation.selection.any",
+                "v": ["c"],
+            },
+        ]
+        parsed = queryparser.parseFormquery(MockSite(), data)
+        self.assertEqual(parsed, {"Subject": {"query": ["c"]}})
+        parsed = queryparser.parseFormquery(MockSite(), data[::-1])
+        self.assertEqual(parsed, {"Subject": {"query": ["a", "b"], "operator": "and"}})
 
     def test_merge_date_operations(self):
         data = [
